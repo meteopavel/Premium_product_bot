@@ -1,4 +1,6 @@
 from django.contrib import admin
+from .models import RealEstate
+from reviews.models import Review
 
 from .models import (
     BuldingType,
@@ -38,3 +40,10 @@ class ContactAdmin(admin.ModelAdmin):
 @admin.register(Realty)
 class RealtyAdmin(admin.ModelAdmin):
     pass
+class ReviewInline(admin.TabularInline):
+    model = Review
+    extra = 0
+
+@admin.register(RealEstate)
+class RealEstateAdmin(admin.ModelAdmin):
+    inlines = [ReviewInline]
