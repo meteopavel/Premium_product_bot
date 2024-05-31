@@ -8,6 +8,7 @@ from .models import (
     Contact,
     Realty
 )
+from reviews.models import Review
 
 
 @admin.register(BuldingType)
@@ -35,6 +36,11 @@ class ContactAdmin(admin.ModelAdmin):
     pass
 
 
+class ReviewInline(admin.TabularInline):
+    model = Review
+    extra = 0
+
+
 @admin.register(Realty)
 class RealtyAdmin(admin.ModelAdmin):
-    pass
+    inlines = [ReviewInline]

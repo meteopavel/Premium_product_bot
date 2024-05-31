@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'user.apps.UserConfig',
     'object.apps.ObjectConfig',
     'tg_bot.apps.TgBotConfig',
+    'reviews.apps.ReviewsConfig',
 ]
 
 MIDDLEWARE = [
