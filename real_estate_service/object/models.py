@@ -3,7 +3,6 @@ import uuid
 from django.db import models
 from django.core.validators import RegexValidator
 from django.core.validators import MaxValueValidator, MinValueValidator
-from django.contrib.postgres.fields import ArrayField
 
 PHONE_REGEX = r'^\+?1?\d{9,15}$'
 PHONE_NUMBER_FIELD_MAX_LENTH = 17

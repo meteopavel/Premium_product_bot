@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from object.models import RealEstate
+
+from object.models import Realty
 from user.models import TelegramUser
 
 
@@ -11,7 +12,7 @@ class Review(models.Model):
         REJECTED = 'R', _('Rejected')
 
     author = models.ForeignKey(TelegramUser, on_delete=models.SET_NULL, null=True, blank=True)
-    real_estate = models.ForeignKey(RealEstate, related_name='reviews', on_delete=models.CASCADE)
+    real_estate = models.ForeignKey(Realty, related_name='reviews', on_delete=models.CASCADE)
     text = models.TextField()
     status = models.CharField(
         max_length=1,
