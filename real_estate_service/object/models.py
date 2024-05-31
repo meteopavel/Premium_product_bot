@@ -98,14 +98,6 @@ class Realty(models.Model):
         max_length=SHORT_CAHR_FIELD_MAX_LENGTH,
         verbose_name='Название'
     )
-    phone_number = ArrayField(
-        PhoneNumberField(blank=True, null=True),
-        default=list,
-        size=2,
-        null=True,
-        blank=True,
-        verbose_name='Номер телефона',
-    )
     city = models.ForeignKey(
         City,
         on_delete=models.CASCADE,
@@ -144,7 +136,7 @@ class Realty(models.Model):
         null=True,
         verbose_name='Цена, рублей в месяц за квадратный метр'
     )
-    publish_date = models.DateField()
+    publish_date = models.DateField(auto_now_add=True)
     condition = models.ForeignKey(
         Condition,
         on_delete=models.SET_NULL,
@@ -170,4 +162,4 @@ class Realty(models.Model):
         verbose_name_plural = 'Объявления'
 
     def __str__(self):
-        return self.title
+        return f'Объект {self.title} в городе {self.city.name}'
