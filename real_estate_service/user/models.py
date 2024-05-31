@@ -14,7 +14,9 @@ class User(AbstractUser):
     email = models.EmailField(
         verbose_name='Электронная почта',
         max_length=constants.MAX_EMAIL_LENGTH,
-        unique=True
+        unique=True,
+        null=True,
+        blank=True
     )
 
     class Meta:
@@ -25,8 +27,7 @@ class User(AbstractUser):
 
 class TelegramUser(models.Model):
 
-    id = models.PositiveIntegerField(
-        primary_key=True,
+    tg_id = models.PositiveIntegerField(
         verbose_name='Telegram id',
         unique=True,
     )
@@ -37,11 +38,11 @@ class TelegramUser(models.Model):
     last_name = models.CharField(
         verbose_name='Telegram lastname',
         max_length=constants.MAX_USERNAME_LENGTH,
+        blank=True
     )
     username = models.CharField(
         verbose_name='Telegram username',
         max_length=constants.MAX_USERNAME_LENGTH,
-        null=True,
         blank=True
     )
 

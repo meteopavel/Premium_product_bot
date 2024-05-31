@@ -4,6 +4,7 @@ from django.contrib.auth.admin import UserAdmin
 from user.models import User, TelegramUser
 
 
+@admin.register(User)
 class UserAdminModel(UserAdmin):
     fieldsets = UserAdmin.fieldsets + (
         ('Extra Fields', {'fields': (
@@ -13,6 +14,7 @@ class UserAdminModel(UserAdmin):
     )
 
 
+@admin.register(TelegramUser)
 class TelegramUserAdmin(admin.ModelAdmin):
     list_display = (
         'id',
@@ -22,7 +24,3 @@ class TelegramUserAdmin(admin.ModelAdmin):
     )
 
     search_fields = ('first_name', 'last_name', 'username')
-
-
-admin.site.register(User, UserAdminModel)
-admin.site.register(TelegramUser, TelegramUserAdmin)
