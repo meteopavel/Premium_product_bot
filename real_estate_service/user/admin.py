@@ -8,11 +8,14 @@ from user.models import User
 
 @admin.register(User)
 class UserAdminModel(UserAdmin):
-    list_display = (
-        'id',
-        'first_name',
-        'last_name',
-        'username'
+    list_display = ('id', 'username', 'email', 'first_name', 'last_name', 'is_staff')
+    add_fieldsets = (
+        (None, {
+            'classes': ('wide',),
+            'fields': ('username', 'password1', 'password2'),
+        }),
+        ('Персональная информация', {'fields': ('first_name', 'email')}),
+        ('Права', {'fields': ('is_active', 'is_staff', 'is_superuser')}),
     )
 
 
