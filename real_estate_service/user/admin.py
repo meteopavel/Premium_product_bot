@@ -8,11 +8,11 @@ from user.models import User
 
 @admin.register(User)
 class UserAdminModel(UserAdmin):
-    fieldsets = UserAdmin.fieldsets + (
-        ('Extra Fields', {'fields': (
-            'role', 'telegram_id', 'telegram_username',
-            'telegram_firstname', 'telegram_lastname'
-        )}),
+    list_display = (
+        'id',
+        'first_name',
+        'last_name',
+        'username'
     )
 
 
