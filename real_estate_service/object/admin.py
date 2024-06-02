@@ -9,6 +9,7 @@ from .models import (
     Realty
 )
 from reviews.models import Review
+from favorites.models import Favorite
 
 
 @admin.register(BuldingType)
@@ -44,3 +45,8 @@ class ReviewInline(admin.TabularInline):
 @admin.register(Realty)
 class RealtyAdmin(admin.ModelAdmin):
     inlines = [ReviewInline]
+
+
+@admin.register(Favorite)
+class FavoritesAdmin(admin.ModelAdmin):
+    model = Review
