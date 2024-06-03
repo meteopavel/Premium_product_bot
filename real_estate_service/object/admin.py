@@ -42,11 +42,11 @@ class ReviewInline(admin.TabularInline):
     extra = 0
 
 
+class FavoritesInline(admin.TabularInline):
+    model = Favorite
+    extra = 0
+
+
 @admin.register(Realty)
 class RealtyAdmin(admin.ModelAdmin):
-    inlines = [ReviewInline]
-
-
-@admin.register(Favorite)
-class FavoritesAdmin(admin.ModelAdmin):
-    model = Review
+    inlines = [ReviewInline, FavoritesInline]

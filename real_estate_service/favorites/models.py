@@ -13,7 +13,6 @@ class Favorite(models.Model):
     )
     user = models.ForeignKey(
         TelegramUser,
-        on_delete=models.CASCADE,
         verbose_name="пользователь",
         related_name="favorites",
         on_delete=models.CASCADE,
@@ -23,6 +22,8 @@ class Favorite(models.Model):
         constraints = [
             UniqueConstraint(fields=["user", "realty"], name="user_favorite_unique")
         ]
+        verbose_name = 'Избранное'
+        verbose_name_plural = 'Избранное'
 
     def __str__(self):
         return f"{self.user} - {self.realty}"
