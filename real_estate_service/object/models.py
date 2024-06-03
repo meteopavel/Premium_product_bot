@@ -86,13 +86,6 @@ class Contact(BaseModel):
 
 
 class Realty(models.Model):
-    id = models.UUIDField(
-        primary_key=True,
-        default=uuid.uuid4,
-        editable=False,
-        unique=True,
-        db_index=True
-    )
     title = models.CharField(
         max_length=SHORT_CAHR_FIELD_MAX_LENGTH,
         verbose_name='Название'
