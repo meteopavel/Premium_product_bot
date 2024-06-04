@@ -21,8 +21,8 @@ class User(AbstractUser):
 
     class Meta:
         ordering = ('username',)
-        verbose_name = 'Пользователь'
-        verbose_name_plural = 'Пользователи'
+        verbose_name = 'Администратор'
+        verbose_name_plural = 'Администраторы'
 
 
 class TelegramUser(models.Model):

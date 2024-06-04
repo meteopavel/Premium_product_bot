@@ -2,15 +2,20 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
 from user.models import User, TelegramUser
+from django.contrib.auth.admin import UserAdmin
+from user.models import User
 
 
 @admin.register(User)
 class UserAdminModel(UserAdmin):
-    fieldsets = UserAdmin.fieldsets + (
-        ('Extra Fields', {'fields': (
-            'role', 'telegram_id', 'telegram_username',
-            'telegram_firstname', 'telegram_lastname'
-        )}),
+    list_display = ('id', 'username', 'email', 'first_name', 'last_name', 'is_staff')
+    add_fieldsets = (
+        (None, {
+            'classes': ('wide',),
+            'fields': ('username', 'password1', 'password2'),
+        }),
+        ('Персональная информация', {'fields': ('first_name', 'email')}),
+        ('Права', {'fields': ('is_active', 'is_staff', 'is_superuser')}),
     )
 
 
