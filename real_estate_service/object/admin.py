@@ -6,7 +6,9 @@ from .models import (
     City,
     Condition,
     Contact,
-    Realty
+    Realty,
+    Location,
+    Country
 )
 from reviews.models import Review
 from favorites.models import Favorite
@@ -19,6 +21,11 @@ class BuildingTypeAdmin(admin.ModelAdmin):
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(Country)
+class CountryAdmin(admin.ModelAdmin):
     pass
 
 
@@ -49,4 +56,20 @@ class FavoritesInline(admin.TabularInline):
 
 @admin.register(Realty)
 class RealtyAdmin(admin.ModelAdmin):
+    list_filter = (
+        'location__city__name', 'location__city__country__title', 'building_type__name',
+        'condition__name', 'category__name'
+    )
     inlines = [ReviewInline, FavoritesInline]
+
+
+class RealtyInline(admin.TabularInline):
+    model = Realty
+    extra = 0
+
+
+@admin.register(Location)
+class LocationAdmin(admin.ModelAdmin):
+    list_display = ('id', 'city',)
+    list_filter = ('city', 'city__country',)
+    inlines = [RealtyInline]
