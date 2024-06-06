@@ -26,7 +26,9 @@ class TelegramUserAdmin(admin.ModelAdmin):
         'first_name',
         'last_name',
         'username',
+        'is_blocked',
         'created_at'
     )
+    list_editable = ('is_blocked',)
 
     search_fields = ('first_name', 'last_name', 'username')
