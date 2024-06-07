@@ -1,0 +1,386 @@
+[
+    {
+      "model": "object.country",
+      "pk": 1,
+      "fields": {
+        "title": "Россия"
+      }
+    },
+    {
+      "model": "object.country",
+      "pk": 2,
+      "fields": {
+        "title": "США"
+      }
+    },
+    {
+      "model": "object.country",
+      "pk": 3,
+      "fields": {
+        "title": "Канада"
+      }
+    },
+    {
+      "model": "object.city",
+      "pk": 1,
+      "fields": {
+        "name": "Москва",
+        "time_zone_uts": 3,
+        "country": 1,
+        "district": "Центральный"
+      }
+    },
+    {
+      "model": "object.city",
+      "pk": 2,
+      "fields": {
+        "name": "Нью-Йорк",
+        "time_zone_uts": -5,
+        "country": 2,
+        "district": "Нью-Йорк"
+      }
+    },
+    {
+      "model": "object.city",
+      "pk": 3,
+      "fields": {
+        "name": "Торонто",
+        "time_zone_uts": -5,
+        "country": 3,
+        "district": "Онтарио"
+      }
+    },
+    {
+      "model": "object.city",
+      "pk": 4,
+      "fields": {
+        "name": "Санкт-Петербург",
+        "time_zone_uts": 3,
+        "country": 1,
+        "district": "Северо-Западный"
+      }
+    },
+    {
+      "model": "object.city",
+      "pk": 5,
+      "fields": {
+        "name": "Лос-Анджелес",
+        "time_zone_uts": -8,
+        "country": 2,
+        "district": "Калифорния"
+      }
+    },
+    {
+      "model": "object.city",
+      "pk": 6,
+      "fields": {
+        "name": "Ванкувер",
+        "time_zone_uts": -8,
+        "country": 3,
+        "district": "Британская Колумбия"
+      }
+    },
+    {
+      "model": "object.category",
+      "pk": 1,
+      "fields": {
+        "name": "Жилая недвижимость"
+      }
+    },
+    {
+      "model": "object.category",
+      "pk": 2,
+      "fields": {
+        "name": "Коммерческая недвижимость"
+      }
+    },
+    {
+      "model": "object.buldingtype",
+      "pk": 1,
+      "fields": {
+        "name": "Апартаменты"
+      }
+    },
+    {
+      "model": "object.buldingtype",
+      "pk": 2,
+      "fields": {
+        "name": "Офисное здание"
+      }
+    },
+    {
+      "model": "object.condition",
+      "pk": 1,
+      "fields": {
+        "name": "Новое"
+      }
+    },
+    {
+      "model": "object.condition",
+      "pk": 2,
+      "fields": {
+        "name": "Хорошее"
+      }
+    },
+    {
+      "model": "object.contact",
+      "pk": 1,
+      "fields": {
+        "name": "Иван Иванов",
+        "email": "ivanov@example.com",
+        "phone_number": "+79990001122"
+      }
+    },
+    {
+      "model": "object.contact",
+      "pk": 2,
+      "fields": {
+        "name": "Петр Петров",
+        "email": "petrov@example.com",
+        "phone_number": "+79990002233"
+      }
+    },
+    {
+      "model": "object.location",
+      "pk": 1,
+      "fields": {
+        "city": 1,
+        "post_index": "101000",
+        "street": "Тверская",
+        "building": "1",
+        "floor": 5,
+        "room": "501"
+      }
+    },
+    {
+      "model": "object.location",
+      "pk": 2,
+      "fields": {
+        "city": 2,
+        "post_index": "10001",
+        "street": "5th Avenue",
+        "building": "350",
+        "floor": 10,
+        "room": "1001"
+      }
+    },
+    {
+      "model": "object.location",
+      "pk": 3,
+      "fields": {
+        "city": 3,
+        "post_index": "M5H",
+        "street": "Bay Street",
+        "building": "100",
+        "floor": 15,
+        "room": "1501"
+      }
+    },
+    {
+      "model": "object.location",
+      "pk": 4,
+      "fields": {
+        "city": 4,
+        "post_index": "190000",
+        "street": "Невский проспект",
+        "building": "10",
+        "floor": 2,
+        "room": "202"
+      }
+    },
+    {
+      "model": "object.location",
+      "pk": 5,
+      "fields": {
+        "city": 5,
+        "post_index": "90001",
+        "street": "Sunset Boulevard",
+        "building": "500",
+        "floor": 3,
+        "room": "301"
+      }
+    },
+    {
+      "model": "object.location",
+      "pk": 6,
+      "fields": {
+        "city": 6,
+        "post_index": "V5K",
+        "street": "Main Street",
+        "building": "200",
+        "floor": 7,
+        "room": "701"
+      }
+    },
+    {
+      "model": "object.realty",
+      "pk": 1,
+      "fields": {
+        "title": "Просторные апартаменты в центре Москвы",
+        "location": 1,
+        "site": "https://example.com/realties/1",
+        "contact": 1,
+        "category": 1,
+        "area": 120,
+        "price": 100000,
+        "publish_date": "2024-01-01",
+        "condition": 1,
+        "building_type": 1,
+        "text": "Просторные апартаменты в центре Москвы с прекрасным видом на город."
+      }
+    },
+    {
+      "model": "object.realty",
+      "pk": 2,
+      "fields": {
+        "title": "Офисное помещение в Нью-Йорке",
+        "location": 2,
+        "site": "https://example.com/realties/2",
+        "contact": 2,
+        "category": 2,
+        "area": 300,
+        "price": 200000,
+        "publish_date": "2024-01-02",
+        "condition": 2,
+        "building_type": 2,
+        "text": "Офисное помещение в центре Нью-Йорка с современными удобствами."
+      }
+    },
+    {
+      "model": "object.realty",
+      "pk": 3,
+      "fields": {
+        "title": "Квартира в Торонто",
+        "location": 3,
+        "site": "https://example.com/realties/3",
+        "contact": 1,
+        "category": 1,
+        "area": 80,
+        "price": 80000,
+        "publish_date": "2024-01-03",
+        "condition": 1,
+        "building_type": 1,
+        "text": "Квартира в современном доме в центре Торонто."
+      }
+    },
+    {
+      "model": "object.realty",
+      "pk": 4,
+      "fields": {
+        "title": "Элитное жилье в Санкт-Петербурге",
+        "location": 4,
+        "site": "https://example.com/realties/4",
+        "contact": 2,
+        "category": 1,
+        "area": 150,
+        "price": 120000,
+        "publish_date": "2024-01-04",
+        "condition": 2,
+        "building_type": 1,
+        "text": "Элитное жилье с видом на Невский проспект."
+      }
+    },
+    {
+      "model": "object.realty",
+      "pk": 5,
+      "fields": {
+        "title": "Коммерческое помещение в Лос-Анджелесе",
+        "location": 5,
+        "site": "https://example.com/realties/5",
+        "contact": 1,
+        "category": 2,
+        "area": 250,
+        "price": 180000,
+        "publish_date": "2024-01-05",
+        "condition": 1,
+        "building_type": 2,
+        "text": "Современное коммерческое помещение в Лос-Анджелесе."
+      }
+    },
+    {
+      "model": "object.realty",
+      "pk": 6,
+      "fields": {
+        "title": "Апартаменты с видом на океан в Ванкувере",
+        "location": 6,
+        "site": "https://example.com/realties/6",
+        "contact": 2,
+        "category": 1,
+        "area": 100,
+        "price": 90000,
+        "publish_date": "2024-01-06",
+        "condition": 1,
+        "building_type": 1,
+        "text": "Апартаменты с видом на океан и современным ремонтом."
+      }
+    },
+    {
+      "model": "object.realty",
+      "pk": 7,
+      "fields": {
+        "title": "Квартира в Москве на Арбате",
+        "location": 1,
+        "site": "https://example.com/realties/7",
+        "contact": 1,
+        "category": 1,
+        "area": 85,
+        "price": 85000,
+        "publish_date": "2024-01-07",
+        "condition": 2,
+        "building_type": 1,
+        "text": "Просторная квартира в историческом центре Москвы."
+      }
+    },
+    {
+      "model": "object.realty",
+      "pk": 8,
+      "fields": {
+        "title": "Офис в деловом центре Нью-Йорка",
+        "location": 2,
+        "site": "https://example.com/realties/8",
+        "contact": 2,
+        "category": 2,
+        "area": 350,
+        "price": 220000,
+        "publish_date": "2024-01-08",
+        "condition": 1,
+        "building_type": 2,
+        "text": "Офис в престижном деловом центре Нью-Йорка."
+      }
+    },
+    {
+      "model": "object.realty",
+      "pk": 9,
+      "fields": {
+        "title": "Квартира в центре Торонто с ремонтом",
+        "location": 3,
+        "site": "https://example.com/realties/9",
+        "contact": 1,
+        "category": 1,
+        "area": 95,
+        "price": 95000,
+        "publish_date": "2024-01-09",
+        "condition": 2,
+        "building_type": 1,
+        "text": "Квартира с современным ремонтом в центре Торонто."
+      }
+    },
+    {
+      "model": "object.realty",
+      "pk": 10,
+      "fields": {
+        "title": "Коммерческое помещение в центре Ванкувера",
+        "location": 6,
+        "site": "https://example.com/realties/10",
+        "contact": 2,
+        "category": 2,
+        "area": 400,
+        "price": 250000,
+        "publish_date": "2024-01-10",
+        "condition": 1,
+        "building_type": 2,
+        "text": "Коммерческое помещение с отличной локацией в центре Ванкувера."
+      }
+    }
+  ]
+  
