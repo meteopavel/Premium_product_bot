@@ -1,0 +1,133 @@
+
+[
+{
+  "model": "object.City",
+  "pk": 1,
+  "fields": {
+    "name": "Москва",
+    "time_zone_uts": 3
+  }
+},
+{
+  "model": "object.City",
+  "pk": 2,
+  "fields": {
+    "name": "Санкт-Петербург",
+    "time_zone_uts": 3
+  }
+},
+{
+  "model": "object.City",
+  "pk": 3,
+  "fields": {
+    "name": "Новосибирск",
+    "time_zone_uts": 7
+  }
+},
+{
+  "model": "object.City",
+  "pk": 4,
+  "fields": {
+    "name": "Екатеринбург",
+    "time_zone_uts": 5
+  }
+},
+{
+  "model": "object.Category",
+  "pk": 1,
+  "fields": {
+    "name": "Категория 1"
+  }
+},
+{
+  "model": "object.Category",
+  "pk": 2,
+  "fields": {
+    "name": "Категория 2"
+  }
+},
+{
+  "model": "object.BuldingType",
+  "pk": 1,
+  "fields": {
+    "name": "Тип здания 1"
+  }
+},
+{
+  "model": "object.BuldingType",
+  "pk": 2,
+  "fields": {
+    "name": "Тип здания 2"
+  }
+},
+{
+  "model": "object.Condition",
+  "pk": 1,
+  "fields": {
+    "name": "Состояние помещения 1"
+  }
+},
+{
+  "model": "object.Condition",
+  "pk": 2,
+  "fields": {
+    "name": "Состояние помещения 2"
+  }
+},
+{
+  "model": "object.Contact",
+  "pk": 1,
+  "fields": {
+    "name": "Контакт 1",
+    "email": "contact1@example.com",
+    "phone_number": "+1234567890"
+  }
+},
+{
+  "model": "object.Contact",
+  "pk": 2,
+  "fields": {
+    "name": "Контакт 2",
+    "email": "contact2@example.com",
+    "phone_number": "+9876543210"
+  }
+},
+{
+  "model": "object.Realty",
+  "pk": 1,
+  "fields": {
+    "title": "Объявление 1",
+    "city": 1,
+    "address": "ул. Пушкина, д.10",
+    "email": "realty1@example.com",
+    "site": "http://realty1.com",
+    "contact": 1,
+    "category": 1,
+    "area": 100,
+    "price": 5000,
+    "condition": 1,
+    "building_type": 1,
+    "text": "Просторное помещение",
+    "publish_date": "1990-01-01"
+  }
+},
+{
+  "model": "object.Realty",
+  "pk": 2,
+  "fields": {
+    "title": "Объявление 2",
+    "city": 2,
+    "address": "пр. Ленина, д.5",
+    "email": "realty2@example.com",
+    "site": "http://realty2.com",
+    "contact": 2,
+    "category": 2,
+    "area": 200,
+    "price": 7000,
+    "condition": 2,
+    "building_type": 2,
+    "text": "Уютное помещение",
+    "publish_date": "1990-01-01"
+  }
+}
+]
