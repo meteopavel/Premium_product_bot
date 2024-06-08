@@ -42,7 +42,7 @@ async def location__city(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
     context.user_data['choose'] = 'location__city'
     if 'location__city' in context.user_data:
         city_text = f'Выбранный ранее город:{
-            context.user_data['location__city']}'
+            context.user_data["location__city"]}'
     else:
         city_text = "Выбери город!"
     await edit_or_send(update, context, city_text, reply_markup)
@@ -55,7 +55,7 @@ async def other_city(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     await query.answer()
     reply_markup = InlineKeyboardMarkup(OTHER_CITY_KEYBOARD)
     if 'location__city' in context.user_data:
-        text = f'Выбранный ранее город:{context.user_data['location__city']}'
+        text = f'Выбранный ранее город:{context.user_data["location__city"]}'
     else:
         text = "Выбери город!"
     await query.edit_message_text(text=text, reply_markup=reply_markup)
@@ -89,7 +89,7 @@ async def category(update: Update, context: ContextTypes.DEFAULT_TYPE):
     reply_markup = InlineKeyboardMarkup(await all_obj_keyboard(Category))
     context.user_data['choose'] = 'category'
     if 'category' in context.user_data:
-        text = f'Выбранная ранее категория:{context.user_data['category']}'
+        text = f'Выбранная ранее категория:{context.user_data["category"]}'
     else:
         text = "Выбери категорию!"
     await query.edit_message_text(text=text, reply_markup=reply_markup)
@@ -155,7 +155,7 @@ async def publish_date(update: Update, context: ContextTypes.DEFAULT_TYPE):
     context.user_data['choose'] = 'publish_date'
     query = update.callback_query
     await query.answer()
-    await query.edit_message_text(text="Выбери период публикации", reply_markup=markup)
+    await query.edit_message_text(text='Выбери период публикации', reply_markup=markup)
     return SAVE_CHOOSE
 
 
@@ -167,7 +167,7 @@ async def condition(update: Update, context: ContextTypes.DEFAULT_TYPE):
     context.user_data['choose'] = 'condition'
     if 'condition' in context.user_data:
         text = f'Выбранное ранее состояние помещений:{
-            context.user_data['condition']}'
+            context.user_data["condition"]}'
     else:
         text = "Какое состояние помещений вас устроит?"
     await query.edit_message_text(text=text, reply_markup=reply_markup)
@@ -181,8 +181,8 @@ async def building_type(update: Update, context: ContextTypes.DEFAULT_TYPE):
     reply_markup = InlineKeyboardMarkup(await all_obj_keyboard(BuldingType))
     context.user_data['choose'] = 'building_type'
     if 'building_type' in context.user_data:
-        text = f'Выбранное ранее состояние помещений:{
-            context.user_data['building_type']}'
+        text = f'Выбранный ранее тип здания:{
+            context.user_data["building_type"]}'
     else:
         text = "Ваберите тип здания, в которм нужны помещения."
     await query.edit_message_text(text=text, reply_markup=reply_markup)
