@@ -21,6 +21,7 @@ from django.conf.urls.static import static
 
 from main import webhook
 
+
 urlpatterns = [
     path('telegram/', webhook, name='Telegran updates'),
     path('admin/', admin.site.urls),
