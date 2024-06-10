@@ -79,7 +79,7 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         reviews = await get_all_reviews_for_realty(realty_id)
 
         if reviews:
-            reviews_text = "\n\n".join([f"Автор: {review['author']}\nОтзыв: {review['text']}" for review in reviews])
+            reviews_text = "\n\n".join([f"Автор: {review['author_name']}\nОтзыв: {review['text']}" for review in reviews])
             await query.message.reply_text(reviews_text)
         else:
             await query.message.reply_text('Нет отзывов для этого объекта.')
