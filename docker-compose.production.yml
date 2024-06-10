@@ -1,0 +1,28 @@
+version: '2'
+
+volumes:
+  pg_data:
+  static:
+
+services:
+  db:
+    image: postgres:13.15-alpine
+    env_file: .env
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+  real_estate:
+    image: meteopavel/premium_product_bot_real_estate
+    env_file: .env
+    volumes: 
+      - static:/static
+    depends_on:
+      - db
+  gateway:
+    image: meteopavel/premium_product_bot_gateway
+    env_file: .env 
+    ports:
+      - 8000:80 
+    volumes: 
+      - static:/static
+    depends_on:
+      - real_estate
