@@ -7,6 +7,7 @@ from telegram.ext import (Application, CallbackQueryHandler, CommandHandler,
 from tg_bot.handlers import (delete_handler, echo_handler, favorites_handler,
                              review_handler, start_handler)
 from tg_bot.handlers.search_handler import handlers
+from tg_bot.handlers.search_handler.callbacks import represent_results
 
 load_dotenv()
 
@@ -25,7 +26,7 @@ class TGBot:
         #    MessageHandler(filters.TEXT & ~filters.COMMAND, echo_handler.echo)
         # )
         self.ptb_app.add_handler(handlers.search_handler)
-        self.ptb_app.add_handler(CallbackQueryHandler(start_handler.realty_details, pattern=r"^realty_"))
+        self.ptb_app.add_handler(CallbackQueryHandler(represent_results, pattern=r"^realty_"))
         self.ptb_app.add_handler(CallbackQueryHandler(review_handler.button, pattern=r"^review_"))
         self.ptb_app.add_handler(CallbackQueryHandler(review_handler.button, pattern=r"^view_reviews_"))
         self.ptb_app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, review_handler.receive_review))

@@ -24,6 +24,8 @@ from .keyboards import (
     PRICE_KEYBOARD, PUBLISH_DATE_KEYBOARD
 )
 from .texts import user_data_as_text
+from tg_bot.handlers.base_utils import get_all_realty
+from tg_bot.handlers.base_utils import get_user_by_id, get_realty_by_id, get_favorite_exists
 
 
 async def main_menu(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
@@ -105,27 +107,40 @@ async def refresh_all(update: Update, context: ContextTypes.DEFAULT_TYPE):
     return await main_menu(update, context)
 
 
-async def represent_results(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def represent_results(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Показать результаты поиска"""
-    text = 'Here is your data:'
-    realtys = []
-    async for realty in Realty.objects.filter(**filter_args(context)):
-        realtys.append(realty.title)
-    if realtys:
-        text = user_data_as_text(context)
-        for realty in realtys:
-            text += f'\n{realty}'
-    else:
-        text = 'Ничего подходящего=('
     query = update.callback_query
     await query.answer()
-    keyboard = [
-        [InlineKeyboardButton('Посмотрел', callback_data='Посмотрел')],
-    ]
-    markup = InlineKeyboardMarkup(keyboard)
-    await query.edit_message_text(text=text,  reply_markup=markup)
-    return MAIN_MENU
 
+    realty_list = await get_all_realty()
+    if not realty_list:
+        await query.message.reply_text('Ничего подходящего=(')
+        return
+
+    realty_id = realty_list[0].id
+    realty = await get_realty_by_id(realty_id)
+    user = await get_user_by_id(update.effective_user.id)
+
+    if await get_favorite_exists(user, realty):
+        favorite_button = InlineKeyboardButton(
+            "Удалить из избранного", callback_data=f"delete_favorite_{realty_id}"
+        )
+    else:
+        favorite_button = InlineKeyboardButton(
+            "Добавить в избранное", callback_data=f"add_to_favorite_{realty_id}"
+        )
+
+    buttons = [
+        [InlineKeyboardButton("Оставить отзыв", callback_data=f"review_{realty_id}")],
+        [InlineKeyboardButton("Посмотреть отзывы", callback_data=f"view_reviews_{realty_id}")],
+        [favorite_button],
+    ]
+
+    reply_markup = InlineKeyboardMarkup(buttons)
+    await query.message.reply_text(
+        f"Объект недвижимости: {realty.title}", reply_markup=reply_markup
+    )
+    
 
 async def other_menu(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Дополнительное меню параметров поиска"""

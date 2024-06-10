@@ -29,34 +29,3 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await update.message.reply_text(
         "Список объектов недвижимости:", reply_markup=reply_markup
     )
-
-
-async def realty_details(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    query = update.callback_query
-    await query.answer()
-    realty_id = query.data.split("_")[1]
-
-    realty = await get_realty_by_id(realty_id)
-    user = await get_user_by_id(update.effective_user.id)
-    if await get_favorite_exists(user, realty):
-        button = [
-            InlineKeyboardButton(
-                "Удалить из избранного", callback_data=f"delete_favorite_{realty_id}"
-            )
-        ]
-    else:
-        button = [
-            InlineKeyboardButton(
-                "Добавить в избранное", callback_data=f"add_to_favorite_{realty_id}"
-            )
-        ]
-    buttons = [
-        [InlineKeyboardButton("Оставить отзыв", callback_data=f"review_{realty_id}")],
-        [InlineKeyboardButton("Посмотреть отзывы", callback_data=f"view_reviews_{realty_id}")],
-        button,
-    ]
-
-    reply_markup = InlineKeyboardMarkup(buttons)
-    await query.message.reply_text(
-        f"Объект недвижимости: {realty.title}", reply_markup=reply_markup
-    )
