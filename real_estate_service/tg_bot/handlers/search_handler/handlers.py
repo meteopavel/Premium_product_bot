@@ -8,15 +8,16 @@ from telegram.ext import (
 
 from .callbacks import (
     main_menu, location__city, category, price,
-    other_city, other_menu, area, publish_date,
+    other_menu, area, publish_date,
     condition, represent_results, refresh_all, refresh_other,
     save_choose, condition, building_type, text,
-    publish_date, save_text
+    publish_date, save_text, rep_button, city_typing,
+    rep_button2, other_citys_list
 )
-from .constants import MAIN_MENU, CHOOSE, \
-    TYPING, SAVE_CHOOSE, \
-    MAIN_FIELDS, OTHER_FIELDS
-from .filters import filter_chose
+from .constants import REPRESENT, CHOOSE, \
+    TYPING, SAVE_CHOOSE, CITY_TYPING, \
+    MAIN_FIELDS, OTHER_FIELDS, REPRESENT_CITYS
+from .filters import filter_main_menu, filter_rep_city
 from tg_bot.handlers.start_handler import start
 
 search_handler = ConversationHandler(
@@ -36,19 +37,26 @@ search_handler = ConversationHandler(
         ],
         SAVE_CHOOSE: [
             CallbackQueryHandler(
-                save_choose, pattern=filter_chose),
-            CallbackQueryHandler(other_city, pattern='^other_city$'),
+                save_choose, pattern=filter_main_menu),
+            CallbackQueryHandler(city_typing, pattern='^city_typing$'),
             CallbackQueryHandler(main_menu, pattern='^menu$'),
             CallbackQueryHandler(other_menu, pattern='^other_menu$'),
         ],
         TYPING: [
             MessageHandler(filters.TEXT & ~filters.COMMAND, save_text)
         ],
+        CITY_TYPING: [
+            MessageHandler(filters.TEXT & ~filters.COMMAND, other_citys_list)
+        ],
+        REPRESENT: [
+            CallbackQueryHandler(rep_button, pattern='^(page)'),
+            CallbackQueryHandler(main_menu, pattern='^main_menu$')
+        ],
+        REPRESENT_CITYS: [
+            CallbackQueryHandler(rep_button2, pattern='^(page|main_menu)'),
+            CallbackQueryHandler(save_choose, pattern=filter_rep_city),
+            CallbackQueryHandler(city_typing, pattern='^city_typing$')
 
-        MAIN_MENU: [
-            CallbackQueryHandler(
-                main_menu,
-            ),
         ]
     },
     fallbacks=[MessageHandler(filters.Regex(
