@@ -5,6 +5,7 @@ from telegram import (
 )
 from telegram.ext import ContextTypes, ConversationHandler
 
+from tg_bot.middleware import is_user_blocked
 from object.models import (
     Realty,
     Category,
@@ -29,6 +30,13 @@ from .texts import user_data_as_text
 
 async def main_menu(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Основное меню"""
+    user_id = update.effective_user.id
+    if await is_user_blocked(user_id):
+        await update.message.reply_text(
+            "⚠️ <b>Вы были заблокированы. Обратитесь к администратору!</b>",
+            parse_mode='HTML'
+        )
+        return ConversationHandler.END
     if 'location__city' not in context.user_data:
         return await location__city(update, context)
     if 'all_citys' in context.user_data:
