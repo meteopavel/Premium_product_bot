@@ -22,7 +22,8 @@ class Country(models.Model):
 
 
 class City(models.Model):
-    name = models.CharField(max_length=SHORT_CAHR_FIELD_MAX_LENGTH, verbose_name='Название')
+    name = models.CharField(
+        max_length=SHORT_CAHR_FIELD_MAX_LENGTH, verbose_name='Название')
     time_zone_uts = models.IntegerField(
         verbose_name='Временная зона UTS',
         validators=[
@@ -31,8 +32,14 @@ class City(models.Model):
         ],
         null=True, blank=True
     )
-    country = models.ForeignKey(Country, verbose_name='Страна', on_delete=models.CASCADE)
-    district = models.CharField(max_length=150, verbose_name='Область', null=True, blank=True)
+    country = models.ForeignKey(
+        Country, verbose_name='Страна', on_delete=models.CASCADE)
+    district = models.CharField(
+        max_length=150, verbose_name='Область', null=True, blank=True)
+    is_in_main_menu = models.BooleanField(
+        verbose_name='Показать в основном меню',
+        default=False
+    )
 
     class Meta:
         verbose_name = 'Город'
@@ -103,11 +110,14 @@ class Location(models.Model):
         on_delete=models.PROTECT,
         verbose_name='Город'
     )
-    post_index = models.CharField(max_length=10, verbose_name='Почтовый индекс', null=True, blank=True)
+    post_index = models.CharField(
+        max_length=10, verbose_name='Почтовый индекс', null=True, blank=True)
     street = models.CharField(max_length=100, verbose_name='Улица')
     building = models.CharField(max_length=30, verbose_name='Строение')
-    floor = models.SmallIntegerField(verbose_name='Этаж', null=True, blank=True)
-    room = models.CharField(max_length=30, verbose_name='Помещение', null=True, blank=True)
+    floor = models.SmallIntegerField(
+        verbose_name='Этаж', null=True, blank=True)
+    room = models.CharField(
+        max_length=30, verbose_name='Помещение', null=True, blank=True)
 
     class Meta:
         verbose_name = 'Локация'
@@ -122,7 +132,8 @@ class Realty(models.Model):
         max_length=SHORT_CAHR_FIELD_MAX_LENGTH,
         verbose_name='Название'
     )
-    location = models.ForeignKey(Location, verbose_name='Локация', on_delete=models.PROTECT, null=True)
+    location = models.ForeignKey(
+        Location, verbose_name='Локация', on_delete=models.PROTECT, null=True)
     site = models.URLField(blank=True, null=True, verbose_name='Сайт')
     contact = models.ForeignKey(
         Contact,
