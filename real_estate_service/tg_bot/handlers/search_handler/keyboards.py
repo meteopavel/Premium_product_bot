@@ -3,10 +3,9 @@ from telegram.ext import ContextTypes
 from django.db import models
 
 from object.models import (
-    City,
+    City, BaseIntervals
 )
 from .constants import MAIN_FIELDS, OTHER_FIELDS
-from .utils import dict_to_string
 
 
 def main_keyboard(
@@ -120,20 +119,21 @@ async def location__city_keyboard() -> list[list[InlineKeyboardButton]]:
     return keyboard
 
 
-AREA_KEYBOARD = [
-    [InlineKeyboardButton('1-150', callback_data='1-150')],
-    [InlineKeyboardButton(
-        '150-1000', callback_data='150-1000')],
-    [InlineKeyboardButton('1000-100000', callback_data='1000-100000')]
-]
-
-PRICE_KEYBOARD = [
-    [InlineKeyboardButton('1-150', callback_data='1-150')],
-    [InlineKeyboardButton(
-        '150-1000', callback_data='150-1000')],
-    [InlineKeyboardButton('1000-100000', callback_data='1000-100000')]
-]
-
+async def interval_keyboard(model: BaseIntervals) -> list[list[InlineKeyboardButton]]:
+    keyboard = []
+    async for interval in model.objects.all():
+        string = f'{interval.minimum}-{interval.maximum}'
+        keyboard.append(
+            [InlineKeyboardButton(
+                string,
+                callback_data=string)]
+        )
+    if not keyboard:
+        return [
+            [InlineKeyboardButton('Интервалы не настроены, вернутся в главное меню',
+                                  callback_data='menu')],
+        ]
+    return keyboard
 
 REPRESENT_RESULTS_KEYBOARD = [
     [InlineKeyboardButton('Посмотрел', callback_data='Посмотрел')],
@@ -145,13 +145,13 @@ PUBLISH_DATE_KEYBOARD = [
         'За неделю', callback_data='7')],
     [InlineKeyboardButton(
         'За месяц', callback_data='31')],
-    [InlineKeyboardButton('Полгода', callback_data='184')]
+    [InlineKeyboardButton('За полгода', callback_data='184')]
 ]
 
 
 async def send_citys_keyboard(
-        citys: list[dict],
-        page: int
+    citys: list[dict],
+    page: int
 ) -> list[list[InlineKeyboardButton]]:
     start_index = page * 6
     end_index = start_index + 6
@@ -171,20 +171,20 @@ async def send_citys_keyboard(
                 callback_data=city['pk'])
              ]
         )
-    keyboard.append([])
-    if page > 0:
-        keyboard[-1].append(InlineKeyboardButton(
-            'Предыдущая', callback_data=f'page_{page-1}'))
-    if end_index < len(citys):
-        keyboard[-1].append(InlineKeyboardButton(
-            'Следующая', callback_data=f'page_{page+1}'))
-    keyboard.append(
-        [InlineKeyboardButton('выйти', callback_data='main_menu')]
-    )
-    return keyboard
+        keyboard.append([])
+        if page > 0:
+            keyboard[-1].append(InlineKeyboardButton(
+                'Предыдущая', callback_data=f'page_{page-1}'))
+        if end_index < len(citys):
+            keyboard[-1].append(InlineKeyboardButton(
+                'Следующая', callback_data=f'page_{page+1}'))
+            keyboard.append(
+                [InlineKeyboardButton('выйти', callback_data='main_menu')]
+            )
+        return keyboard
 
 
-def send_page_keyboard(page, length):
+def send_page_keyboard(page, length, pk):
     keyboard = []
     if page > 0:
         keyboard.append(InlineKeyboardButton(
@@ -193,6 +193,12 @@ def send_page_keyboard(page, length):
         keyboard.append(InlineKeyboardButton(
             "Следующая", callback_data=f"page_{page+1}"))
     keyboard.append(
-        InlineKeyboardButton('выйти', callback_data='main_menu')
+        InlineKeyboardButton('выйти', callback_data='cancel')
     )
-    return [keyboard]
+    realty_button = [
+        InlineKeyboardButton(
+            'Посмотреть', callback_data='realty_' + str(pk))
+    ]
+    keyboard = [keyboard]
+    keyboard.append(realty_button)
+    return keyboard

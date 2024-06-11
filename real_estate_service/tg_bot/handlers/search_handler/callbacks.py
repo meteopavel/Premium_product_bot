@@ -3,29 +3,28 @@ from telegram import (
     InlineKeyboardButton,
     InlineKeyboardMarkup,
 )
-from telegram.ext import ContextTypes
+from telegram.ext import ContextTypes, ConversationHandler
 
 from object.models import (
     Realty,
     Category,
     Condition,
     BuldingType,
-    City
+    City,
+    AreaIntervals,
+    PriceIntervals
 )
 from .constants import REPRESENT, CHOOSE, TYPING, SAVE_CHOOSE, MAIN_FIELDS, OTHER_FIELDS, CITY_TYPING, REPRESENT_CITYS
 from .utils import edit_or_send, filter_args
 from .keyboards import (
     location__city_keyboard, all_obj_keyboard,
     main_keyboard, other_keyboard,
-    send_citys_keyboard, send_page_keyboard
+    send_citys_keyboard, send_page_keyboard,
+    interval_keyboard
 )
-from .keyboards import (
-    AREA_KEYBOARD,
-    PRICE_KEYBOARD, PUBLISH_DATE_KEYBOARD
-)
+from .keyboards import PUBLISH_DATE_KEYBOARD
+
 from .texts import user_data_as_text
-from tg_bot.handlers.base_utils import get_all_realty
-from tg_bot.handlers.base_utils import get_user_by_id, get_realty_by_id, get_favorite_exists
 
 
 async def main_menu(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
@@ -110,7 +109,7 @@ async def area(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Выбор диапазона площади"""
     query = update.callback_query
     await query.answer()
-    markup = InlineKeyboardMarkup(AREA_KEYBOARD)
+    markup = InlineKeyboardMarkup(await interval_keyboard(AreaIntervals))
     context.user_data['choose'] = 'area'
     await query.edit_message_text(text='Выбери площадь', reply_markup=markup)
     return SAVE_CHOOSE
@@ -120,7 +119,7 @@ async def price(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Меню выбора диапазона цены."""
     query = update.callback_query
     await query.answer()
-    markup = InlineKeyboardMarkup(PRICE_KEYBOARD)
+    markup = InlineKeyboardMarkup(await interval_keyboard(PriceIntervals))
     context.user_data['choose'] = 'price'
     await query.edit_message_text(text='Выбери цену', reply_markup=markup)
     return SAVE_CHOOSE
@@ -176,8 +175,9 @@ async def send_page(update: Update, context: ContextTypes.DEFAULT_TYPE, page):
     realtys = context.user_data['suitable_realtys']
     message_text = "вот:\n"
     message_text += f"{realtys[page]['id']}. {realtys[page]['title']}"
+    pk = realtys[page]['id']
     reply_markup = InlineKeyboardMarkup(
-        send_page_keyboard(page, len(realtys)))
+        send_page_keyboard(page, len(realtys), pk))
     query = update.callback_query
     await query.answer()
     await query.edit_message_text(
@@ -288,3 +288,9 @@ async def refresh_other(update: Update, context: ContextTypes.DEFAULT_TYPE):
         if field in context.user_data:
             del context.user_data[field]
     return await other_menu(update, context)
+
+
+async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+    text = 'Поиск окончен.'
+    await edit_or_send(update, context, text)
+    return ConversationHandler.END

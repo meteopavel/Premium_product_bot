@@ -37,7 +37,7 @@ async def edit_or_send(
         update: Update,
         context: ContextTypes.DEFAULT_TYPE,
         text,
-        reply_markup
+        reply_markup=None
 ) -> None:
     """Проверит запрос. Если он есть - обновит сообщение. 
     Если нет то просто отправит"""

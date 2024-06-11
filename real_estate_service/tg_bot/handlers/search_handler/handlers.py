@@ -12,13 +12,13 @@ from .callbacks import (
     condition, represent_results, refresh_all, refresh_other,
     save_choose, condition, building_type, text,
     publish_date, save_text, rep_button, city_typing,
-    rep_button2, other_citys_list
+    rep_button2, other_citys_list, cancel
 )
 from .constants import REPRESENT, CHOOSE, \
     TYPING, SAVE_CHOOSE, CITY_TYPING, \
     MAIN_FIELDS, OTHER_FIELDS, REPRESENT_CITYS
 from .filters import filter_main_menu, filter_rep_city
-from tg_bot.handlers.start_handler import start
+from .. import show_realty
 
 search_handler = ConversationHandler(
     entry_points=[CommandHandler('search', main_menu)],
@@ -50,7 +50,8 @@ search_handler = ConversationHandler(
         ],
         REPRESENT: [
             CallbackQueryHandler(rep_button, pattern='^(page)'),
-            CallbackQueryHandler(main_menu, pattern='^main_menu$')
+            CallbackQueryHandler(main_menu, pattern='^main_menu$'),
+            CallbackQueryHandler(show_realty.show_realty, pattern='^realty_')
         ],
         REPRESENT_CITYS: [
             CallbackQueryHandler(rep_button2, pattern='^(page|main_menu)'),
@@ -59,6 +60,11 @@ search_handler = ConversationHandler(
 
         ]
     },
-    fallbacks=[MessageHandler(filters.Regex(
-        "^Done$"), start)],
+    fallbacks=[
+        CommandHandler('cancel', cancel),
+        CommandHandler('start', cancel),
+        CommandHandler('stop', cancel),
+        CommandHandler('my_favorites', cancel),
+        CallbackQueryHandler(cancel, pattern='^cancel$')
+    ],
 )
