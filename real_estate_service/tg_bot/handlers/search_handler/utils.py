@@ -1,14 +1,43 @@
 from datetime import datetime, timedelta
+import json
 
 from telegram import Update
 from telegram.ext import ContextTypes
+
+
+def dict_to_string(dictionary):
+    """
+    Преобразует словарь в строку формата JSON.
+
+    :param dictionary: Словарь для преобразования
+    :return: Строка формата JSON
+    """
+    try:
+        return json.dumps(dictionary, ensure_ascii=False,)
+    except (TypeError, ValueError) as e:
+        print(f'Ошибка при преобразовании словаря в строку: {e}')
+        return None
+
+
+def string_to_dict(string):
+    """
+    Преобразует строку формата JSON обратно в словарь.
+
+    :param string: Строка формата JSON
+    :return: Словарь
+    """
+    try:
+        return json.loads(string)
+    except (TypeError, ValueError) as e:
+        print(f'Ошибка при преобразовании строки в словарь: {e}')
+        return None
 
 
 async def edit_or_send(
         update: Update,
         context: ContextTypes.DEFAULT_TYPE,
         text,
-        reply_markup
+        reply_markup=None
 ) -> None:
     """Проверит запрос. Если он есть - обновит сообщение. 
     Если нет то просто отправит"""
@@ -44,9 +73,10 @@ def filter_args(
     args = {}
     for field in foregin_fields:
         if field in context.user_data:
-            query = field + '__name'
-            data = context.user_data[field]
-            args[query] = data
+            query = field
+            str_data = context.user_data[field]
+            data = string_to_dict(str_data)
+            args[query] = int(data)
     for field in integer_fields:
         if field in context.user_data:
             query = field + '__lte'

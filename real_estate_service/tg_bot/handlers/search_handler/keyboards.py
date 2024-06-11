@@ -1,45 +1,79 @@
 from telegram import InlineKeyboardButton
+from telegram.ext import ContextTypes
 from django.db import models
+
 from object.models import (
-    City,
+    City, BaseIntervals
 )
 from .constants import MAIN_FIELDS, OTHER_FIELDS
 
 
-def main_keyboard() -> list[list[InlineKeyboardButton]]:
+def main_keyboard(
+        context:  ContextTypes.DEFAULT_TYPE
+) -> list[list[InlineKeyboardButton]]:
     keyboard = []
     for field in MAIN_FIELDS:
         keyboard.append(
             [InlineKeyboardButton(MAIN_FIELDS[field], callback_data=field)]
         )
-    keyboard.append(
-        [
-            InlineKeyboardButton('Очистить фаильтры',
-                                 callback_data='refresh_all'),
-            InlineKeyboardButton('Прочее', callback_data='other'),
-        ]
-    )
-    keyboard.append(
-        [InlineKeyboardButton('Показать результат',
-                              callback_data='represent_results')]
-    )
+    is_search_data = False
+    for field in MAIN_FIELDS | OTHER_FIELDS:
+        if field in context.user_data and field != 'location__city':
+            is_search_data = True
+            break
+    if is_search_data:
+        keyboard.append(
+            [
+                InlineKeyboardButton('Очистить фильтры',
+                                     callback_data='refresh_all'),
+                InlineKeyboardButton('Прочее', callback_data='other'),
+            ]
+        )
+        keyboard.append(
+            [InlineKeyboardButton('Показать результат',
+                                  callback_data='represent_results')]
+        )
+    else:
+        keyboard.append(
+            [
+                InlineKeyboardButton('Прочее', callback_data='other'),
+                InlineKeyboardButton('Показать результат',
+                                     callback_data='represent_results')
+            ]
+        )
     return keyboard
 
 
-def other_keyboard() -> list[list[InlineKeyboardButton]]:
+def other_keyboard(
+        context:  ContextTypes.DEFAULT_TYPE
+) -> list[list[InlineKeyboardButton]]:
     keyboard = []
     for field in OTHER_FIELDS:
         keyboard.append(
             [InlineKeyboardButton(OTHER_FIELDS[field], callback_data=field)]
         )
-    keyboard.append(
-        [
-            InlineKeyboardButton(
-                'Сбросить', callback_data='refresh_other'),
-            InlineKeyboardButton('Вернуться в меню',
-                                 callback_data='return_to_main'),
-        ]
-    )
+    is_search_data = False
+    for field in OTHER_FIELDS:
+        if field in context.user_data:
+            is_search_data = True
+            break
+    if is_search_data:
+        keyboard.append(
+            [
+                InlineKeyboardButton(
+                    'Сбросить', callback_data='refresh_other'),
+                InlineKeyboardButton('Вернуться в меню',
+                                     callback_data='return_to_main'),
+            ]
+        )
+    else:
+        keyboard.append(
+            [
+                InlineKeyboardButton('🟩 Вернуться в меню',
+                                     callback_data='return_to_main'),
+            ]
+        )
+
     return keyboard
 
 
@@ -47,10 +81,14 @@ async def all_obj_keyboard(
         model: models.Model
 ) -> list[list[InlineKeyboardButton]]:
     keyboard = []
-    async for category in model.objects.all().values_list('name', flat=True):
+    async for object in model.objects.all().values_list('name', 'pk'):
+        data = {
+            'name': object[0],
+            'pk': object[1]
+        }
         keyboard.append(
             [
-                InlineKeyboardButton(category, callback_data=category)
+                InlineKeyboardButton(data['name'], callback_data=data['pk'])
             ]
         )
     keyboard.append(
@@ -59,39 +97,43 @@ async def all_obj_keyboard(
     return keyboard
 
 
-async def city_keyboard() -> list[list[InlineKeyboardButton]]:
+async def location__city_keyboard() -> list[list[InlineKeyboardButton]]:
+    """Создает клавиатуру из основных городов"""
     keyboard = []
-    async for city in City.objects.all().values_list('name', flat=True):
+    async for city in City.objects.filter(
+        is_in_main_menu=True
+    ).values_list('name', 'pk'):
+        city_dic = {'name': city[0], 'pk': city[1]}
         keyboard.append(
             [
-                InlineKeyboardButton(city, callback_data=city)
+                InlineKeyboardButton(
+                    city_dic['name'],
+                    callback_data=city_dic['pk']
+                )
             ]
         )
     keyboard.append([InlineKeyboardButton(
         'Города нет в списке. Выбрать другой.',
-        callback_data='other_city'
+        callback_data='city_typing'
     )])
     return keyboard
 
-OTHER_CITY_KEYBOARD = [
-    [InlineKeyboardButton(
-        'Какойто город', callback_data='выбрал-Какойто город')],
-]
 
-AREA_KEYBOARD = [
-    [InlineKeyboardButton('1-150', callback_data='1-150')],
-    [InlineKeyboardButton(
-        '150-1000', callback_data='150-1000')],
-    [InlineKeyboardButton('1000-100000', callback_data='1000-100000')]
-]
-
-PRICE_KEYBOARD = [
-    [InlineKeyboardButton('1-150', callback_data='1-150')],
-    [InlineKeyboardButton(
-        '150-1000', callback_data='150-1000')],
-    [InlineKeyboardButton('1000-100000', callback_data='1000-100000')]
-]
-
+async def interval_keyboard(model: BaseIntervals) -> list[list[InlineKeyboardButton]]:
+    keyboard = []
+    async for interval in model.objects.all():
+        string = f'{interval.minimum}-{interval.maximum}'
+        keyboard.append(
+            [InlineKeyboardButton(
+                string,
+                callback_data=string)]
+        )
+    if not keyboard:
+        return [
+            [InlineKeyboardButton('Интервалы не настроены, вернутся в главное меню',
+                                  callback_data='menu')],
+        ]
+    return keyboard
 
 REPRESENT_RESULTS_KEYBOARD = [
     [InlineKeyboardButton('Посмотрел', callback_data='Посмотрел')],
@@ -103,5 +145,60 @@ PUBLISH_DATE_KEYBOARD = [
         'За неделю', callback_data='7')],
     [InlineKeyboardButton(
         'За месяц', callback_data='31')],
-    [InlineKeyboardButton('Полгода', callback_data='184')]
+    [InlineKeyboardButton('За полгода', callback_data='184')]
 ]
+
+
+async def send_citys_keyboard(
+    citys: list[dict],
+    page: int
+) -> list[list[InlineKeyboardButton]]:
+    start_index = page * 6
+    end_index = start_index + 6
+    items = citys[start_index:end_index]
+    if not citys:
+        keyboard = [
+            [InlineKeyboardButton('выйти', callback_data='main_menu')],
+            [InlineKeyboardButton(
+                'попробовать еще', callback_data='city_typing')]
+        ]
+        return keyboard
+    keyboard = []
+    for city in items:
+        keyboard.append(
+            [InlineKeyboardButton(
+                city['name'] + ':' + city['region'],
+                callback_data=city['pk'])
+             ]
+        )
+        keyboard.append([])
+        if page > 0:
+            keyboard[-1].append(InlineKeyboardButton(
+                'Предыдущая', callback_data=f'page_{page-1}'))
+        if end_index < len(citys):
+            keyboard[-1].append(InlineKeyboardButton(
+                'Следующая', callback_data=f'page_{page+1}'))
+            keyboard.append(
+                [InlineKeyboardButton('выйти', callback_data='main_menu')]
+            )
+        return keyboard
+
+
+def send_page_keyboard(page, length, pk):
+    keyboard = []
+    if page > 0:
+        keyboard.append(InlineKeyboardButton(
+            "Предыдущая", callback_data=f"page_{page-1}"))
+    if page + 1 < length:
+        keyboard.append(InlineKeyboardButton(
+            "Следующая", callback_data=f"page_{page+1}"))
+    keyboard.append(
+        InlineKeyboardButton('выйти', callback_data='cancel')
+    )
+    realty_button = [
+        InlineKeyboardButton(
+            'Посмотреть', callback_data='realty_' + str(pk))
+    ]
+    keyboard = [keyboard]
+    keyboard.append(realty_button)
+    return keyboard

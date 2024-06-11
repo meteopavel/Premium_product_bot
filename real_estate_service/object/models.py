@@ -1,13 +1,17 @@
 from django.db import models
 from django.core.validators import RegexValidator
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.core.exceptions import ValidationError
+from django.db.models import Q
+
 
 PHONE_REGEX = r'^\+?1?\d{9,15}$'
 PHONE_NUMBER_FIELD_MAX_LENTH = 17
 SHORT_CAHR_FIELD_MAX_LENGTH = 100
 LONG_CAHR_FIELD_MAX_LENGTH = 256
-FAREST_WEST_TIMEZONE = -1
-FAREST_EAST_TIMEZONE = 9
+FAREST_WEST_TIMEZONE = -12
+FAREST_EAST_TIMEZONE = 14
+MAX_INTERVALS_COUNT = 7
 
 
 class Country(models.Model):
@@ -22,7 +26,8 @@ class Country(models.Model):
 
 
 class City(models.Model):
-    name = models.CharField(max_length=SHORT_CAHR_FIELD_MAX_LENGTH, verbose_name='Название')
+    name = models.CharField(
+        max_length=SHORT_CAHR_FIELD_MAX_LENGTH, verbose_name='Название')
     time_zone_uts = models.IntegerField(
         verbose_name='Временная зона UTS',
         validators=[
@@ -31,8 +36,14 @@ class City(models.Model):
         ],
         null=True, blank=True
     )
-    country = models.ForeignKey(Country, verbose_name='Страна', on_delete=models.CASCADE)
-    district = models.CharField(max_length=150, verbose_name='Область', null=True, blank=True)
+    country = models.ForeignKey(
+        Country, verbose_name='Страна', on_delete=models.CASCADE)
+    district = models.CharField(
+        max_length=150, verbose_name='Область', null=True, blank=True)
+    is_in_main_menu = models.BooleanField(
+        verbose_name='Показать в основном меню',
+        default=False
+    )
 
     class Meta:
         verbose_name = 'Город'
@@ -103,11 +114,14 @@ class Location(models.Model):
         on_delete=models.PROTECT,
         verbose_name='Город'
     )
-    post_index = models.CharField(max_length=10, verbose_name='Почтовый индекс', null=True, blank=True)
+    post_index = models.CharField(
+        max_length=10, verbose_name='Почтовый индекс', null=True, blank=True)
     street = models.CharField(max_length=100, verbose_name='Улица')
     building = models.CharField(max_length=30, verbose_name='Строение')
-    floor = models.SmallIntegerField(verbose_name='Этаж', null=True, blank=True)
-    room = models.CharField(max_length=30, verbose_name='Помещение', null=True, blank=True)
+    floor = models.SmallIntegerField(
+        verbose_name='Этаж', null=True, blank=True)
+    room = models.CharField(
+        max_length=30, verbose_name='Помещение', null=True, blank=True)
 
     class Meta:
         verbose_name = 'Локация'
@@ -122,7 +136,8 @@ class Realty(models.Model):
         max_length=SHORT_CAHR_FIELD_MAX_LENGTH,
         verbose_name='Название'
     )
-    location = models.ForeignKey(Location, verbose_name='Локация', on_delete=models.PROTECT, null=True)
+    location = models.ForeignKey(
+        Location, verbose_name='Локация', on_delete=models.PROTECT, null=True)
     site = models.URLField(blank=True, null=True, verbose_name='Сайт')
     contact = models.ForeignKey(
         Contact,
@@ -176,3 +191,59 @@ class Realty(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class BaseIntervals(models.Model):
+    minimum = models.PositiveIntegerField(
+        blank=True,
+        null=True,
+        verbose_name='минимальное значение'
+    )
+    maximum = models.PositiveIntegerField(
+        blank=True,
+        null=True,
+        verbose_name='максимальное значение'
+    )
+
+    class Meta:
+        verbose_name = 'Интервал'
+        verbose_name_plural = 'Интервалы'
+        constraints = [
+            models.CheckConstraint(check=Q(minimum__lte=models.F(
+                'maximum')), name='minimum_lte_maximum')
+        ]
+        ordering = ['minimum']
+        abstract = True
+
+    def clean(self):
+        if self.maximum is not None and self.minimum is not None and self.maximum <= self.minimum:
+            raise ValidationError("Max price must be greater than min price.")
+
+    def __str__(self):
+        return f'{self.minimum}-{self.maximum}'
+
+
+class PriceIntervals(BaseIntervals):
+    class Meta:
+        verbose_name = 'Интервал цен'
+        verbose_name_plural = 'Интервалы цен'
+
+    def save(self, *args, **kwargs):
+        if PriceIntervals.objects.count() >= MAX_INTERVALS_COUNT:
+            raise ValidationError(
+                f'Only up to {MAX_INTERVALS_COUNT} Price Intervals are allowed.'  # noqa
+            )
+        super().save(*args, **kwargs)
+
+
+class AreaIntervals(BaseIntervals):
+    class Meta:
+        verbose_name = 'Интервал площади'
+        verbose_name_plural = 'Интервалы площади'
+
+    def save(self, *args, **kwargs):
+        if AreaIntervals.objects.count() >= MAX_INTERVALS_COUNT:
+            raise ValidationError(
+                f'Only up to {MAX_INTERVALS_COUNT} Area Intervals are allowed.'
+            )
+        super().save(*args, **kwargs)
