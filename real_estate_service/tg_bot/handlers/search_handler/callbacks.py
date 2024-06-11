@@ -24,6 +24,8 @@ from .keyboards import (
     PRICE_KEYBOARD, PUBLISH_DATE_KEYBOARD
 )
 from .texts import user_data_as_text
+from tg_bot.handlers.base_utils import get_all_realty
+from tg_bot.handlers.base_utils import get_user_by_id, get_realty_by_id, get_favorite_exists
 
 
 async def main_menu(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
@@ -45,7 +47,7 @@ async def location__city(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
     reply_markup = InlineKeyboardMarkup(await location__city_keyboard())
     context.user_data['choose'] = 'location__city'
     if 'location__city' in context.user_data:
-        city_text = f'Выбранный ранее город:{
+        city_text = city_text = f'Выбранный ранее город: {
             context.user_data["location__city"]}'
     else:
         city_text = 'Выбери город!'
@@ -120,7 +122,7 @@ async def price(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await query.answer()
     markup = InlineKeyboardMarkup(PRICE_KEYBOARD)
     context.user_data['choose'] = 'price'
-    await query.edit_message_text(text="Выбери цену", reply_markup=markup)
+    await query.edit_message_text(text='Выбери цену', reply_markup=markup)
     return SAVE_CHOOSE
 
 
@@ -148,7 +150,7 @@ async def refresh_all(update: Update, context: ContextTypes.DEFAULT_TYPE):
     return await main_menu(update, context)
 
 
-async def represent_results(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def represent_results(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Показать результаты поиска"""
     realtys = []
     async for realty in Realty.objects.filter(**filter_args(context)):

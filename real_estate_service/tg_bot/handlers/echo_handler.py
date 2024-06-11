@@ -1,3 +1,13 @@
+<<<<<<< HEAD
+from telegram import Update
+from telegram.ext import ContextTypes
+
+
+async def echo(update: Update,
+               context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Echo the user message."""
+    await update.message.reply_text(update.message.text)
+=======
 from telegram import Update
 from telegram.ext import ContextTypes
 
@@ -15,3 +25,4 @@ async def echo(update: Update,
         )
         return
     await update.message.reply_text(update.message.text)
+>>>>>>> a8f3069a25f9d9384ca0fcc3e3ca2e264f5b8883

@@ -1,24 +1,24 @@
-from telegram import Update
-from django.views.decorators.csrf import csrf_exempt
-from django.http import HttpRequest, HttpResponse
-from django.core.asgi import get_asgi_application
-import uvicorn
-import django
-import os
-import logging
-import json
 import asyncio
+import json
+import logging
+import os
+
+import django
+import uvicorn
+from django.core.asgi import get_asgi_application
+from django.http import HttpRequest, HttpResponse
+from django.views.decorators.csrf import csrf_exempt
 from dotenv import load_dotenv
+from telegram import Update
 
 load_dotenv()
-
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'real_estate_service.settings')
 django.setup()
 
 from tg_bot import tgbot_core  # noqa E402
 
-WEBHOOK_URL = 'https://428ff6f4-59a6-4e0b-a428-278c4a81ea85.tunnel4.com'
+WEBHOOK_URL = os.getenv('WEBHOOK_URL')
 PORT = 8000
 
 
@@ -40,7 +40,7 @@ async def main():
             app=get_asgi_application(),
             port=PORT,
             use_colors=True,
-            host='localhost',
+            host='0.0.0.0',
             log_level=logging.DEBUG,
         )
     )
