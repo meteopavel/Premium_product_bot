@@ -6,7 +6,7 @@ from asgiref.sync import sync_to_async
 from user.models import TelegramUser
 from object.models import Realty
 from tg_bot.handlers.search_handler.utils import string_to_dict
-
+from tg_bot.handlers.search_handler.constants import FIELDS
 
 load_dotenv()
 
@@ -85,18 +85,6 @@ def ralty_is_sutable(realty: Realty, user: TelegramUser):
     if not compare_text(user_parameters, text_data):
         return False
     return True
-
-
-FIELDS = {
-    'location__city': 'Город',
-    'category': 'Категория',
-    'price': 'Цена, рублей в месяц',
-    'area': 'Площадьб квадратных метров',
-    'publish_date': 'Дата обновления',
-    'condition': 'Состояние помещения',
-    'building_type': 'Тип здания',
-    'text': 'Текст',
-}
 
 
 async def send_telegram_message(pk: int):

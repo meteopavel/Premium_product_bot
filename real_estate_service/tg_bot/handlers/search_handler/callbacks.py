@@ -15,7 +15,7 @@ from object.models import (
     AreaIntervals,
     PriceIntervals
 )
-from .constants import REPRESENT, CHOOSE, TYPING, SAVE_CHOOSE, MAIN_FIELDS, OTHER_FIELDS, CITY_TYPING, REPRESENT_CITYS
+from .constants import REPRESENT, CHOOSE, TYPING, SAVE_CHOOSE, MAIN_FIELDS, OTHER_FIELDS, CITY_TYPING, REPRESENT_CITYS, FIELDS
 from .utils import (
     edit_or_send,
     filter_args,
@@ -170,7 +170,14 @@ async def represent_results(update: Update, context: ContextTypes.DEFAULT_TYPE) 
     """Показать результаты поиска"""
     realtys = []
     async for realty in Realty.objects.filter(**filter_args(context.user_data)):
-        realtys.append({'title': realty.title, 'id': realty.id})
+        realtys.append(
+            {
+                'title': realty.title,
+                'id': realty.id,
+                'area': realty.area,
+                'price': realty.price,
+            }
+        )
     context.user_data['suitable_realtys'] = realtys
     if not realtys:
         text = 'Ничего подходящего=('
@@ -190,8 +197,10 @@ async def represent_results(update: Update, context: ContextTypes.DEFAULT_TYPE) 
 
 async def send_page(update: Update, context: ContextTypes.DEFAULT_TYPE, page):
     realtys = context.user_data['suitable_realtys']
-    message_text = "вот:\n"
-    message_text += f"{realtys[page]['id']}. {realtys[page]['title']}"
+    message_text = 'вот:\n'
+    message_text += f'{realtys[page]["title"]}\n'
+    message_text += f'{FIELDS["area"]}: {realtys[page]["area"]}\n'
+    message_text += f'{FIELDS["price"]}: {realtys[page]["price"]}\n'
     pk = realtys[page]['id']
     reply_markup = InlineKeyboardMarkup(
         send_page_keyboard(page, len(realtys), pk))
