@@ -16,7 +16,13 @@ from object.models import (
     PriceIntervals
 )
 from .constants import REPRESENT, CHOOSE, TYPING, SAVE_CHOOSE, MAIN_FIELDS, OTHER_FIELDS, CITY_TYPING, REPRESENT_CITYS
-from .utils import edit_or_send, filter_args, save_search_parameters
+from .utils import (
+    edit_or_send,
+    filter_args,
+    save_search_parameters,
+    save_is_subscribed,
+    unpack_search_parameters
+)
 from .keyboards import (
     location__city_keyboard, all_obj_keyboard,
     main_keyboard, other_keyboard,
@@ -37,6 +43,8 @@ async def main_menu(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
             parse_mode='HTML'
         )
         return ConversationHandler.END
+    if 'search' not in context.user_data:
+        await unpack_search_parameters(update, context)
     if 'location__city' not in context.user_data:
         return await location__city(update, context)
     if 'all_citys' in context.user_data:
@@ -44,7 +52,7 @@ async def main_menu(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     if 'suitable_realtys' in context.user_data:
         del context.user_data['suitable_realtys']
     context.user_data['search'] = True
-    reply_markup = InlineKeyboardMarkup(main_keyboard(context))
+    reply_markup = InlineKeyboardMarkup(await main_keyboard(context, update))
     main_text = await user_data_as_text(context)
     await edit_or_send(update, context, main_text, reply_markup)
     return CHOOSE
@@ -300,8 +308,21 @@ async def refresh_other(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+    """Выход из поиска"""
     text = 'Поиск окончен.'
-    del context.user_data['search']
+    if 'search' in context.user_data:
+        del context.user_data['search']
     await save_search_parameters(update, context)
     await edit_or_send(update, context, text)
     return ConversationHandler.END
+
+
+async def subscribe(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    query = update.callback_query
+    await query.answer()
+    is_subscribed = False
+    if query.data.split('_')[-1] == 'no':
+        is_subscribed = True
+    tg_id = update.effective_chat.id
+    await save_is_subscribed(tg_id, is_subscribed)
+    await main_menu(update, context)

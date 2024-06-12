@@ -1,72 +1,23 @@
 import os
-from datetime import datetime, timedelta
-
-from django.db.models import Model
 from telegram import Bot, InlineKeyboardButton, InlineKeyboardMarkup
 from dotenv import load_dotenv
+from asgiref.sync import sync_to_async
 
 from user.models import TelegramUser
 from object.models import Realty
 from tg_bot.handlers.search_handler.utils import string_to_dict
 load_dotenv()
 
-search_fields: list[str] = [
-    'location__city', 'area', 'price', 'category',
-    'publish_date', 'condition', 'building_type', 'text'
-]
-foregin_fields = ['location__city', 'category', 'condition', 'building_type',]
-integer_fields = ['area', 'price']
-datetime_field = 'publish_date'
-text_field = 'text'
 
-
-async def send_message_to_subscribers2(instance: Realty, chat_id):
-    bot_token = os.getenv('TELEGRAM_TOKEN')
-    bot = Bot(token=bot_token)
-    async for user in TelegramUser.objects.filter(is_subscribed=True):
-        is_sutable = True
-        search_parameters = string_to_dict(user.search_parameters)
-        instance_values = get_filled_fields(instance, search_parameters)
-        for field in foregin_fields:
-            if field in instance_values and not search_parameters[field] == instance_values[field]:
-                is_sutable = False
-        for field in integer_fields:
-            if field in instance_values:
-                minimum = search_parameters[field].split('-')[0]
-                maximum = search_parameters[field].split('-')[1]
-                if instance_values[field] > maximum and instance_values[field] <= minimum:
-                    is_sutable = False
-        if text_field in instance_values:
-            if not search_parameters[text_field] in instance_values[text_field]:
-                is_sutable = False
-        if is_sutable:
-            keyboard = [
-                [
-                    InlineKeyboardButton(
-                        f'{instance.title}',
-                        callback_data=f'realty_{instance.pk}'
-                    )
-                ]
-            ]
-            reply_markup = InlineKeyboardMarkup(keyboard)
-            await bot.send_message(
-                chat_id=chat_id,
-                text='Новое объявление!',
-                reply_markup=reply_markup
-            )
-
-
-def get_field_value(obj: Model, field: str):
-    attrs = field.split('__')
+def get_field_value(obj: Realty, field: str):
     attr_value = obj
-    for attr in attrs:
-        attr_value = getattr(attr_value, attr, None)
-        if attr_value is None:
-            return None
+    attr_value = getattr(attr_value, field, None)
+    if attr_value is None:
+        return None
     return attr_value
 
 
-def get_filled_fields(obj: Model, fields) -> dict:
+def get_filled_fields(obj: Realty, fields) -> dict:
     filled_fields = {}
     for field in fields:
         value = get_field_value(obj, field)
@@ -75,21 +26,89 @@ def get_filled_fields(obj: Model, fields) -> dict:
     return filled_fields
 
 
-async def send_message_to_subscribers(instance: Realty, chat_id):
+# Вспомогательные штучки
+search_fields: list[str] = [
+    'location__city', 'area', 'price', 'category',
+    'publish_date', 'condition', 'building_type', 'text'
+]
+foregin_fields = ['category', 'condition', 'building_type',]
+integer_fields = ['area', 'price']
+datetime_field = 'publish_date'
+text_fields = ['text']
+
+
+def compare_forgein(user_params: dict, forgein_data):
+    if not user_params or not forgein_data:
+        return True
+    for field in forgein_data:
+        if field in user_params and forgein_data[field] != str(user_params[field]):
+            return False
+    return True
+
+
+def compare_integer(user_params: dict, integer_data: dict):
+    if not user_params or not integer_data:
+        return True
+    is_in_range = True
+    for field in integer_data:
+        if field in user_params:
+            minimum = int(user_params[field].split('-')[0])
+            maximum = int(user_params[field].split('-')[1])
+            if not (integer_data[field] < maximum and integer_data[field] >= minimum):
+                is_in_range = False
+                break
+    return is_in_range
+
+
+def compare_text(user_params: dict[str, str], text_data: dict[str, str]):
+    if 'text' not in user_params or 'text' not in text_data:
+        return True
+    return user_params['text'].lower() in text_data['text'].lower()
+
+
+@sync_to_async
+def ralty_is_sutable(realty: Realty, user: TelegramUser):
+    user_parameters = string_to_dict(user.search_parameters)
+    forgein_data = get_filled_fields(realty, foregin_fields)
+    integer_data = get_filled_fields(realty, integer_fields)
+    text_data = get_filled_fields(realty, text_fields)
+    city_id = user_parameters.pop('location__city')
+    realty_city_id = realty.location.city.pk
+    if not int(city_id) == realty_city_id:
+        return False
+    if not compare_forgein(user_parameters, forgein_data):
+        return False
+    if not compare_integer(user_parameters, integer_data):
+        return False
+    if not compare_text(user_parameters, text_data):
+        return False
+    return True
+
+
+async def send_telegram_message(pk: int):
     bot_token = os.getenv('TELEGRAM_TOKEN')
     bot = Bot(token=bot_token)
+    realty = await Realty.objects.filter(
+        pk=pk
+    ).afirst()
     async for user in TelegramUser.objects.filter(is_subscribed=True):
-        keyboard = [
-            [
-                InlineKeyboardButton(
-                    f'{instance.title}',
-                    callback_data=f'realty_{instance.pk}'
-                )
+        if await ralty_is_sutable(realty, user):
+            keyboard = [
+                [InlineKeyboardButton(
+                    'Перейти к обьявлению',
+                    callback_data='realty_' + str(pk)
+                )]
             ]
-        ]
-        reply_markup = InlineKeyboardMarkup(keyboard)
-        await bot.send_message(
-            chat_id=chat_id,
-            text='Новое объявление!',
-            reply_markup=reply_markup
-        )
+            reply_markup = InlineKeyboardMarkup(keyboard)
+            await bot.send_message(
+                chat_id=user.tg_id,
+                text=realty.text,
+                reply_markup=reply_markup
+            )
+
+
+async def send_telegram_message_to_all_users(message):
+    bot_token = os.getenv('TELEGRAM_TOKEN')
+    bot = Bot(token=bot_token)
+    async for user in TelegramUser.objects.all():
+        await bot.send_message(chat_id=user.tg_id, text=message)

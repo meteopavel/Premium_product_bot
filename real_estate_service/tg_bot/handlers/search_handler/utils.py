@@ -116,3 +116,22 @@ async def save_search_parameters(
     user.search_parameters = search_parameters
     await sync_to_async(user.save)()
     return
+
+
+async def save_is_subscribed(tg_id: int, is_subscribed: bool):
+    user = await TelegramUser.objects.filter(
+        tg_id=tg_id
+    ).afirst()
+    user.is_subscribed = is_subscribed
+    await sync_to_async(user.save)()
+    return
+
+
+async def unpack_search_parameters(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    user = await TelegramUser.objects.filter(
+        tg_id=update.effective_chat.id
+    ).afirst()
+    search_params = string_to_dict(user.search_parameters)
+    for param in search_params:
+        context.user_data[param] = search_params[param]
+    return context.user_data
