@@ -2,6 +2,7 @@ from asgiref.sync import sync_to_async
 from favorites.models import Favorite
 from object.models import Realty
 from user.models import TelegramUser
+from tg_bot.handlers.search_handler.utils import dict_to_string
 
 
 @sync_to_async
@@ -42,3 +43,11 @@ def get_favorites_by_user(user):
 @sync_to_async
 def create_favorites(user, realty):
     return Favorite.objects.create(user=user, realty=realty)
+
+
+@sync_to_async
+def save_search_parameters(user: TelegramUser, user_data):
+    search_parameters = dict_to_string(user_data)
+    user.search_parameters = search_parameters
+    user.save()
+    return

@@ -16,7 +16,7 @@ from object.models import (
     PriceIntervals
 )
 from .constants import REPRESENT, CHOOSE, TYPING, SAVE_CHOOSE, MAIN_FIELDS, OTHER_FIELDS, CITY_TYPING, REPRESENT_CITYS
-from .utils import edit_or_send, filter_args
+from .utils import edit_or_send, filter_args, save_search_parameters
 from .keyboards import (
     location__city_keyboard, all_obj_keyboard,
     main_keyboard, other_keyboard,
@@ -43,6 +43,7 @@ async def main_menu(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
         del context.user_data['all_citys']
     if 'suitable_realtys' in context.user_data:
         del context.user_data['suitable_realtys']
+    context.user_data['search'] = True
     reply_markup = InlineKeyboardMarkup(main_keyboard(context))
     main_text = await user_data_as_text(context)
     await edit_or_send(update, context, main_text, reply_markup)
@@ -160,7 +161,7 @@ async def refresh_all(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def represent_results(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Показать результаты поиска"""
     realtys = []
-    async for realty in Realty.objects.filter(**filter_args(context)):
+    async for realty in Realty.objects.filter(**filter_args(context.user_data)):
         realtys.append({'title': realty.title, 'id': realty.id})
     context.user_data['suitable_realtys'] = realtys
     if not realtys:
@@ -300,5 +301,7 @@ async def refresh_other(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     text = 'Поиск окончен.'
+    del context.user_data['search']
+    await save_search_parameters(update, context)
     await edit_or_send(update, context, text)
     return ConversationHandler.END

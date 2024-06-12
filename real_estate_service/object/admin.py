@@ -8,7 +8,9 @@ from .models import (
     Contact,
     Realty,
     Location,
-    Country
+    Country,
+    AreaIntervals,
+    PriceIntervals
 )
 from reviews.models import Review
 from favorites.models import Favorite
@@ -73,3 +75,13 @@ class LocationAdmin(admin.ModelAdmin):
     list_display = ('id', 'city',)
     list_filter = ('city', 'city__country',)
     inlines = [RealtyInline]
+
+
+@admin.register(AreaIntervals)
+class AreaIntervalsAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(PriceIntervals)
+class PriceIntervalsAdmin(admin.ModelAdmin):
+    pass

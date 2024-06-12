@@ -21,7 +21,8 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
     realty_list = await get_all_realty()
     buttons = [
-        [InlineKeyboardButton(realty.title, callback_data=f"realty_{realty.id}")]
+        [InlineKeyboardButton(
+            realty.title, callback_data=f"realty_{realty.id}")]
         for realty in realty_list
     ]
 

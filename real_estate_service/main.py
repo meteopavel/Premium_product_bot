@@ -18,7 +18,7 @@ django.setup()
 
 from tg_bot import tgbot_core  # noqa E402
 
-WEBHOOK_URL = os.getenv('WEBHOOK_URL')
+WEBHOOK_URL = 'https://5c26d41a-3098-4f42-ab6f-3f586fd85001.tunnel4.com'
 PORT = 8000
 
 
