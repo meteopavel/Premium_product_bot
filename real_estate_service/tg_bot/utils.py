@@ -6,6 +6,8 @@ from asgiref.sync import sync_to_async
 from user.models import TelegramUser
 from object.models import Realty
 from tg_bot.handlers.search_handler.utils import string_to_dict
+
+
 load_dotenv()
 
 
@@ -85,6 +87,18 @@ def ralty_is_sutable(realty: Realty, user: TelegramUser):
     return True
 
 
+FIELDS = {
+    'location__city': 'Город',
+    'category': 'Категория',
+    'price': 'Цена, рублей в месяц',
+    'area': 'Площадьб квадратных метров',
+    'publish_date': 'Дата обновления',
+    'condition': 'Состояние помещения',
+    'building_type': 'Тип здания',
+    'text': 'Текст',
+}
+
+
 async def send_telegram_message(pk: int):
     bot_token = os.getenv('TELEGRAM_TOKEN')
     bot = Bot(token=bot_token)
@@ -99,10 +113,15 @@ async def send_telegram_message(pk: int):
                     callback_data='realty_' + str(pk)
                 )]
             ]
+            fields = get_filled_fields(realty, search_fields)
+            text = realty.title
+            for field in fields:
+                text += f'\n{FIELDS[field]}: {fields[field]}'
+
             reply_markup = InlineKeyboardMarkup(keyboard)
             await bot.send_message(
                 chat_id=user.tg_id,
-                text=realty.text,
+                text=text,
                 reply_markup=reply_markup
             )
 
