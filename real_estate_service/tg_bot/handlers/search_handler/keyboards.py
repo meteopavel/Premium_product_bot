@@ -180,7 +180,7 @@ async def send_citys_keyboard(
     for city in items:
         keyboard.append(
             [InlineKeyboardButton(
-                city['name'] + ':' + city['region'],
+                city['name'] + ':' + str(city['region']),
                 callback_data=city['pk'])
              ]
         )
