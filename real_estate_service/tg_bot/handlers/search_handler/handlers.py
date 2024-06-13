@@ -12,7 +12,7 @@ from .callbacks import (
     condition, represent_results, refresh_all, refresh_other,
     save_choose, condition, building_type, text,
     publish_date, save_text, rep_button, city_typing,
-    rep_button2, other_citys_list, cancel
+    rep_button2, other_citys_list, cancel, subscribe
 )
 from .constants import REPRESENT, CHOOSE, \
     TYPING, SAVE_CHOOSE, CITY_TYPING, \
@@ -33,7 +33,8 @@ search_handler = ConversationHandler(
             CallbackQueryHandler(other_menu, pattern='^other$'),
             CallbackQueryHandler(refresh_all, pattern='^refresh_all$'),
             CallbackQueryHandler(main_menu, pattern='^return_to_main$'),
-            CallbackQueryHandler(refresh_other, pattern='^refresh_other$')
+            CallbackQueryHandler(refresh_other, pattern='^refresh_other$'),
+            CallbackQueryHandler(subscribe, pattern='^subscribe_')
         ],
         SAVE_CHOOSE: [
             CallbackQueryHandler(
@@ -65,6 +66,7 @@ search_handler = ConversationHandler(
         CommandHandler('start', cancel),
         CommandHandler('stop', cancel),
         CommandHandler('my_favorites', cancel),
-        CallbackQueryHandler(cancel, pattern='^cancel$')
+        CallbackQueryHandler(cancel, pattern='^cancel$'),
+        MessageHandler(filters.TEXT & ~filters.COMMAND, cancel)
     ],
 )

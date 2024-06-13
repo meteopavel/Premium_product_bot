@@ -18,3 +18,14 @@ OTHER_FIELDS = {
 }
 
 RE_FOR_REPRESENT_CITYS = r'^(page_|main_menu|city_typing)'
+
+FIELDS = {
+    'location__city': 'Город',
+    'category': 'Категория',
+    'price': 'Цена, рублей в месяц',
+    'area': 'Площадь, квадратных метров',
+    'publish_date': 'Дата обновления',
+    'condition': 'Состояние помещения',
+    'building_type': 'Тип здания',
+    'text': 'Текст',
+}
