@@ -128,7 +128,7 @@
       "fields": {
         "name": "Иван Иванов",
         "email": "ivanov@example.com",
-        "phone_number": "+79990001122"
+        "phone_number": ["+79990001122"]
       }
     },
     {
@@ -137,7 +137,7 @@
       "fields": {
         "name": "Петр Петров",
         "email": "petrov@example.com",
-        "phone_number": "+79990002233"
+        "phone_number": ["+79990002233"]
       }
     },
     {
@@ -383,4 +383,3 @@
       }
     }
   ]
-  

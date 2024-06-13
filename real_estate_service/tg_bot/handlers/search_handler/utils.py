@@ -43,7 +43,7 @@ async def edit_or_send(
         text,
         reply_markup=None
 ) -> None:
-    """Проверит запрос. Если он есть - обновит сообщение. 
+    """Проверит запрос. Если он есть - обновит сообщение.
     Если нет то просто отправит"""
     query = update.callback_query
     if query:
@@ -132,6 +132,7 @@ async def unpack_search_parameters(update: Update, context: ContextTypes.DEFAULT
         tg_id=update.effective_chat.id
     ).afirst()
     search_params = string_to_dict(user.search_parameters)
-    for param in search_params:
-        context.user_data[param] = search_params[param]
+    if search_params:
+        for param in search_params:
+            context.user_data[param] = search_params[param]
     return context.user_data
