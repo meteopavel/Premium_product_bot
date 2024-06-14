@@ -52,7 +52,7 @@ async def main_keyboard(
     else:
         keyboard.append(
             [InlineKeyboardButton(
-                '[ ]подписатся', callback_data='subscribe_no')]
+                '[ ]Подписаться', callback_data='subscribe_no')]
         )
     return keyboard
 

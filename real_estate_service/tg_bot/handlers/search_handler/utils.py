@@ -43,7 +43,7 @@ async def edit_or_send(
         text,
         reply_markup=None
 ) -> None:
-    """Проверит запрос. Если он есть - обновит сообщение. 
+    """Проверит запрос. Если он есть - обновит сообщение.
     Если нет то просто отправит"""
     query = update.callback_query
     if query:
