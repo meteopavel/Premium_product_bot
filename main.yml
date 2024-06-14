@@ -1,0 +1,15 @@
+name: Main Premium-product-bot Workflow
+
+on:
+  push:
+    branches:
+      - 10
+
+jobs:
+  checkout-and-print-tree:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3  
+      - name: Print project tree
+        run: tree .
