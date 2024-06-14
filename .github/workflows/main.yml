@@ -73,7 +73,7 @@ jobs:
         passphrase: ${{ secrets.SSH_PASSPHRASE }}
         script: |
           docker compose -f docker-compose.production.yml down
-          docker compose -f docker-compose.production.yml pull
+          docker compose -f docker-compose.production.yml pul
           docker compose -f docker-compose.production.yml up -d
           docker compose -f docker-compose.production.yml exec real_estate python manage.py migrate
           docker compose -f docker-compose.production.yml exec real_estate python manage.py collectstatic --no-input
