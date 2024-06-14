@@ -1,4 +1,4 @@
-from telegram import InlineKeyboardButton
+from telegram import InlineKeyboardButton, Update
 from telegram.ext import ContextTypes
 from django.db import models
 
@@ -6,10 +6,12 @@ from object.models import (
     City, BaseIntervals
 )
 from .constants import MAIN_FIELDS, OTHER_FIELDS
+from tg_bot.middleware.check_tg_user import is_user_subscribed
 
 
-def main_keyboard(
-        context:  ContextTypes.DEFAULT_TYPE
+async def main_keyboard(
+        context:  ContextTypes.DEFAULT_TYPE,
+        update: Update
 ) -> list[list[InlineKeyboardButton]]:
     keyboard = []
     for field in MAIN_FIELDS:
@@ -40,6 +42,17 @@ def main_keyboard(
                 InlineKeyboardButton('Показать результат',
                                      callback_data='represent_results')
             ]
+        )
+    is_subscribed = await is_user_subscribed(update.effective_chat.id)
+    if is_subscribed:
+        keyboard.append(
+            [InlineKeyboardButton(
+                '[*]Отписаться', callback_data='subscribe_yes')]
+        )
+    else:
+        keyboard.append(
+            [InlineKeyboardButton(
+                '[ ]Подписаться', callback_data='subscribe_no')]
         )
     return keyboard
 
@@ -167,7 +180,7 @@ async def send_citys_keyboard(
     for city in items:
         keyboard.append(
             [InlineKeyboardButton(
-                city['name'] + ':' + city['region'],
+                city['name'] + ':' + str(city['region']),
                 callback_data=city['pk'])
              ]
         )

@@ -5,7 +5,7 @@ from telegram.ext import (Application, CallbackQueryHandler, CommandHandler,
                           MessageHandler, filters)
 
 from tg_bot.handlers import (delete_handler, echo_handler, favorites_handler,
-                             review_handler, start_handler, show_realty)
+                             review_handler, start_handler, show_realty, contact_handler)
 from tg_bot.handlers.search_handler import handlers
 
 load_dotenv()
@@ -22,6 +22,7 @@ class TGBot:
         self.ptb_app.add_handler(handlers.search_handler)
         self.ptb_app.add_handler(CommandHandler("start", start_handler.start))
         self.ptb_app.add_handler(CommandHandler("stop", delete_handler.delete))
+        self.ptb_app.add_handler(CommandHandler("contacts", contact_handler.contacts))
         self.ptb_app.add_handler(
             MessageHandler(filters.TEXT & ~filters.COMMAND, echo_handler.echo)
         )

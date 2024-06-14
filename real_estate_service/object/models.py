@@ -1,3 +1,4 @@
+from django.contrib.postgres.fields import ArrayField
 from django.db import models
 from django.core.validators import RegexValidator
 from django.core.validators import MaxValueValidator, MinValueValidator
@@ -7,7 +8,7 @@ from django.db.models import Q
 
 PHONE_REGEX = r'^\+?1?\d{9,15}$'
 PHONE_NUMBER_FIELD_MAX_LENTH = 17
-SHORT_CAHR_FIELD_MAX_LENGTH = 100
+SHORT_CAHR_FIELD_MAX_LENGTH = 200
 LONG_CAHR_FIELD_MAX_LENGTH = 256
 FAREST_WEST_TIMEZONE = -12
 FAREST_EAST_TIMEZONE = 14
@@ -97,10 +98,15 @@ class Contact(BaseModel):
         null=True,
         verbose_name='Эл. почта'
     )
-    phone_number = PhoneNumberField(
+    phone_number = ArrayField(
+        base_field=PhoneNumberField(
+            blank=True,
+            null=True,
+            verbose_name='Номер телефона'
+        ),
         blank=True,
         null=True,
-        verbose_name='Номер телефона'
+        verbose_name='Номера телефонов'
     )
 
     class Meta:
@@ -116,12 +122,12 @@ class Location(models.Model):
     )
     post_index = models.CharField(
         max_length=10, verbose_name='Почтовый индекс', null=True, blank=True)
-    street = models.CharField(max_length=100, verbose_name='Улица')
-    building = models.CharField(max_length=30, verbose_name='Строение')
-    floor = models.SmallIntegerField(
-        verbose_name='Этаж', null=True, blank=True)
+    street = models.CharField(max_length=200, verbose_name='Улица')
+    building = models.CharField(max_length=60, verbose_name='Строение')
+    floor = models.CharField(
+        max_length=60, verbose_name='Этаж', null=True, blank=True)
     room = models.CharField(
-        max_length=30, verbose_name='Помещение', null=True, blank=True)
+        max_length=60, verbose_name='Помещение', null=True, blank=True)
 
     class Meta:
         verbose_name = 'Локация'

@@ -15,8 +15,14 @@ from object.models import (
     AreaIntervals,
     PriceIntervals
 )
-from .constants import REPRESENT, CHOOSE, TYPING, SAVE_CHOOSE, MAIN_FIELDS, OTHER_FIELDS, CITY_TYPING, REPRESENT_CITYS
-from .utils import edit_or_send, filter_args
+from .constants import REPRESENT, CHOOSE, TYPING, SAVE_CHOOSE, MAIN_FIELDS, OTHER_FIELDS, CITY_TYPING, REPRESENT_CITYS, FIELDS
+from .utils import (
+    edit_or_send,
+    filter_args,
+    save_search_parameters,
+    save_is_subscribed,
+    unpack_search_parameters
+)
 from .keyboards import (
     location__city_keyboard, all_obj_keyboard,
     main_keyboard, other_keyboard,
@@ -37,13 +43,17 @@ async def main_menu(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
             parse_mode='HTML'
         )
         return ConversationHandler.END
+    if 'search' not in context.user_data:
+        if not await unpack_search_parameters(update, context):
+            return await cancel(update, context)
     if 'location__city' not in context.user_data:
         return await location__city(update, context)
     if 'all_citys' in context.user_data:
         del context.user_data['all_citys']
     if 'suitable_realtys' in context.user_data:
         del context.user_data['suitable_realtys']
-    reply_markup = InlineKeyboardMarkup(main_keyboard(context))
+    context.user_data['search'] = True
+    reply_markup = InlineKeyboardMarkup(await main_keyboard(context, update))
     main_text = await user_data_as_text(context)
     await edit_or_send(update, context, main_text, reply_markup)
     return CHOOSE
@@ -159,8 +169,15 @@ async def refresh_all(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def represent_results(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Показать результаты поиска"""
     realtys = []
-    async for realty in Realty.objects.filter(**filter_args(context)):
-        realtys.append({'title': realty.title, 'id': realty.id})
+    async for realty in Realty.objects.filter(**filter_args(context.user_data)):
+        realtys.append(
+            {
+                'title': realty.title,
+                'id': realty.id,
+                'area': realty.area,
+                'price': realty.price,
+            }
+        )
     context.user_data['suitable_realtys'] = realtys
     if not realtys:
         text = 'Ничего подходящего=('
@@ -180,8 +197,10 @@ async def represent_results(update: Update, context: ContextTypes.DEFAULT_TYPE) 
 
 async def send_page(update: Update, context: ContextTypes.DEFAULT_TYPE, page):
     realtys = context.user_data['suitable_realtys']
-    message_text = "вот:\n"
-    message_text += f"{realtys[page]['id']}. {realtys[page]['title']}"
+    message_text = 'вот:\n'
+    message_text += f'{realtys[page]["title"]}\n'
+    message_text += f'{FIELDS["area"]}: {realtys[page]["area"]}\n'
+    message_text += f'{FIELDS["price"]}: {realtys[page]["price"]}\n'
     pk = realtys[page]['id']
     reply_markup = InlineKeyboardMarkup(
         send_page_keyboard(page, len(realtys), pk))
@@ -296,6 +315,23 @@ async def refresh_other(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
-    text = 'Поиск окончен.'
+    """Выход из поиска"""
+    if 'search' in context.user_data:
+        del context.user_data['search']
+    if await save_search_parameters(update, context):
+        text = 'Поиск окончен.'
+    else:
+        text = 'Вы не зарегистрированны. Скомандуйте начать.'
     await edit_or_send(update, context, text)
     return ConversationHandler.END
+
+
+async def subscribe(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    query = update.callback_query
+    await query.answer()
+    is_subscribed = False
+    if query.data.split('_')[-1] == 'no':
+        is_subscribed = True
+    tg_id = update.effective_chat.id
+    await save_is_subscribed(tg_id, is_subscribed)
+    await main_menu(update, context)

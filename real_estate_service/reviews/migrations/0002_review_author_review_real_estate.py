@@ -18,11 +18,13 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='review',
             name='author',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='user.telegramuser'),
+            field=models.ForeignKey(
+                blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='user.telegramuser'),
         ),
         migrations.AddField(
             model_name='review',
             name='real_estate',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='reviews', to='object.realty'),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE, related_name='reviews', to='object.realty'),
         ),
     ]

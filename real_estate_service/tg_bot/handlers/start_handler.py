@@ -1,9 +1,7 @@
-from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
+from telegram import Update
 from telegram.ext import ContextTypes
 
-from .base_utils import (get_all_realty, get_favorite_exists,
-                         get_or_create_telegram_user, get_realty_by_id,
-                         get_user_by_id)
+from .base_utils import get_or_create_telegram_user
 
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -15,17 +13,14 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     tg_user, created = await get_or_create_telegram_user(
         tg_id, first_name, last_name, username
     )
+    text = ""
     if created:
-        text = f"Привет {username}"
-        await update.message.reply_html(text=text)
+        text = f"Привет {username}\n"
+    else:
+        text = f"С возвращением, {username}\n"
 
-    realty_list = await get_all_realty()
-    buttons = [
-        [InlineKeyboardButton(realty.title, callback_data=f"realty_{realty.id}")]
-        for realty in realty_list
-    ]
-
-    reply_markup = InlineKeyboardMarkup(buttons)
-    await update.message.reply_text(
-        "Список объектов недвижимости:", reply_markup=reply_markup
-    )
+    info_text = "Введите команду:\n/search - чтобы начать поиск" \
+                " недвижимости;\n/my_favorites - чтобы посмотреть все ваши" \
+                " избранные;\n/contacts - наши контакты;\n/stop - чтобы удалиться из бота;"
+    full_text = text + info_text
+    await update.message.reply_html(text=full_text)

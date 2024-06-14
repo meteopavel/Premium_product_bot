@@ -45,8 +45,18 @@ class TelegramUser(models.Model):
         max_length=constants.MAX_USERNAME_LENGTH,
         blank=True
     )
-    is_blocked = models.BooleanField(verbose_name='Заблокирован', default=False)
-    created_at = models.DateTimeField(auto_now=True, verbose_name='Registration date')
+    is_blocked = models.BooleanField(
+        verbose_name='Заблокирован', default=False)
+    created_at = models.DateTimeField(
+        auto_now=True, verbose_name='Registration date')
+
+    search_parameters = models.TextField(
+        verbose_name='Строка, хранящая поисковые парамерты',
+        null=True,
+        blank=True
+    )
+    is_subscribed = models.BooleanField(
+        verbose_name='Подписан на обновления', default=False)
 
     class Meta:
         ordering = ('first_name',)
