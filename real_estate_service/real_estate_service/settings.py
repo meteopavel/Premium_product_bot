@@ -31,7 +31,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-CSRF_TRUSTED_ORIGINS = ['https://realty-service.hopto.org']
+CSRF_TRUSTED_ORIGINS = [
+    'https://2133-94-29-6-99.ngrok-free.app',
+]
 
 AUTH_USER_MODEL = 'user.User'
 

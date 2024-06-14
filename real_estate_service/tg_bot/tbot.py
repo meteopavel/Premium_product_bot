@@ -43,6 +43,7 @@ from object.models import (
     Condition,
     BuldingType
 )
+from tg_bot.handlers.search_handler.callbacks import represent_results
 # Enable logging
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO
@@ -207,49 +208,6 @@ foregin_fields = ['city', 'category', 'condition', 'building_type',]
 integer_fields = ['area', 'price']
 datetime_field = 'publish_date'
 text_fields = ['text']
-
-
-async def represent_results(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Показать результаты поиска"""
-    text = 'Here is your data:'
-    filter_args = {}
-    for field in foregin_fields:
-        if field in context.user_data:
-            query = field + '__name'
-            data = context.user_data[field]
-            filter_args[query] = data
-    for field in integer_fields:
-        if field in context.user_data:
-            query = field + '__lte'
-            minimum = context.user_data[field].split('-')[0]
-            maximum = context.user_data[field].split('-')[1]
-            filter_args[query] = maximum
-            query = field + '__gt'
-            filter_args[query] = minimum
-    if datetime_field in context.user_data:
-        query = datetime_field + '__range'
-        days_to_subtract = int(context.user_data[datetime_field])
-        end_date = datetime.today()
-        start_date = end_date - timedelta(days=days_to_subtract)
-        filter_args[query] = (start_date, end_date)
-    realtys = []
-    async for realty in Realty.objects.filter(**filter_args):
-        realtys.append(realty.title)
-    if realtys:
-        text = 'Результат вот'
-        for realty in realtys:
-            text += f'\n{realty}'
-    else:
-        text = 'Ничего подходящего=('
-    query = update.callback_query
-    await query.answer()
-    keyboard = [
-        [InlineKeyboardButton('Посмотрел', callback_data='Посмотрел')],
-    ]
-    markup = InlineKeyboardMarkup(keyboard)
-    await query.edit_message_text(text=text,  reply_markup=markup)
-    return MAIN_MENU
-
 
 def filter_main_menu(data):
     """Сравнивает данные с регулянрным выражением.
