@@ -44,7 +44,8 @@ async def main_menu(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
         )
         return ConversationHandler.END
     if 'search' not in context.user_data:
-        await unpack_search_parameters(update, context)
+        if not await unpack_search_parameters(update, context):
+            return await cancel(update, context)
     if 'location__city' not in context.user_data:
         return await location__city(update, context)
     if 'all_citys' in context.user_data:
@@ -315,10 +316,12 @@ async def refresh_other(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Выход из поиска"""
-    text = 'Поиск окончен.'
     if 'search' in context.user_data:
         del context.user_data['search']
-    await save_search_parameters(update, context)
+    if await save_search_parameters(update, context):
+        text = 'Поиск окончен.'
+    else:
+        text = 'Вы не зарегистрированны. Скомандуйте начать.'
     await edit_or_send(update, context, text)
     return ConversationHandler.END
 
