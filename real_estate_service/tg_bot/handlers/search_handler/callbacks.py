@@ -32,7 +32,6 @@ from .keyboards import (
 from .keyboards import PUBLISH_DATE_KEYBOARD
 
 from .texts import user_data_as_text
-from tg_bot.handlers.base_utils import get_user_by_id, get_all_realty, get_realty_by_id, get_favorite_exists
 
 
 async def main_menu(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
@@ -169,37 +168,31 @@ async def refresh_all(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def represent_results(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Показать результаты поиска"""
-    query = update.callback_query
-    await query.answer()
-
-    realty_list = await get_all_realty()
-    if not realty_list:
-        await query.message.reply_text('Ничего подходящего=(')
-        return
-
-    realty_id = realty_list[0].id
-    realty = await get_realty_by_id(realty_id)
-    user = await get_user_by_id(update.effective_user.id)
-
-    if await get_favorite_exists(user, realty):
-        favorite_button = InlineKeyboardButton(
-            "Удалить из избранного", callback_data=f"delete_favorite_{realty_id}"
+    realtys = []
+    async for realty in Realty.objects.filter(**filter_args(context.user_data)):
+        realtys.append(
+            {
+                'title': realty.title,
+                'id': realty.id,
+                'area': realty.area,
+                'price': realty.price,
+            }
         )
-    else:
-        favorite_button = InlineKeyboardButton(
-            "Добавить в избранное", callback_data=f"add_to_favorite_{realty_id}"
-        )
-
-    buttons = [
-        [InlineKeyboardButton("Оставить отзыв", callback_data=f"review_{realty_id}")],
-        [InlineKeyboardButton("Посмотреть отзывы", callback_data=f"view_reviews_{realty_id}")],
-        [favorite_button],
-    ]
-
-    reply_markup = InlineKeyboardMarkup(buttons)
-    await query.message.reply_text(
-        f"Объект недвижимости: {realty.title}", reply_markup=reply_markup
-    )
+    context.user_data['suitable_realtys'] = realtys
+    if not realtys:
+        text = 'Ничего подходящего=('
+        query = update.callback_query
+        await query.answer()
+        keyboard = [
+            [InlineKeyboardButton(
+                'в главное меню', callback_data='main_menu')],
+        ]
+        markup = InlineKeyboardMarkup(keyboard)
+        await query.edit_message_text(text=text,  reply_markup=markup)
+    if realtys:
+        page = 0
+        await send_page(update=update, context=context, page=page)
+    return REPRESENT
 
 
 async def send_page(update: Update, context: ContextTypes.DEFAULT_TYPE, page):
