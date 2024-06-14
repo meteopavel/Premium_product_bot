@@ -44,4 +44,4 @@ jobs:
         with:
           context: ./gateway/
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/premium_product_bot_real_estate:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/premium_product_bot_gateway:latest
