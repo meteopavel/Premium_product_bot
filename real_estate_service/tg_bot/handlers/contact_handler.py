@@ -1,3 +1,4 @@
+from asgiref.sync import sync_to_async
 from telegram import Update
 from telegram.ext import ContextTypes
 
@@ -11,5 +12,9 @@ async def contacts(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     superuser_list = await get_admin_is_superuser()
     all_admins = set(staff_list + superuser_list)
     for admin in all_admins:
-        text += f"{admin.first_name} {admin.last_name} - {admin.email}\n"
+        tg_username = 'Админ не имеет профиль в телеграмм'
+        admin_tg_user = await sync_to_async(lambda: admin.tg_user if hasattr(admin, 'tg_user') else None)()
+        if admin_tg_user:
+            tg_username = f'@{admin_tg_user.username}'
+        text += f"{admin.first_name} {admin.last_name} - {admin.email} - {tg_username}\n"
     await update.message.reply_html(text=text)

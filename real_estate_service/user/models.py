@@ -57,6 +57,9 @@ class TelegramUser(models.Model):
     )
     is_subscribed = models.BooleanField(
         verbose_name='Подписан на обновления', default=False)
+    staff_user = models.OneToOneField(
+        User, on_delete=models.CASCADE, verbose_name='ID сотрудника', null=True, blank=True, related_name='tg_user'
+    )
 
     class Meta:
         ordering = ('first_name',)

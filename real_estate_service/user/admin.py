@@ -26,6 +26,7 @@ class TelegramUserAdmin(admin.ModelAdmin):
         'first_name',
         'last_name',
         'username',
+        'staff_user',
         'is_blocked',
         'created_at'
     )
