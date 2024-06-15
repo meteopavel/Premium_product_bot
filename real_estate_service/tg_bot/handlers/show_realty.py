@@ -1,26 +1,31 @@
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import ContextTypes, ConversationHandler
 
-from object.models import Realty
-from tg_bot.handlers.search_handler.utils import save_search_parameters
-from tg_bot.handlers.base_utils import get_realty_by_id, get_user_by_id, get_favorite_exists
-
+from object.models import Realty, Location
+from tg_bot.handlers.base_utils import get_user_by_id, get_favorite_exists
 
 async def show_realty(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
     await query.answer()
     pk: int = int(query.data.split('_')[-1])
-    realty = await Realty.objects.filter(pk=pk).afirst()
-    user = await get_user_by_id(update.effective_user.id)
 
-    if await get_favorite_exists(user, realty):
-        favorite_button = InlineKeyboardButton(
-            "Удалить из избранного", callback_data=f"delete_favorite_{pk}"
-        )
+    realty = await Realty.objects.select_related(
+        'category', 'location__city', 'contact', 'condition', 'building_type'
+    ).aget(pk=pk)
+
+    user = await get_user_by_id(update.effective_user.id)
+    category = realty.category
+    location = realty.location.city if realty.location else None
+    contact = realty.contact
+    condition = realty.condition
+    building_type = realty.building_type
+
+    favorite_exists = await get_favorite_exists(user, realty)
+
+    if favorite_exists:
+        favorite_button = InlineKeyboardButton("Удалить из избранного", callback_data=f"delete_favorite_{pk}")
     else:
-        favorite_button = InlineKeyboardButton(
-            "Добавить в избранное", callback_data=f"add_to_favorite_{pk}"
-        )
+        favorite_button = InlineKeyboardButton("Добавить в избранное", callback_data=f"add_to_favorite_{pk}")
 
     buttons = [
         [InlineKeyboardButton("Оставить отзыв", callback_data=f"review_{pk}")],
@@ -31,6 +36,15 @@ async def show_realty(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     reply_markup = InlineKeyboardMarkup(buttons)
     await query.edit_message_text(
-        f"Объект недвижимости: {realty.title}", reply_markup=reply_markup
+        f"Объект недвижимости: {realty.title}\n"
+        f"Площадь: {realty.area} кв.м\n"
+        f"Цена: {realty.price if realty.price else 'Не указано'} руб.\n"
+        f"Категория: {category.name if category else 'Не указана'}\n"
+        f"Локация: {location.name if location else 'Не указана'}\n"
+        f"Контакт: {contact.name if contact else 'Не указан'}\n"
+        f"Состояние помещения: {condition.name if condition else 'Не указано'}\n"
+        f"Тип здания: {building_type.name if building_type else 'Не указан'}\n"
+        f"Описание: {realty.text if realty.text else 'Не указано'}",
+        reply_markup=reply_markup
     )
     return ConversationHandler.END
