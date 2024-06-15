@@ -32,6 +32,8 @@ from .keyboards import (
 from .keyboards import PUBLISH_DATE_KEYBOARD
 
 from .texts import user_data_as_text
+from tg_bot.handlers.base_utils import get_realty_by_id, get_user_by_id, get_favorite_exists
+from tg_bot.handlers.show_realty import show_realty
 
 
 async def main_menu(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
@@ -167,32 +169,51 @@ async def refresh_all(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 async def represent_results(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    """Показать результаты поиска"""
+    query = update.callback_query
+    await query.answer()
+
     realtys = []
     async for realty in Realty.objects.filter(**filter_args(context.user_data)):
-        realtys.append(
-            {
-                'title': realty.title,
-                'id': realty.id,
-                'area': realty.area,
-                'price': realty.price,
-            }
-        )
+        realtys.append({
+            'title': realty.title,
+            'id': realty.id,
+            'area': realty.area,
+            'price': realty.price,
+        })
     context.user_data['suitable_realtys'] = realtys
+
     if not realtys:
         text = 'Ничего подходящего=('
-        query = update.callback_query
-        await query.answer()
-        keyboard = [
-            [InlineKeyboardButton(
-                'в главное меню', callback_data='main_menu')],
-        ]
+        keyboard = [[InlineKeyboardButton('в главное меню', callback_data='main_menu')]]
         markup = InlineKeyboardMarkup(keyboard)
-        await query.edit_message_text(text=text,  reply_markup=markup)
-    if realtys:
-        page = 0
-        await send_page(update=update, context=context, page=page)
-    return REPRESENT
+        await query.edit_message_text(text=text, reply_markup=markup)
+        return
+
+    page = context.user_data.get('page', 0)
+    realty_id = realtys[page]['id']
+    text = f"Объект недвижимости: {realtys[page]['title']}\nПлощадь: {realtys[page]['area']} кв.м\nЦена: {realtys[page]['price']} руб."
+    keyboard = send_page_keyboard(page, len(realtys), realty_id)
+    reply_markup = InlineKeyboardMarkup(keyboard)
+
+    await query.edit_message_text(text=text, reply_markup=reply_markup)
+    return ConversationHandler.END
+
+async def realty_callback_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await show_realty(update, context)
+
+async def page_navigation_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    query = update.callback_query
+    page = int(query.data.split('_')[1])
+    context.user_data['page'] = page
+    await represent_results(update, context)
+
+async def back_to_list_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await represent_results(update, context)
+
+async def cancel_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    query = update.callback_query
+    await query.answer()
+    await query.edit_message_text(text="Поиск отменён.")
 
 
 async def send_page(update: Update, context: ContextTypes.DEFAULT_TYPE, page):
