@@ -9,7 +9,7 @@ DEBUG = os.getenv('DEBUG_VALUE') == 'True'
 
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '*').split(' ')
 
-CSRF_TRUSTED_ORIGINS = os.getenv('CSRF_TRUSTED_ORIGINS', '*').split(' ')
+CSRF_TRUSTED_ORIGINS = ['https://59a6-94-29-6-99.ngrok-free.app']
 
 AUTH_USER_MODEL = 'user.User'
 

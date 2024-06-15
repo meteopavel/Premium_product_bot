@@ -6,7 +6,9 @@ from object.models import Realty
 from asgiref.sync import sync_to_async
 from django.db.models import Case, When, Value, CharField, F
 from tg_bot.middleware.check_tg_user import is_user_blocked
+from telegram.ext import CallbackContext, ContextTypes, ConversationHandler
 
+ASK_FOR_REVIEW = 1
 
 @sync_to_async
 def save_review(realty_id, tg_user_id, text):
@@ -37,14 +39,14 @@ def get_all_reviews_for_realty(realty_id):
 
     return list(reviews)
 
-async def receive_review(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+async def receive_review(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     tg_user_id = update.message.from_user.id
     if await is_user_blocked(tg_user_id):
         await update.message.reply_text(
             "⚠️ <b>Вы были заблокированы. Обратитесь к администратору!</b>",
             parse_mode='HTML'
         )
-        return
+        return ConversationHandler.END
 
     realty_id = context.user_data.get('current_realty_id')
     text = update.message.text
@@ -56,8 +58,9 @@ async def receive_review(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
     else:
         await update.message.reply_text('Недвижимость не найдена.')
 
+    return ConversationHandler.END
 
-async def button(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+async def button(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     query = update.callback_query
     await query.answer()
 
@@ -67,19 +70,25 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
             "⚠️ <b>Вы были заблокированы. Обратитесь к администратору!</b>",
             parse_mode='HTML'
         )
-        return
+        return ConversationHandler.END
 
     if query.data.startswith("review_"):
         realty_id = query.data.split("_")[1]
         context.user_data['current_realty_id'] = realty_id
         await query.message.reply_text('Пожалуйста, напишите ваш отзыв.')
+        return ASK_FOR_REVIEW
 
     elif query.data.startswith("view_reviews_"):
         realty_id = query.data.split("_")[2]
         reviews = await get_all_reviews_for_realty(realty_id)
 
         if reviews:
-            reviews_text = "\n\n".join([f"Автор: {review['author_name']}\nОтзыв: {review['text']}" for review in reviews])
-            await query.message.reply_text(reviews_text)
+            if 'error' in reviews:
+                await query.message.reply_text(reviews['error'])
+            else:
+                reviews_text = "\n\n".join([f"Автор: {review['author_name']}\nОтзыв: {review['text']}" for review in reviews])
+                await query.message.reply_text(reviews_text)
         else:
             await query.message.reply_text('Нет отзывов для этого объекта.')
+
+    return ConversationHandler.END
