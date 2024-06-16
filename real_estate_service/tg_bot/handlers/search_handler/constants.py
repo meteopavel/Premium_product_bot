@@ -1,3 +1,5 @@
+import os
+
 REPRESENT, CHOOSE, CITY_TYPING, \
     CHOOSE_OTHER, TYPING, SAVE_CHOOSE, \
     SAVE_OTHER_CHOOSE, REPRESENT_CITYS = range(8)
@@ -29,3 +31,6 @@ FIELDS = {
     'building_type': 'Тип здания',
     'text': 'Текст',
 }
+
+LOGO_URL_ABSOLUTE = os.getenv('WEBHOOK_URL') + '/media/realty/images/logo.jpg'
+LOGO_URL_RELATIVE = 'media/realty/images/logo.jpg'

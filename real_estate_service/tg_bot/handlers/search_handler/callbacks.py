@@ -3,6 +3,7 @@ from telegram import (
     Update,
     InlineKeyboardButton,
     InlineKeyboardMarkup,
+    InputMediaPhoto
 )
 from telegram.ext import ContextTypes, ConversationHandler
 
@@ -16,8 +17,10 @@ from object.models import (
     AreaIntervals,
     PriceIntervals
 )
-from .constants import REPRESENT, CHOOSE, TYPING, SAVE_CHOOSE, MAIN_FIELDS, OTHER_FIELDS, CITY_TYPING, REPRESENT_CITYS, \
-    FIELDS
+from .constants import (
+    REPRESENT, CHOOSE, TYPING, SAVE_CHOOSE, MAIN_FIELDS, OTHER_FIELDS,
+    CITY_TYPING, REPRESENT_CITYS, FIELDS, LOGO_URL_ABSOLUTE, LOGO_URL_RELATIVE
+)
 from .utils import (
     edit_or_send,
     filter_args,
@@ -81,8 +84,11 @@ async def location__city(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
 async def city_typing(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Меню выбора города, если его нет в списке основных городов. """
     text = 'Напишите название города'
-    await update.callback_query.answer()
-    await update.callback_query.edit_message_text(text=text)
+    query = update.callback_query
+    await query.answer()
+    await query.edit_message_media(
+        media=InputMediaPhoto(media=LOGO_URL_ABSOLUTE, caption=text)
+    )
     return CITY_TYPING
 
 
@@ -111,10 +117,12 @@ async def send_citys(update: Update, context: ContextTypes.DEFAULT_TYPE, page):
     reply_markup = InlineKeyboardMarkup(
         await send_citys_keyboard(citys, page)
     )
-    await context.bot.send_message(
+    await context.bot.send_photo(
         chat_id=update.effective_chat.id,
-        text=message_text,
-        reply_markup=reply_markup)
+        photo=LOGO_URL_RELATIVE,
+        caption=message_text,
+        reply_markup=reply_markup
+    )
     return REPRESENT_CITYS
 
 
@@ -134,9 +142,13 @@ async def area(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Выбор диапазона площади"""
     query = update.callback_query
     await query.answer()
-    markup = InlineKeyboardMarkup(await interval_keyboard(AreaIntervals))
+    reply_markup = InlineKeyboardMarkup(await interval_keyboard(AreaIntervals))
     context.user_data['choose'] = 'area'
-    await query.edit_message_text(text='Выбери площадь', reply_markup=markup)
+    text = 'Выбери площадь'
+    await query.edit_message_media(
+        media=InputMediaPhoto(media=LOGO_URL_ABSOLUTE, caption=text),
+        reply_markup=reply_markup
+    )
     return SAVE_CHOOSE
 
 
@@ -144,9 +156,13 @@ async def price(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Меню выбора диапазона цены."""
     query = update.callback_query
     await query.answer()
-    markup = InlineKeyboardMarkup(await interval_keyboard(PriceIntervals))
+    reply_markup = InlineKeyboardMarkup(await interval_keyboard(PriceIntervals))
     context.user_data['choose'] = 'price'
-    await query.edit_message_text(text='Выбери цену', reply_markup=markup)
+    text = 'Выбери цену'
+    await query.edit_message_media(
+        media=InputMediaPhoto(media=LOGO_URL_ABSOLUTE, caption=text),
+        reply_markup=reply_markup
+    )
     return SAVE_CHOOSE
 
 
@@ -160,7 +176,10 @@ async def category(update: Update, context: ContextTypes.DEFAULT_TYPE):
         text = f'Выбранная ранее категория:{context.user_data["category"]}'
     else:
         text = "Выбери категорию!"
-    await query.edit_message_text(text=text, reply_markup=reply_markup)
+    await query.edit_message_media(
+        media=InputMediaPhoto(media=LOGO_URL_ABSOLUTE, caption=text),
+        reply_markup=reply_markup
+    )
     return SAVE_CHOOSE
 
 
@@ -191,8 +210,11 @@ async def represent_results(update: Update, context: ContextTypes.DEFAULT_TYPE) 
     if not realtys:
         text = 'Ничего подходящего=('
         keyboard = [[InlineKeyboardButton('в главное меню', callback_data='main_menu')]]
-        markup = InlineKeyboardMarkup(keyboard)
-        await query.edit_message_text(text=text, reply_markup=markup)
+        reply_markup = InlineKeyboardMarkup(keyboard)
+        await query.edit_message_media(
+            media=InputMediaPhoto(media=LOGO_URL_ABSOLUTE, caption=text),
+            reply_markup=reply_markup
+        )
         return
 
     page = context.user_data.get('page', 0)
@@ -201,7 +223,10 @@ async def represent_results(update: Update, context: ContextTypes.DEFAULT_TYPE) 
     keyboard = send_page_keyboard(page, len(realtys), realty_id)
     reply_markup = InlineKeyboardMarkup(keyboard)
 
-    await query.edit_message_text(text=text, reply_markup=reply_markup)
+    await query.edit_message_media(
+        media=InputMediaPhoto(media=realty.image, caption=text),
+        reply_markup=reply_markup
+    )
     return CHOOSE
 
 
@@ -223,7 +248,12 @@ async def back_to_list_handler(update: Update, context: ContextTypes.DEFAULT_TYP
 async def cancel_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
     await query.answer()
-    await query.edit_message_text(text="Поиск отменён.")
+    await query.edit_message_media(
+        media=InputMediaPhoto(
+            media=LOGO_URL_ABSOLUTE,
+            caption='Поиск отменён.'
+        ),
+    )
 
 
 async def send_page(update: Update, context: ContextTypes.DEFAULT_TYPE, page):
@@ -237,8 +267,8 @@ async def send_page(update: Update, context: ContextTypes.DEFAULT_TYPE, page):
         send_page_keyboard(page, len(realtys), pk))
     query = update.callback_query
     await query.answer()
-    await query.edit_message_text(
-        text=message_text,
+    await query.edit_message_media(
+        media=InputMediaPhoto(media=LOGO_URL_ABSOLUTE, caption=message_text),
         reply_markup=reply_markup
     )
     return REPRESENT
@@ -271,11 +301,15 @@ async def other_menu(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
 
 async def publish_date(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Меню выбора периода даты публикации"""
-    markup = InlineKeyboardMarkup(PUBLISH_DATE_KEYBOARD)
+    reply_markup = InlineKeyboardMarkup(PUBLISH_DATE_KEYBOARD)
     context.user_data['choose'] = 'publish_date'
     query = update.callback_query
+    text = 'Выбери период публикации'
     await query.answer()
-    await query.edit_message_text(text='Выбери период публикации', reply_markup=markup)
+    await query.edit_message_media(
+        media=InputMediaPhoto(media=LOGO_URL_ABSOLUTE, caption=text),
+        reply_markup=reply_markup
+    )
     return SAVE_CHOOSE
 
 
@@ -289,7 +323,10 @@ async def condition(update: Update, context: ContextTypes.DEFAULT_TYPE):
         text = f'Выбранное ранее состояние помещений:{context.user_data["condition"]}'
     else:
         text = 'Какое состояние помещений вас устроит?'
-    await query.edit_message_text(text=text, reply_markup=reply_markup)
+    await query.edit_message_media(
+        media=InputMediaPhoto(media=LOGO_URL_ABSOLUTE, caption=text),
+        reply_markup=reply_markup
+    )
     return SAVE_CHOOSE
 
 
@@ -303,7 +340,10 @@ async def building_type(update: Update, context: ContextTypes.DEFAULT_TYPE):
         text = f'Выбранный ранее тип здания:{context.user_data["building_type"]}'
     else:
         text = 'Ваберите тип здания, в которм нужны помещения.'
-    await query.edit_message_text(text=text, reply_markup=reply_markup)
+    await query.edit_message_media(
+        media=InputMediaPhoto(media=LOGO_URL_ABSOLUTE, caption=text),
+        reply_markup=reply_markup
+    )
     return SAVE_CHOOSE
 
 
@@ -311,9 +351,11 @@ async def text(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Prompt user to input data for selected feature."""
     context.user_data['choose'] = update.callback_query.data
     text = 'Введите текс, которой должен быть в объявлении'
-
-    await update.callback_query.answer()
-    await update.callback_query.edit_message_text(text=text)
+    query = update.callback_query
+    await query.answer()
+    await query.edit_message_media(
+        media=InputMediaPhoto(media=LOGO_URL_ABSOLUTE, caption=text),
+    )
     return TYPING
 
 
@@ -366,4 +408,3 @@ async def subscribe(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     tg_id = update.effective_chat.id
     await save_is_subscribed(tg_id, is_subscribed)
     await main_menu(update, context)
-

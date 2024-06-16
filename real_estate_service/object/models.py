@@ -142,6 +142,12 @@ class Realty(models.Model):
         max_length=SHORT_CAHR_FIELD_MAX_LENGTH,
         verbose_name='Название'
     )
+    image = models.ImageField(
+        upload_to='realty/images/',
+        verbose_name='Изображение',
+        null=True,
+        default=None
+    )
     location = models.ForeignKey(
         Location, verbose_name='Локация', on_delete=models.PROTECT, null=True)
     site = models.URLField(blank=True, null=True, verbose_name='Сайт')

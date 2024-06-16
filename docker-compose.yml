@@ -1,6 +1,7 @@
 volumes:
   pg_data:
   static:
+  media:
 
 services:
   db:
@@ -13,6 +14,7 @@ services:
     env_file: .env
     volumes: 
       - static:/static
+      - media:/app/media 
     depends_on:
       - db
   gateway:
@@ -22,5 +24,6 @@ services:
       - 8000:80 
     volumes: 
       - static:/static
+      - media:/media
     depends_on:
       - real_estate

@@ -1,4 +1,4 @@
-from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
+from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, InputMediaPhoto
 from telegram.ext import ContextTypes, ConversationHandler
 
 from object.models import Realty, Location
@@ -35,16 +35,17 @@ async def show_realty(update: Update, context: ContextTypes.DEFAULT_TYPE):
     ]
 
     reply_markup = InlineKeyboardMarkup(buttons)
-    await query.edit_message_text(
-        f"Объект недвижимости: {realty.title}\n"
-        f"Площадь: {realty.area} кв.м\n"
-        f"Цена: {realty.price if realty.price else 'Не указано'} руб.\n"
-        f"Категория: {category.name if category else 'Не указана'}\n"
-        f"Локация: {location.name if location else 'Не указана'}\n"
-        f"Контакт: {contact.name if contact else 'Не указан'}\n"
-        f"Состояние помещения: {condition.name if condition else 'Не указано'}\n"
-        f"Тип здания: {building_type.name if building_type else 'Не указан'}\n"
-        f"Описание: {realty.text if realty.text else 'Не указано'}",
+    text = (f"Объект недвижимости: {realty.title}\n"
+            f"Площадь: {realty.area} кв.м\n"
+            f"Цена: {realty.price if realty.price else 'Не указано'} руб.\n"
+            f"Категория: {category.name if category else 'Не указана'}\n"
+            f"Локация: {location.name if location else 'Не указана'}\n"
+            f"Контакт: {contact.name if contact else 'Не указан'}\n"
+            f"Состояние помещения: {condition.name if condition else 'Не указано'}\n"
+            f"Тип здания: {building_type.name if building_type else 'Не указан'}\n"
+            f"Описание: {realty.text if realty.text else 'Не указано'}")
+    await query.edit_message_media(
+        media=InputMediaPhoto(media=realty.image, caption=text),
         reply_markup=reply_markup
     )
     return ConversationHandler.END
