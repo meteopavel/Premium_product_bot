@@ -201,12 +201,16 @@ def send_page_keyboard(page, length, pk):
     keyboard = []
     if page > 0:
         keyboard.append(InlineKeyboardButton(
-            "Предыдущая", callback_data=f"page_{page-1}"))
+            "<", callback_data=f"page_{page-1}"))
     if page + 1 < length:
         keyboard.append(InlineKeyboardButton(
-            "Следующая", callback_data=f"page_{page+1}"))
+            ">", callback_data=f"page_{page+1}"))
     keyboard.append(
-        InlineKeyboardButton('выйти', callback_data='cancel')
+        InlineKeyboardButton('Выйти', callback_data='cancel')
+    )
+    keyboard.append(
+            InlineKeyboardButton('Поиск',
+                                 callback_data='return_to_main'),
     )
     realty_button = [
         InlineKeyboardButton(

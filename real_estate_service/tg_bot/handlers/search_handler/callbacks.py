@@ -1,3 +1,4 @@
+from asgiref.sync import sync_to_async
 from telegram import (
     Update,
     InlineKeyboardButton,
@@ -15,7 +16,8 @@ from object.models import (
     AreaIntervals,
     PriceIntervals
 )
-from .constants import REPRESENT, CHOOSE, TYPING, SAVE_CHOOSE, MAIN_FIELDS, OTHER_FIELDS, CITY_TYPING, REPRESENT_CITYS, FIELDS
+from .constants import REPRESENT, CHOOSE, TYPING, SAVE_CHOOSE, MAIN_FIELDS, OTHER_FIELDS, CITY_TYPING, REPRESENT_CITYS, \
+    FIELDS
 from .utils import (
     edit_or_send,
     filter_args,
@@ -66,7 +68,10 @@ async def location__city(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
     reply_markup = InlineKeyboardMarkup(await location__city_keyboard())
     context.user_data['choose'] = 'location__city'
     if 'location__city' in context.user_data:
-        city_text = f'Выбранный ранее город: {context.user_data["location__city"]}'
+        city = await sync_to_async(lambda: City.objects.filter(
+            id=context.user_data["location__city"]
+        ).values_list('name').first()[0])()
+        city_text = f'Выбранный ранее город: {city}'
     else:
         city_text = 'Выбери город!'
     await edit_or_send(update, context, city_text, reply_markup)
@@ -79,6 +84,7 @@ async def city_typing(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int
     await update.callback_query.answer()
     await update.callback_query.edit_message_text(text=text)
     return CITY_TYPING
+
 
 MAX_CITYS = 60
 
@@ -196,10 +202,12 @@ async def represent_results(update: Update, context: ContextTypes.DEFAULT_TYPE) 
     reply_markup = InlineKeyboardMarkup(keyboard)
 
     await query.edit_message_text(text=text, reply_markup=reply_markup)
-    return ConversationHandler.END
+    return CHOOSE
+
 
 async def realty_callback_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await show_realty(update, context)
+
 
 async def page_navigation_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
@@ -207,8 +215,10 @@ async def page_navigation_handler(update: Update, context: ContextTypes.DEFAULT_
     context.user_data['page'] = page
     await represent_results(update, context)
 
+
 async def back_to_list_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await represent_results(update, context)
+
 
 async def cancel_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
@@ -356,3 +366,4 @@ async def subscribe(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     tg_id = update.effective_chat.id
     await save_is_subscribed(tg_id, is_subscribed)
     await main_menu(update, context)
+
