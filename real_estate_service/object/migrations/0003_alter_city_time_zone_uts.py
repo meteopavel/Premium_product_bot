@@ -7,13 +7,21 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('object', '0002_areaintervals_priceintervals_city_is_in_main_menu'),
+        ("object", "0002_areaintervals_priceintervals_city_is_in_main_menu"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='city',
-            name='time_zone_uts',
-            field=models.IntegerField(blank=True, null=True, validators=[django.core.validators.MinValueValidator(-12), django.core.validators.MaxValueValidator(14)], verbose_name='Временная зона UTS'),
+            model_name="city",
+            name="time_zone_uts",
+            field=models.IntegerField(
+                blank=True,
+                null=True,
+                validators=[
+                    django.core.validators.MinValueValidator(-12),
+                    django.core.validators.MaxValueValidator(14),
+                ],
+                verbose_name="Временная зона UTS",
+            ),
         ),
     ]

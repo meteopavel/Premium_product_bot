@@ -19,8 +19,11 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     else:
         text = f"С возвращением, {username}\n"
 
-    info_text = "Введите команду:\n/search - чтобы начать поиск" \
-                " недвижимости;\n/my_favorites - чтобы посмотреть все ваши" \
-                " избранные;\n/contacts - наши контакты;\n/stop - чтобы удалиться из бота;"
+    info_text = (
+        "Введите команду:\n/search - чтобы начать поиск"
+        " недвижимости;\n/my_favorites - чтобы посмотреть все ваши"
+        " избранные;\n/contacts - наши контакты;\n/stop -"
+        " чтобы удалиться из бота;"
+    )
     full_text = text + info_text
     await update.message.reply_html(text=full_text)

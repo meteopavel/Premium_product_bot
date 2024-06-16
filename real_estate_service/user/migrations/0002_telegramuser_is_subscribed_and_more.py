@@ -6,18 +6,24 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('user', '0001_initial'),
+        ("user", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='telegramuser',
-            name='is_subscribed',
-            field=models.BooleanField(default=False, verbose_name='Подписан на обновления'),
+            model_name="telegramuser",
+            name="is_subscribed",
+            field=models.BooleanField(
+                default=False, verbose_name="Подписан на обновления"
+            ),
         ),
         migrations.AddField(
-            model_name='telegramuser',
-            name='search_parameters',
-            field=models.TextField(blank=True, null=True, verbose_name='Строка, хранящая поисковые парамерты'),
+            model_name="telegramuser",
+            name="search_parameters",
+            field=models.TextField(
+                blank=True,
+                null=True,
+                verbose_name="Строка, хранящая поисковые парамерты",
+            ),
         ),
     ]

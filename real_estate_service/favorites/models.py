@@ -20,10 +20,12 @@ class Favorite(models.Model):
 
     class Meta:
         constraints = [
-            UniqueConstraint(fields=["user", "realty"], name="user_favorite_unique")
+            UniqueConstraint(
+                fields=["user", "realty"], name="user_favorite_unique"
+            )
         ]
-        verbose_name = 'Избранное'
-        verbose_name_plural = 'Избранное'
+        verbose_name = "Избранное"
+        verbose_name_plural = "Избранное"
 
     def __str__(self):
         return f"{self.user} - {self.realty}"

@@ -10,116 +10,350 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='BuldingType',
+            name="BuldingType",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=100, verbose_name='Название')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "name",
+                    models.CharField(max_length=100, verbose_name="Название"),
+                ),
             ],
             options={
-                'verbose_name': 'Тип здания',
-                'verbose_name_plural': 'Типы здания',
+                "verbose_name": "Тип здания",
+                "verbose_name_plural": "Типы здания",
             },
         ),
         migrations.CreateModel(
-            name='Category',
+            name="Category",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=100, verbose_name='Название')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "name",
+                    models.CharField(max_length=100, verbose_name="Название"),
+                ),
             ],
             options={
-                'verbose_name': 'Категория',
-                'verbose_name_plural': 'Категории',
+                "verbose_name": "Категория",
+                "verbose_name_plural": "Категории",
             },
         ),
         migrations.CreateModel(
-            name='Condition',
+            name="Condition",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=100, verbose_name='Название')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "name",
+                    models.CharField(max_length=100, verbose_name="Название"),
+                ),
             ],
             options={
-                'verbose_name': 'Состояние помещений',
-                'verbose_name_plural': 'Состояния помещений',
+                "verbose_name": "Состояние помещений",
+                "verbose_name_plural": "Состояния помещений",
             },
         ),
         migrations.CreateModel(
-            name='Contact',
+            name="Contact",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=100, verbose_name='Название')),
-                ('email', models.EmailField(blank=True, max_length=254, null=True, verbose_name='Эл. почта')),
-                ('phone_number', object.models.PhoneNumberField(blank=True, max_length=17, null=True, validators=[django.core.validators.RegexValidator(regex='^\\+?1?\\d{9,15}$')], verbose_name='Номер телефона')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "name",
+                    models.CharField(max_length=100, verbose_name="Название"),
+                ),
+                (
+                    "email",
+                    models.EmailField(
+                        blank=True,
+                        max_length=254,
+                        null=True,
+                        verbose_name="Эл. почта",
+                    ),
+                ),
+                (
+                    "phone_number",
+                    object.models.PhoneNumberField(
+                        blank=True,
+                        max_length=17,
+                        null=True,
+                        validators=[
+                            django.core.validators.RegexValidator(
+                                regex="^\\+?1?\\d{9,15}$"
+                            )
+                        ],
+                        verbose_name="Номер телефона",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Контакт',
-                'verbose_name_plural': 'Контакты',
+                "verbose_name": "Контакт",
+                "verbose_name_plural": "Контакты",
             },
         ),
         migrations.CreateModel(
-            name='Country',
+            name="Country",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(max_length=100, verbose_name='Название')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "title",
+                    models.CharField(max_length=100, verbose_name="Название"),
+                ),
             ],
             options={
-                'verbose_name': 'Страна',
-                'verbose_name_plural': 'Страны',
+                "verbose_name": "Страна",
+                "verbose_name_plural": "Страны",
             },
         ),
         migrations.CreateModel(
-            name='City',
+            name="City",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=100, verbose_name='Название')),
-                ('time_zone_uts', models.IntegerField(blank=True, null=True, validators=[django.core.validators.MinValueValidator(-1), django.core.validators.MaxValueValidator(9)], verbose_name='Временная зона UTS')),
-                ('district', models.CharField(blank=True, max_length=150, null=True, verbose_name='Область')),
-                ('country', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='object.country', verbose_name='Страна')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "name",
+                    models.CharField(max_length=100, verbose_name="Название"),
+                ),
+                (
+                    "time_zone_uts",
+                    models.IntegerField(
+                        blank=True,
+                        null=True,
+                        validators=[
+                            django.core.validators.MinValueValidator(-1),
+                            django.core.validators.MaxValueValidator(9),
+                        ],
+                        verbose_name="Временная зона UTS",
+                    ),
+                ),
+                (
+                    "district",
+                    models.CharField(
+                        blank=True,
+                        max_length=150,
+                        null=True,
+                        verbose_name="Область",
+                    ),
+                ),
+                (
+                    "country",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="object.country",
+                        verbose_name="Страна",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Город',
-                'verbose_name_plural': 'Города',
+                "verbose_name": "Город",
+                "verbose_name_plural": "Города",
             },
         ),
         migrations.CreateModel(
-            name='Location',
+            name="Location",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('post_index', models.CharField(blank=True, max_length=10, null=True, verbose_name='Почтовый индекс')),
-                ('street', models.CharField(max_length=100, verbose_name='Улица')),
-                ('building', models.CharField(max_length=30, verbose_name='Строение')),
-                ('floor', models.SmallIntegerField(blank=True, null=True, verbose_name='Этаж')),
-                ('room', models.CharField(blank=True, max_length=30, null=True, verbose_name='Помещение')),
-                ('city', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='object.city', verbose_name='Город')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "post_index",
+                    models.CharField(
+                        blank=True,
+                        max_length=10,
+                        null=True,
+                        verbose_name="Почтовый индекс",
+                    ),
+                ),
+                (
+                    "street",
+                    models.CharField(max_length=100, verbose_name="Улица"),
+                ),
+                (
+                    "building",
+                    models.CharField(max_length=30, verbose_name="Строение"),
+                ),
+                (
+                    "floor",
+                    models.SmallIntegerField(
+                        blank=True, null=True, verbose_name="Этаж"
+                    ),
+                ),
+                (
+                    "room",
+                    models.CharField(
+                        blank=True,
+                        max_length=30,
+                        null=True,
+                        verbose_name="Помещение",
+                    ),
+                ),
+                (
+                    "city",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        to="object.city",
+                        verbose_name="Город",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Локация',
-                'verbose_name_plural': 'Локации',
+                "verbose_name": "Локация",
+                "verbose_name_plural": "Локации",
             },
         ),
         migrations.CreateModel(
-            name='Realty',
+            name="Realty",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(max_length=100, verbose_name='Название')),
-                ('site', models.URLField(blank=True, null=True, verbose_name='Сайт')),
-                ('area', models.PositiveIntegerField(blank=True, null=True, verbose_name='Площадь, метры квадратные')),
-                ('price', models.PositiveIntegerField(blank=True, null=True, verbose_name='Цена, рублей в месяц за квадратный метр')),
-                ('publish_date', models.DateField(auto_now_add=True)),
-                ('text', models.TextField(blank=True, null=True, verbose_name='Текст обьявления')),
-                ('building_type', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='object.buldingtype', verbose_name='Тип здания')),
-                ('category', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='object.category', verbose_name='Категория')),
-                ('condition', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='object.condition', verbose_name='Состояние помещения')),
-                ('contact', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='realtys', to='object.contact', verbose_name='Контакт')),
-                ('location', models.ForeignKey(null=True, on_delete=django.db.models.deletion.PROTECT, to='object.location', verbose_name='Локация')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "title",
+                    models.CharField(max_length=100, verbose_name="Название"),
+                ),
+                (
+                    "site",
+                    models.URLField(
+                        blank=True, null=True, verbose_name="Сайт"
+                    ),
+                ),
+                (
+                    "area",
+                    models.PositiveIntegerField(
+                        blank=True,
+                        null=True,
+                        verbose_name="Площадь, метры квадратные",
+                    ),
+                ),
+                (
+                    "price",
+                    models.PositiveIntegerField(
+                        blank=True,
+                        null=True,
+                        verbose_name="Цена, рублей в месяц за квадратный метр",
+                    ),
+                ),
+                ("publish_date", models.DateField(auto_now_add=True)),
+                (
+                    "text",
+                    models.TextField(
+                        blank=True, null=True, verbose_name="Текст обьявления"
+                    ),
+                ),
+                (
+                    "building_type",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        to="object.buldingtype",
+                        verbose_name="Тип здания",
+                    ),
+                ),
+                (
+                    "category",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        to="object.category",
+                        verbose_name="Категория",
+                    ),
+                ),
+                (
+                    "condition",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        to="object.condition",
+                        verbose_name="Состояние помещения",
+                    ),
+                ),
+                (
+                    "contact",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        related_name="realtys",
+                        to="object.contact",
+                        verbose_name="Контакт",
+                    ),
+                ),
+                (
+                    "location",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.PROTECT,
+                        to="object.location",
+                        verbose_name="Локация",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Объявление',
-                'verbose_name_plural': 'Объявления',
+                "verbose_name": "Объявление",
+                "verbose_name_plural": "Объявления",
             },
         ),
     ]
