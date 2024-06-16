@@ -7,9 +7,10 @@ from telegram.ext import (Application, CallbackQueryHandler, CommandHandler,
 from tg_bot.handlers import (delete_handler, echo_handler, favorites_handler,
                              review_handler, start_handler, show_realty, contact_handler)
 from tg_bot.handlers.search_handler import handlers
-from tg_bot.handlers.search_handler.callbacks import back_to_list_handler, cancel_handler, realty_callback_handler, page_navigation_handler
+from tg_bot.handlers.search_handler.callbacks import back_to_list_handler, cancel_handler, realty_callback_handler, page_navigation_handler, main_menu
 from tg_bot.handlers.review_handler import button, receive_review
 from telegram.ext import Application, CommandHandler, CallbackQueryHandler, MessageHandler, filters, ConversationHandler
+
 
 load_dotenv()
 
@@ -45,5 +46,6 @@ class TGBot:
         self.ptb_app.add_handler(CommandHandler("my_favorites", favorites_handler.get_favorites))
         self.ptb_app.add_handler(CallbackQueryHandler(favorites_handler.add_to_favorites, pattern=r"^add_to_favorite_"))
         self.ptb_app.add_handler(CallbackQueryHandler(favorites_handler.delete_favorite, pattern=r"^delete_favorite_"))
+        self.ptb_app.add_handler(CallbackQueryHandler(main_menu, pattern="main_menu"))
 
 tgbot = TGBot()
