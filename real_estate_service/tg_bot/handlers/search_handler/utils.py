@@ -1,12 +1,12 @@
-
-from datetime import datetime, timedelta
 import json
+from datetime import datetime, timedelta
 
-from telegram import Update
+from telegram import Update, InputMediaPhoto
 from telegram.ext import ContextTypes
 from asgiref.sync import sync_to_async
 
 from user.models import TelegramUser
+from .constants import LOGO_URL_ABSOLUTE, LOGO_URL_RELATIVE
 
 
 def dict_to_string(dictionary):
@@ -48,14 +48,18 @@ async def edit_or_send(
     query = update.callback_query
     if query:
         await query.answer()
-        await query.edit_message_text(
-            text=text,
+        await query.edit_message_media(
+            media=InputMediaPhoto(
+                media=LOGO_URL_ABSOLUTE,
+                caption=text
+            ),
             reply_markup=reply_markup
         )
     else:
-        await context.bot.send_message(
+        await context.bot.send_photo(
             chat_id=update.effective_chat.id,
-            text=text,
+            photo=LOGO_URL_RELATIVE,
+            caption=text,
             reply_markup=reply_markup
         )
 # Вспомогательные штучки

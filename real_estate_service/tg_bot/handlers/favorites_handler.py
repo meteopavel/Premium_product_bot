@@ -7,6 +7,8 @@ from django.db.utils import IntegrityError
 from .base_utils import (create_favorites, get_favorites_by_user,
                          get_realty_by_id, get_user_by_id)
 
+from .search_handler.constants import LOGO_URL_RELATIVE
+
 
 @sync_to_async
 def get_buttons(all_favorites):
@@ -29,8 +31,10 @@ async def get_favorites(update: Update, context: ContextTypes.DEFAULT_TYPE):
         buttons = await get_buttons(all_favorites)
         if buttons:
             response_list = InlineKeyboardMarkup(buttons)
-            await update.message.reply_text(
-                "Ваше избранное:", reply_markup=response_list
+            await update.message.reply_photo(
+                photo=LOGO_URL_RELATIVE,
+                caption="Ваше избранное:",
+                reply_markup=response_list
             )
         else:
             await update.message.reply_text("Тут пока ничего нет")
@@ -57,7 +61,6 @@ async def add_to_favorites(update: Update, context: ContextTypes.DEFAULT_TYPE):
     except IntegrityError:
         message_text = "Объект недвижимости уже в избранном 🌟"
         await query.message.reply_text(message_text)
-
 
 
 async def delete_favorite(update: Update, context: ContextTypes.DEFAULT_TYPE):
