@@ -146,10 +146,7 @@ async def area(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     reply_markup = InlineKeyboardMarkup(await interval_keyboard(AreaIntervals))
     context.user_data['choose'] = 'area'
     text = 'Выбери площадь'
-    await query.edit_message_media(
-        media=InputMediaPhoto(media=LOGO_URL_ABSOLUTE, caption=text),
-        reply_markup=reply_markup
-    )
+    await insert_object_card(query, LOGO_URL_ABSOLUTE, text, reply_markup)
     return SAVE_CHOOSE
 
 
@@ -160,10 +157,7 @@ async def price(update: Update, context: ContextTypes.DEFAULT_TYPE):
     reply_markup = InlineKeyboardMarkup(await interval_keyboard(PriceIntervals))
     context.user_data['choose'] = 'price'
     text = 'Выбери цену'
-    await query.edit_message_media(
-        media=InputMediaPhoto(media=LOGO_URL_ABSOLUTE, caption=text),
-        reply_markup=reply_markup
-    )
+    await insert_object_card(query, LOGO_URL_ABSOLUTE, text, reply_markup)
     return SAVE_CHOOSE
 
 
@@ -177,10 +171,7 @@ async def category(update: Update, context: ContextTypes.DEFAULT_TYPE):
         text = f'Выбранная ранее категория:{context.user_data["category"]}'
     else:
         text = "Выбери категорию!"
-    await query.edit_message_media(
-        media=InputMediaPhoto(media=LOGO_URL_ABSOLUTE, caption=text),
-        reply_markup=reply_markup
-    )
+    await insert_object_card(query, LOGO_URL_ABSOLUTE, text, reply_markup)
     return SAVE_CHOOSE
 
 
@@ -256,6 +247,9 @@ async def cancel_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def send_page(update: Update, context: ContextTypes.DEFAULT_TYPE, page):
     realtys = context.user_data['suitable_realtys']
+    realty = realtys[page]
+    text = (f'вот:\n{realty["title"]}\n{FIELDS["area"]}: '
+            f'{realty["area"]}\n{FIELDS["price"]}: {realty["price"]}\n')
     message_text = 'вот:\n'
     message_text += f'{realtys[page]["title"]}\n'
     message_text += f'{FIELDS["area"]}: {realtys[page]["area"]}\n'
@@ -265,10 +259,7 @@ async def send_page(update: Update, context: ContextTypes.DEFAULT_TYPE, page):
         send_page_keyboard(page, len(realtys), pk))
     query = update.callback_query
     await query.answer()
-    await query.edit_message_media(
-        media=InputMediaPhoto(media=LOGO_URL_ABSOLUTE, caption=message_text),
-        reply_markup=reply_markup
-    )
+    await insert_object_card(query, LOGO_URL_ABSOLUTE, text, reply_markup)
     return REPRESENT
 
 
@@ -304,10 +295,7 @@ async def publish_date(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
     text = 'Выбери период публикации'
     await query.answer()
-    await query.edit_message_media(
-        media=InputMediaPhoto(media=LOGO_URL_ABSOLUTE, caption=text),
-        reply_markup=reply_markup
-    )
+    await insert_object_card(query, LOGO_URL_ABSOLUTE, text, reply_markup)
     return SAVE_CHOOSE
 
 
@@ -321,10 +309,7 @@ async def condition(update: Update, context: ContextTypes.DEFAULT_TYPE):
         text = f'Выбранное ранее состояние помещений:{context.user_data["condition"]}'
     else:
         text = 'Какое состояние помещений вас устроит?'
-    await query.edit_message_media(
-        media=InputMediaPhoto(media=LOGO_URL_ABSOLUTE, caption=text),
-        reply_markup=reply_markup
-    )
+    await insert_object_card(query, LOGO_URL_ABSOLUTE, text, reply_markup)
     return SAVE_CHOOSE
 
 
@@ -338,10 +323,7 @@ async def building_type(update: Update, context: ContextTypes.DEFAULT_TYPE):
         text = f'Выбранный ранее тип здания:{context.user_data["building_type"]}'
     else:
         text = 'Ваберите тип здания, в которм нужны помещения.'
-    await query.edit_message_media(
-        media=InputMediaPhoto(media=LOGO_URL_ABSOLUTE, caption=text),
-        reply_markup=reply_markup
-    )
+    await insert_object_card(query, LOGO_URL_ABSOLUTE, text, reply_markup)
     return SAVE_CHOOSE
 
 
