@@ -71,7 +71,7 @@ async def add_to_favorites(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 async def delete_favorite(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Handler for deliting favorites"""
+    """Handler for deleting favorites"""
     try:
         query = update.callback_query
         await query.answer()

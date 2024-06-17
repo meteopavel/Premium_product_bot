@@ -31,7 +31,7 @@ def save_review(realty_id, tg_user_id, text):
 
 @sync_to_async
 def get_all_reviews_for_realty(realty_id):
-    """Handler for getting all reviews for some realty"""
+    """Handler for getting all reviews for specific realty"""
     realty = Realty.objects.filter(id=realty_id).first()
     if not realty:
         return {"error": "Недвижимость не найдена"}
@@ -59,7 +59,7 @@ def get_all_reviews_for_realty(realty_id):
 async def receive_review(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> int:
-    """Handler for receiving review"""
+    """Handler for receiving the review"""
     tg_user_id = update.message.from_user.id
     if await is_user_blocked(tg_user_id):
         await update.message.reply_text(

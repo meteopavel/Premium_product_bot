@@ -6,7 +6,7 @@ from user.models import TelegramUser
 
 
 async def delete(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Handler for start command"""
+    """Handler for stop command"""
     user_id = update.effective_user.id
     await sync_to_async(TelegramUser.objects.filter(tg_id=user_id).delete)()
     await context.bot.send_message(
