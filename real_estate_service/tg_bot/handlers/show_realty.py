@@ -4,6 +4,7 @@ from telegram.ext import ContextTypes, ConversationHandler
 from object.models import Realty, Location
 from tg_bot.handlers.base_utils import get_user_by_id, get_favorite_exists
 from .search_handler.constants import LOGO_URL_ABSOLUTE
+from .search_handler.utils import insert_object_card
 
 
 async def show_realty(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -47,13 +48,7 @@ async def show_realty(update: Update, context: ContextTypes.DEFAULT_TYPE):
             f"Тип здания: {building_type.name if building_type else 'Не указан'}\n"
             f"Описание: {realty.text if realty.text else 'Не указано'}")
     if realty.image:
-        await query.edit_message_media(
-            media=InputMediaPhoto(media=realty.image, caption=text),
-            reply_markup=reply_markup
-        )
+        await insert_object_card(query, realty.image, text, reply_markup)
     else:
-        await query.edit_message_media(
-            media=InputMediaPhoto(media=LOGO_URL_ABSOLUTE, caption=text),
-            reply_markup=reply_markup
-        )
+        await insert_object_card(query, LOGO_URL_ABSOLUTE, text, reply_markup)
     return ConversationHandler.END
