@@ -6,37 +6,83 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('object', '0001_initial'),
+        ("object", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='AreaIntervals',
+            name="AreaIntervals",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('minimum', models.PositiveIntegerField(blank=True, null=True, verbose_name='минимальное значение')),
-                ('maximum', models.PositiveIntegerField(blank=True, null=True, verbose_name='максимальное значение')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "minimum",
+                    models.PositiveIntegerField(
+                        blank=True,
+                        null=True,
+                        verbose_name="минимальное значение",
+                    ),
+                ),
+                (
+                    "maximum",
+                    models.PositiveIntegerField(
+                        blank=True,
+                        null=True,
+                        verbose_name="максимальное значение",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Интервал площади',
-                'verbose_name_plural': 'Интервалы площади',
+                "verbose_name": "Интервал площади",
+                "verbose_name_plural": "Интервалы площади",
             },
         ),
         migrations.CreateModel(
-            name='PriceIntervals',
+            name="PriceIntervals",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('minimum', models.PositiveIntegerField(blank=True, null=True, verbose_name='минимальное значение')),
-                ('maximum', models.PositiveIntegerField(blank=True, null=True, verbose_name='максимальное значение')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "minimum",
+                    models.PositiveIntegerField(
+                        blank=True,
+                        null=True,
+                        verbose_name="минимальное значение",
+                    ),
+                ),
+                (
+                    "maximum",
+                    models.PositiveIntegerField(
+                        blank=True,
+                        null=True,
+                        verbose_name="максимальное значение",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Интервал цен',
-                'verbose_name_plural': 'Интервалы цен',
+                "verbose_name": "Интервал цен",
+                "verbose_name_plural": "Интервалы цен",
             },
         ),
         migrations.AddField(
-            model_name='city',
-            name='is_in_main_menu',
-            field=models.BooleanField(default=False, verbose_name='Показать в основном меню'),
+            model_name="city",
+            name="is_in_main_menu",
+            field=models.BooleanField(
+                default=False, verbose_name="Показать в основном меню"
+            ),
         ),
     ]

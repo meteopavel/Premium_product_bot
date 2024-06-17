@@ -6,13 +6,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('object', '0004_alter_buldingtype_name_alter_category_name_and_more'),
+        ("object", "0004_alter_buldingtype_name_alter_category_name_and_more"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='realty',
-            name='image',
-            field=models.ImageField(default=None, null=True, upload_to='realty/images/', verbose_name='Изображение'),
+            model_name="realty",
+            name="image",
+            field=models.ImageField(
+                default=None,
+                null=True,
+                upload_to="realty/images/",
+                verbose_name="Изображение",
+            ),
         ),
     ]

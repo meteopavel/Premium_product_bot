@@ -9,63 +9,83 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('object', '0003_alter_city_time_zone_uts'),
+        ("object", "0003_alter_city_time_zone_uts"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='buldingtype',
-            name='name',
-            field=models.CharField(max_length=200, verbose_name='Название'),
+            model_name="buldingtype",
+            name="name",
+            field=models.CharField(max_length=200, verbose_name="Название"),
         ),
         migrations.AlterField(
-            model_name='category',
-            name='name',
-            field=models.CharField(max_length=200, verbose_name='Название'),
+            model_name="category",
+            name="name",
+            field=models.CharField(max_length=200, verbose_name="Название"),
         ),
         migrations.AlterField(
-            model_name='city',
-            name='name',
-            field=models.CharField(max_length=200, verbose_name='Название'),
+            model_name="city",
+            name="name",
+            field=models.CharField(max_length=200, verbose_name="Название"),
         ),
         migrations.AlterField(
-            model_name='condition',
-            name='name',
-            field=models.CharField(max_length=200, verbose_name='Название'),
+            model_name="condition",
+            name="name",
+            field=models.CharField(max_length=200, verbose_name="Название"),
         ),
         migrations.AlterField(
-            model_name='contact',
-            name='name',
-            field=models.CharField(max_length=200, verbose_name='Название'),
+            model_name="contact",
+            name="name",
+            field=models.CharField(max_length=200, verbose_name="Название"),
         ),
         migrations.AlterField(
-            model_name='contact',
-            name='phone_number',
-            field=django.contrib.postgres.fields.ArrayField(base_field=object.models.PhoneNumberField(blank=True, max_length=17, null=True, validators=[django.core.validators.RegexValidator(regex='^\\+?1?\\d{9,15}$')], verbose_name='Номер телефона'), blank=True, null=True, size=None, verbose_name='Номера телефонов'),
+            model_name="contact",
+            name="phone_number",
+            field=django.contrib.postgres.fields.ArrayField(
+                base_field=object.models.PhoneNumberField(
+                    blank=True,
+                    max_length=17,
+                    null=True,
+                    validators=[
+                        django.core.validators.RegexValidator(
+                            regex="^\\+?1?\\d{9,15}$"
+                        )
+                    ],
+                    verbose_name="Номер телефона",
+                ),
+                blank=True,
+                null=True,
+                size=None,
+                verbose_name="Номера телефонов",
+            ),
         ),
         migrations.AlterField(
-            model_name='location',
-            name='building',
-            field=models.CharField(max_length=60, verbose_name='Строение'),
+            model_name="location",
+            name="building",
+            field=models.CharField(max_length=60, verbose_name="Строение"),
         ),
         migrations.AlterField(
-            model_name='location',
-            name='floor',
-            field=models.CharField(blank=True, max_length=60, null=True, verbose_name='Этаж'),
+            model_name="location",
+            name="floor",
+            field=models.CharField(
+                blank=True, max_length=60, null=True, verbose_name="Этаж"
+            ),
         ),
         migrations.AlterField(
-            model_name='location',
-            name='room',
-            field=models.CharField(blank=True, max_length=60, null=True, verbose_name='Помещение'),
+            model_name="location",
+            name="room",
+            field=models.CharField(
+                blank=True, max_length=60, null=True, verbose_name="Помещение"
+            ),
         ),
         migrations.AlterField(
-            model_name='location',
-            name='street',
-            field=models.CharField(max_length=200, verbose_name='Улица'),
+            model_name="location",
+            name="street",
+            field=models.CharField(max_length=200, verbose_name="Улица"),
         ),
         migrations.AlterField(
-            model_name='realty',
-            name='title',
-            field=models.CharField(max_length=200, verbose_name='Название'),
+            model_name="realty",
+            name="title",
+            field=models.CharField(max_length=200, verbose_name="Название"),
         ),
     ]

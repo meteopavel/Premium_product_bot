@@ -7,12 +7,16 @@ from user.models import TelegramUser
 
 class Review(models.Model):
     class ReviewStatus(models.TextChoices):
-        PENDING = 'P', _('Pending')
-        APPROVED = 'A', _('Approved')
-        REJECTED = 'R', _('Rejected')
+        PENDING = "P", _("Pending")
+        APPROVED = "A", _("Approved")
+        REJECTED = "R", _("Rejected")
 
-    author = models.ForeignKey(TelegramUser, on_delete=models.SET_NULL, null=True, blank=True)
-    real_estate = models.ForeignKey(Realty, related_name='reviews', on_delete=models.CASCADE)
+    author = models.ForeignKey(
+        TelegramUser, on_delete=models.SET_NULL, null=True, blank=True
+    )
+    real_estate = models.ForeignKey(
+        Realty, related_name="reviews", on_delete=models.CASCADE
+    )
     text = models.TextField()
     status = models.CharField(
         max_length=1,
@@ -23,11 +27,11 @@ class Review(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        verbose_name = 'Отзыв'
-        verbose_name_plural = 'Отзывы'
+        verbose_name = "Отзыв"
+        verbose_name_plural = "Отзывы"
 
     def __str__(self):
         if self.author:
-            return f'Review by {self.author} for {self.real_estate}'
+            return f"Review by {self.author} for {self.real_estate}"
         else:
-            return f'Review for {self.real_estate}'
+            return f"Review for {self.real_estate}"

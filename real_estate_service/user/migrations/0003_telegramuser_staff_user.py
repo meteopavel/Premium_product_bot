@@ -8,13 +8,20 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('user', '0002_telegramuser_is_subscribed_and_more'),
+        ("user", "0002_telegramuser_is_subscribed_and_more"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='telegramuser',
-            name='staff_user',
-            field=models.OneToOneField(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='tg_user', to=settings.AUTH_USER_MODEL, verbose_name='ID сотрудника'),
+            model_name="telegramuser",
+            name="staff_user",
+            field=models.OneToOneField(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="tg_user",
+                to=settings.AUTH_USER_MODEL,
+                verbose_name="ID сотрудника",
+            ),
         ),
     ]

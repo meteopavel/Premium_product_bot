@@ -1,17 +1,21 @@
 from asgiref.sync import sync_to_async
+from django.db.utils import IntegrityError
 from favorites.models import Favorite
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
 from telegram.ext import ContextTypes
-from django.db.utils import IntegrityError
 
-from .base_utils import (create_favorites, get_favorites_by_user,
-                         get_realty_by_id, get_user_by_id)
-
+from .base_utils import (
+    create_favorites,
+    get_favorites_by_user,
+    get_realty_by_id,
+    get_user_by_id,
+)
 from .search_handler.constants import LOGO_URL_RELATIVE
 
 
 @sync_to_async
 def get_buttons(all_favorites):
+    """Handler for getting all favorite button"""
     return [
         [
             InlineKeyboardButton(
@@ -34,7 +38,7 @@ async def get_favorites(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await update.message.reply_photo(
                 photo=LOGO_URL_RELATIVE,
                 caption="Ваше избранное:",
-                reply_markup=response_list
+                reply_markup=response_list,
             )
         else:
             await update.message.reply_text("Тут пока ничего нет")
@@ -46,6 +50,7 @@ async def get_favorites(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 async def add_to_favorites(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Handler for adding realty to favorites"""
     try:
         query = update.callback_query
         await query.answer()
@@ -56,7 +61,9 @@ async def add_to_favorites(update: Update, context: ContextTypes.DEFAULT_TYPE):
             message_text = "Объект недвижимости добавлен в избранное 🌟"
             await query.message.reply_text(message_text)
         else:
-            message_text = "⚠️ Вы были заблокированы. Обратитесь к администратору!"
+            message_text = (
+                "⚠️ Вы были заблокированы. Обратитесь к администратору!"
+            )
             await query.message.reply_text(message_text)
     except IntegrityError:
         message_text = "Объект недвижимости уже в избранном 🌟"
@@ -64,17 +71,22 @@ async def add_to_favorites(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 async def delete_favorite(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Handler for deleting favorites"""
     try:
         query = update.callback_query
         await query.answer()
         user = await get_user_by_id(update.effective_user.id)
         if not user.is_blocked:
             realty = await get_realty_by_id(query.data.split("_")[2])
-            await sync_to_async(Favorite.objects.filter(user=user, realty=realty).delete)()
+            await sync_to_async(
+                Favorite.objects.filter(user=user, realty=realty).delete
+            )()
             message_text = "Объект недвижимости удален из избранного 🌟"
             await query.message.reply_text(message_text)
         else:
-            message_text = "⚠️ Вы были заблокированы. Обратитесь к администратору!"
+            message_text = (
+                "⚠️ Вы были заблокированы. Обратитесь к администратору!"
+            )
             await query.message.reply_text(message_text)
     except Exception:
         message_text = "Упс, что-то пошло не так!"

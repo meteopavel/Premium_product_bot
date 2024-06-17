@@ -16,8 +16,10 @@ async def show_realty(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
     await query.answer()
     pk: int = int(query.data.split("_")[-1])
+    pk: int = int(query.data.split("_")[-1])
 
     realty = await Realty.objects.select_related(
+        "category", "location__city", "contact", "condition", "building_type"
         "category", "location__city", "contact", "condition", "building_type"
     ).aget(pk=pk)
 
@@ -34,7 +36,13 @@ async def show_realty(update: Update, context: ContextTypes.DEFAULT_TYPE):
         favorite_button = InlineKeyboardButton(
             "Удалить из избранного", callback_data=f"delete_favorite_{pk}"
         )
+        favorite_button = InlineKeyboardButton(
+            "Удалить из избранного", callback_data=f"delete_favorite_{pk}"
+        )
     else:
+        favorite_button = InlineKeyboardButton(
+            "Добавить в избранное", callback_data=f"add_to_favorite_{pk}"
+        )
         favorite_button = InlineKeyboardButton(
             "Добавить в избранное", callback_data=f"add_to_favorite_{pk}"
         )
@@ -46,7 +54,13 @@ async def show_realty(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 "Посмотреть отзывы", callback_data=f"view_reviews_{pk}"
             )
         ],
+        [
+            InlineKeyboardButton(
+                "Посмотреть отзывы", callback_data=f"view_reviews_{pk}"
+            )
+        ],
         [favorite_button],
+        [InlineKeyboardButton("Назад", callback_data="back_to_list")],
         [InlineKeyboardButton("Назад", callback_data="back_to_list")],
     ]
 

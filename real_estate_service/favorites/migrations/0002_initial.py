@@ -9,18 +9,25 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('favorites', '0001_initial'),
-        ('user', '0001_initial'),
+        ("favorites", "0001_initial"),
+        ("user", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='favorite',
-            name='user',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='favorites', to='user.telegramuser', verbose_name='пользователь'),
+            model_name="favorite",
+            name="user",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="favorites",
+                to="user.telegramuser",
+                verbose_name="пользователь",
+            ),
         ),
         migrations.AddConstraint(
-            model_name='favorite',
-            constraint=models.UniqueConstraint(fields=('user', 'realty'), name='user_favorite_unique'),
+            model_name="favorite",
+            constraint=models.UniqueConstraint(
+                fields=("user", "realty"), name="user_favorite_unique"
+            ),
         ),
     ]
