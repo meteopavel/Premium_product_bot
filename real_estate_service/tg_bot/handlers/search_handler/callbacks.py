@@ -224,7 +224,7 @@ async def represent_results(update: Update, context: ContextTypes.DEFAULT_TYPE) 
     if realty.image:
         await insert_object_card(query, realty.image, text, reply_markup)
     else:
-        await inser_object_card(query, LOGO_URL_ABSOLUTE, text, reply_markup)
+        await insert_object_card(query, LOGO_URL_ABSOLUTE, text, reply_markup)
     return CHOOSE
 
 
