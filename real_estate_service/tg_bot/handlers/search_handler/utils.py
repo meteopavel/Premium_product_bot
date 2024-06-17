@@ -146,7 +146,7 @@ async def unpack_search_parameters(update: Update, context: ContextTypes.DEFAULT
     return True
 
 
-async def insert_media_with_caption(query, media, text, markup):
+async def insert_object_card(query, media, text, markup):
     await query.edit_message_media(
         media=InputMediaPhoto(media=media, caption=text),
         reply_markup=markup

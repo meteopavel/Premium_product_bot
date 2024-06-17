@@ -27,7 +27,7 @@ from .utils import (
     save_search_parameters,
     save_is_subscribed,
     unpack_search_parameters,
-    insert_media_with_caption
+    insert_object_card
 )
 from .keyboards import (
     location__city_keyboard, all_obj_keyboard,
@@ -212,10 +212,7 @@ async def represent_results(update: Update, context: ContextTypes.DEFAULT_TYPE) 
         text = 'Ничего подходящего=('
         keyboard = [[InlineKeyboardButton('в главное меню', callback_data='main_menu')]]
         reply_markup = InlineKeyboardMarkup(keyboard)
-        await query.edit_message_media(
-            media=InputMediaPhoto(media=LOGO_URL_ABSOLUTE, caption=text),
-            reply_markup=reply_markup
-        )
+        await insert_object_card(query, LOGO_URL_ABSOLUTE, text, reply_markup)
         return
 
     page = context.user_data.get('page', 0)
@@ -225,12 +222,9 @@ async def represent_results(update: Update, context: ContextTypes.DEFAULT_TYPE) 
     reply_markup = InlineKeyboardMarkup(keyboard)
 
     if realty.image:
-        insert_media_with_caption(query, realty.image, text, reply_markup)
+        await insert_object_card(query, realty.image, text, reply_markup)
     else:
-        await query.edit_message_media(
-            media=InputMediaPhoto(media=LOGO_URL_ABSOLUTE, caption=text),
-            reply_markup=reply_markup
-        )
+        await insert_object_card(query, LOGO_URL_ABSOLUTE, text, reply_markup)
     return CHOOSE
 
 
