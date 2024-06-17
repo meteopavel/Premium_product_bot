@@ -223,10 +223,16 @@ async def represent_results(update: Update, context: ContextTypes.DEFAULT_TYPE) 
     keyboard = send_page_keyboard(page, len(realtys), realty_id)
     reply_markup = InlineKeyboardMarkup(keyboard)
 
-    await query.edit_message_media(
-        media=InputMediaPhoto(media=realty.image, caption=text),
-        reply_markup=reply_markup
-    )
+    if realty.image:
+        await query.edit_message_media(
+            media=InputMediaPhoto(media=realty.image, caption=text),
+            reply_markup=reply_markup
+        )
+    else:
+        await query.edit_message_media(
+            media=InputMediaPhoto(media=LOGO_URL_ABSOLUTE, caption=text),
+            reply_markup=reply_markup
+        )
     return CHOOSE
 
 

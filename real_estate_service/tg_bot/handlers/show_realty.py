@@ -3,6 +3,8 @@ from telegram.ext import ContextTypes, ConversationHandler
 
 from object.models import Realty, Location
 from tg_bot.handlers.base_utils import get_user_by_id, get_favorite_exists
+from .search_handler.constants import LOGO_URL_ABSOLUTE
+
 
 async def show_realty(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
@@ -44,8 +46,14 @@ async def show_realty(update: Update, context: ContextTypes.DEFAULT_TYPE):
             f"Состояние помещения: {condition.name if condition else 'Не указано'}\n"
             f"Тип здания: {building_type.name if building_type else 'Не указан'}\n"
             f"Описание: {realty.text if realty.text else 'Не указано'}")
-    await query.edit_message_media(
-        media=InputMediaPhoto(media=realty.image, caption=text),
-        reply_markup=reply_markup
-    )
+    if realty.image:
+        await query.edit_message_media(
+            media=InputMediaPhoto(media=realty.image, caption=text),
+            reply_markup=reply_markup
+        )
+    else:
+        await query.edit_message_media(
+            media=InputMediaPhoto(media=LOGO_URL_ABSOLUTE, caption=text),
+            reply_markup=reply_markup
+        )
     return ConversationHandler.END
