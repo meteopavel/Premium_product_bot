@@ -26,7 +26,8 @@ from .utils import (
     filter_args,
     save_search_parameters,
     save_is_subscribed,
-    unpack_search_parameters
+    unpack_search_parameters,
+    insert_media_with_caption
 )
 from .keyboards import (
     location__city_keyboard, all_obj_keyboard,
@@ -224,10 +225,7 @@ async def represent_results(update: Update, context: ContextTypes.DEFAULT_TYPE) 
     reply_markup = InlineKeyboardMarkup(keyboard)
 
     if realty.image:
-        await query.edit_message_media(
-            media=InputMediaPhoto(media=realty.image, caption=text),
-            reply_markup=reply_markup
-        )
+        insert_media_with_caption(query, realty.image, text, reply_markup)
     else:
         await query.edit_message_media(
             media=InputMediaPhoto(media=LOGO_URL_ABSOLUTE, caption=text),
