@@ -152,3 +152,10 @@ async def unpack_search_parameters(
         for param in search_params:
             context.user_data[param] = search_params[param]
     return True
+
+
+async def insert_object_card(query, media, text, markup):
+    await query.edit_message_media(
+        media=InputMediaPhoto(media=media, caption=text),
+        reply_markup=markup
+    )

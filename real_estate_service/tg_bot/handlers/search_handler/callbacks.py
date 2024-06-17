@@ -45,6 +45,7 @@ from .texts import user_data_as_text
 from .utils import (
     edit_or_send,
     filter_args,
+    insert_object_card,
     save_is_subscribed,
     save_search_parameters,
     unpack_search_parameters,
@@ -162,10 +163,7 @@ async def area(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     reply_markup = InlineKeyboardMarkup(await interval_keyboard(AreaIntervals))
     context.user_data["choose"] = "area"
     text = "Выбери площадь"
-    await query.edit_message_media(
-        media=InputMediaPhoto(media=LOGO_URL_ABSOLUTE, caption=text),
-        reply_markup=reply_markup,
-    )
+    await insert_object_card(query, LOGO_URL_ABSOLUTE, text, reply_markup)
     return SAVE_CHOOSE
 
 
@@ -178,10 +176,7 @@ async def price(update: Update, context: ContextTypes.DEFAULT_TYPE):
     )
     context.user_data["choose"] = "price"
     text = "Выбери цену"
-    await query.edit_message_media(
-        media=InputMediaPhoto(media=LOGO_URL_ABSOLUTE, caption=text),
-        reply_markup=reply_markup,
-    )
+    await insert_object_card(query, LOGO_URL_ABSOLUTE, text, reply_markup)
     return SAVE_CHOOSE
 
 
@@ -195,10 +190,7 @@ async def category(update: Update, context: ContextTypes.DEFAULT_TYPE):
         text = f'Выбранная ранее категория:{context.user_data["category"]}'
     else:
         text = "Выбери категорию!"
-    await query.edit_message_media(
-        media=InputMediaPhoto(media=LOGO_URL_ABSOLUTE, caption=text),
-        reply_markup=reply_markup,
-    )
+    await insert_object_card(query, LOGO_URL_ABSOLUTE, text, reply_markup)
     return SAVE_CHOOSE
 
 
@@ -238,10 +230,7 @@ async def represent_results(
             [InlineKeyboardButton("в главное меню", callback_data="main_menu")]
         ]
         reply_markup = InlineKeyboardMarkup(keyboard)
-        await query.edit_message_media(
-            media=InputMediaPhoto(media=LOGO_URL_ABSOLUTE, caption=text),
-            reply_markup=reply_markup,
-        )
+        await insert_object_card(query, LOGO_URL_ABSOLUTE, text, reply_markup)
         return
 
     page = context.user_data.get("page", 0)
@@ -252,10 +241,10 @@ async def represent_results(
     keyboard = send_page_keyboard(page, len(realtys), realty_id)
     reply_markup = InlineKeyboardMarkup(keyboard)
 
-    await query.edit_message_media(
-        media=InputMediaPhoto(media=realty.image, caption=text),
-        reply_markup=reply_markup,
-    )
+    if realty.image:
+        await insert_object_card(query, realty.image, text, reply_markup)
+    else:
+        await insert_object_card(query, LOGO_URL_ABSOLUTE, text, reply_markup)
     return CHOOSE
 
 
@@ -292,20 +281,16 @@ async def cancel_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def send_page(update: Update, context: ContextTypes.DEFAULT_TYPE, page):
     realtys = context.user_data["suitable_realtys"]
-    message_text = "вот:\n"
-    message_text += f'{realtys[page]["title"]}\n'
-    message_text += f'{FIELDS["area"]}: {realtys[page]["area"]}\n'
-    message_text += f'{FIELDS["price"]}: {realtys[page]["price"]}\n'
-    pk = realtys[page]["id"]
+    realty = realtys[page]
+    text = (f'вот:\n{realty["title"]}\n{FIELDS["area"]}: '
+            f'{realty["area"]}\n{FIELDS["price"]}: {realty["price"]}\n')
+    pk = realty["id"]
     reply_markup = InlineKeyboardMarkup(
         send_page_keyboard(page, len(realtys), pk)
     )
     query = update.callback_query
     await query.answer()
-    await query.edit_message_media(
-        media=InputMediaPhoto(media=LOGO_URL_ABSOLUTE, caption=message_text),
-        reply_markup=reply_markup,
-    )
+    await insert_object_card(query, LOGO_URL_ABSOLUTE, text, reply_markup)
     return REPRESENT
 
 
@@ -331,7 +316,6 @@ async def other_menu(
     else:
         await update.message.reply_text(text=text, reply_markup=reply_markup)
         del context.user_data["text_input"]
-
     return CHOOSE
 
 
@@ -342,10 +326,7 @@ async def publish_date(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
     text = "Выбери период публикации"
     await query.answer()
-    await query.edit_message_media(
-        media=InputMediaPhoto(media=LOGO_URL_ABSOLUTE, caption=text),
-        reply_markup=reply_markup,
-    )
+    await insert_object_card(query, LOGO_URL_ABSOLUTE, text, reply_markup)
     return SAVE_CHOOSE
 
 
@@ -360,10 +341,7 @@ async def condition(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 f':{context.user_data["condition"]}')
     else:
         text = "Какое состояние помещений вас устроит?"
-    await query.edit_message_media(
-        media=InputMediaPhoto(media=LOGO_URL_ABSOLUTE, caption=text),
-        reply_markup=reply_markup,
-    )
+    await insert_object_card(query, LOGO_URL_ABSOLUTE, text, reply_markup)
     return SAVE_CHOOSE
 
 
@@ -379,10 +357,7 @@ async def building_type(update: Update, context: ContextTypes.DEFAULT_TYPE):
         )
     else:
         text = "Ваберите тип здания, в которм нужны помещения."
-    await query.edit_message_media(
-        media=InputMediaPhoto(media=LOGO_URL_ABSOLUTE, caption=text),
-        reply_markup=reply_markup,
-    )
+    await insert_object_card(query, LOGO_URL_ABSOLUTE, text, reply_markup)
     return SAVE_CHOOSE
 
 

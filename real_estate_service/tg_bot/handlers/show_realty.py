@@ -1,13 +1,14 @@
 from telegram import (
     InlineKeyboardButton,
     InlineKeyboardMarkup,
-    InputMediaPhoto,
     Update,
 )
 from telegram.ext import ContextTypes, ConversationHandler
 
 from object.models import Realty
 from tg_bot.handlers.base_utils import get_favorite_exists, get_user_by_id
+from .search_handler.constants import LOGO_URL_ABSOLUTE
+from .search_handler.utils import insert_object_card
 
 
 async def show_realty(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -15,8 +16,10 @@ async def show_realty(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
     await query.answer()
     pk: int = int(query.data.split("_")[-1])
+    pk: int = int(query.data.split("_")[-1])
 
     realty = await Realty.objects.select_related(
+        "category", "location__city", "contact", "condition", "building_type"
         "category", "location__city", "contact", "condition", "building_type"
     ).aget(pk=pk)
 
@@ -33,7 +36,13 @@ async def show_realty(update: Update, context: ContextTypes.DEFAULT_TYPE):
         favorite_button = InlineKeyboardButton(
             "Удалить из избранного", callback_data=f"delete_favorite_{pk}"
         )
+        favorite_button = InlineKeyboardButton(
+            "Удалить из избранного", callback_data=f"delete_favorite_{pk}"
+        )
     else:
+        favorite_button = InlineKeyboardButton(
+            "Добавить в избранное", callback_data=f"add_to_favorite_{pk}"
+        )
         favorite_button = InlineKeyboardButton(
             "Добавить в избранное", callback_data=f"add_to_favorite_{pk}"
         )
@@ -45,7 +54,13 @@ async def show_realty(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 "Посмотреть отзывы", callback_data=f"view_reviews_{pk}"
             )
         ],
+        [
+            InlineKeyboardButton(
+                "Посмотреть отзывы", callback_data=f"view_reviews_{pk}"
+            )
+        ],
         [favorite_button],
+        [InlineKeyboardButton("Назад", callback_data="back_to_list")],
         [InlineKeyboardButton("Назад", callback_data="back_to_list")],
     ]
 
@@ -62,8 +77,8 @@ async def show_realty(update: Update, context: ContextTypes.DEFAULT_TYPE):
         f"Тип здания: {building_type.name if building_type else 'Не указан'}\n"
         f"Описание: {realty.text if realty.text else 'Не указано'}"
     )
-    await query.edit_message_media(
-        media=InputMediaPhoto(media=realty.image, caption=text),
-        reply_markup=reply_markup,
-    )
+    if realty.image:
+        await insert_object_card(query, realty.image, text, reply_markup)
+    else:
+        await insert_object_card(query, LOGO_URL_ABSOLUTE, text, reply_markup)
     return ConversationHandler.END
