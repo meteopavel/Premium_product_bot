@@ -13,12 +13,12 @@ from telegram import Update
 
 load_dotenv()
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'real_estate_service.settings')
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "real_estate_service.settings")
 django.setup()
 
 from tg_bot import tgbot_core  # noqa E402
 
-WEBHOOK_URL = os.getenv('WEBHOOK_URL')
+WEBHOOK_URL = os.getenv("WEBHOOK_URL")
 PORT = 8000
 
 
@@ -28,8 +28,8 @@ async def webhook(request: HttpRequest) -> HttpResponse:
     into the `update_queue`"""
     await tgbot_core.tgbot.ptb_app.update_queue.put(
         Update.de_json(
-            data=json.loads(request.body),
-            bot=tgbot_core.tgbot.ptb_app.bot)
+            data=json.loads(request.body), bot=tgbot_core.tgbot.ptb_app.bot
+        )
     )
     return HttpResponse()
 
@@ -40,13 +40,13 @@ async def main():
             app=get_asgi_application(),
             port=PORT,
             use_colors=True,
-            host='0.0.0.0',
+            host="0.0.0.0",
             log_level=logging.DEBUG,
         )
     )
 
     await tgbot_core.tgbot.ptb_app.bot.setWebhook(
-        url=f'{WEBHOOK_URL}/telegram/',
+        url=f"{WEBHOOK_URL}/telegram/",
         allowed_updates=Update.ALL_TYPES,
     )
 
@@ -56,5 +56,5 @@ async def main():
         await tgbot_core.tgbot.ptb_app.stop()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     asyncio.run(main())

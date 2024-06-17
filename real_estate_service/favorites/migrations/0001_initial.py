@@ -9,19 +9,35 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('object', '0001_initial'),
+        ("object", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Favorite',
+            name="Favorite",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('realty', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='favorites', to='object.realty', verbose_name='избранное')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "realty",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="favorites",
+                        to="object.realty",
+                        verbose_name="избранное",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Избранное',
-                'verbose_name_plural': 'Избранное',
+                "verbose_name": "Избранное",
+                "verbose_name_plural": "Избранное",
             },
         ),
     ]

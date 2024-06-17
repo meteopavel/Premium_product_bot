@@ -1,19 +1,9 @@
 from django.contrib import admin
 
-from .models import (
-    BuldingType,
-    Category,
-    City,
-    Condition,
-    Contact,
-    Realty,
-    Location,
-    Country,
-    AreaIntervals,
-    PriceIntervals
-)
-from reviews.models import Review
 from favorites.models import Favorite
+from reviews.models import Review
+from .models import (AreaIntervals, BuldingType, Category, City, Condition,
+                     Contact, Country, Location, PriceIntervals, Realty)
 
 
 @admin.register(BuldingType)
@@ -59,8 +49,11 @@ class FavoritesInline(admin.TabularInline):
 @admin.register(Realty)
 class RealtyAdmin(admin.ModelAdmin):
     list_filter = (
-        'location__city__name', 'location__city__country__title', 'building_type__name',
-        'condition__name', 'category__name'
+        "location__city__name",
+        "location__city__country__title",
+        "building_type__name",
+        "condition__name",
+        "category__name",
     )
     inlines = [ReviewInline, FavoritesInline]
 
@@ -72,8 +65,14 @@ class RealtyInline(admin.TabularInline):
 
 @admin.register(Location)
 class LocationAdmin(admin.ModelAdmin):
-    list_display = ('id', 'city',)
-    list_filter = ('city', 'city__country',)
+    list_display = (
+        "id",
+        "city",
+    )
+    list_filter = (
+        "city",
+        "city__country",
+    )
     inlines = [RealtyInline]
 
 

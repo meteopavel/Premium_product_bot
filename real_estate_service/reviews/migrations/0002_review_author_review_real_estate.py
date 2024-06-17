@@ -9,22 +9,29 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('object', '0001_initial'),
-        ('reviews', '0001_initial'),
-        ('user', '0001_initial'),
+        ("object", "0001_initial"),
+        ("reviews", "0001_initial"),
+        ("user", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='review',
-            name='author',
+            model_name="review",
+            name="author",
             field=models.ForeignKey(
-                blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='user.telegramuser'),
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                to="user.telegramuser",
+            ),
         ),
         migrations.AddField(
-            model_name='review',
-            name='real_estate',
+            model_name="review",
+            name="real_estate",
             field=models.ForeignKey(
-                on_delete=django.db.models.deletion.CASCADE, related_name='reviews', to='object.realty'),
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="reviews",
+                to="object.realty",
+            ),
         ),
     ]
