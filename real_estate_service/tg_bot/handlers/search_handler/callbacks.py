@@ -281,11 +281,10 @@ async def cancel_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def send_page(update: Update, context: ContextTypes.DEFAULT_TYPE, page):
     realtys = context.user_data["suitable_realtys"]
-    message_text = "вот:\n"
-    message_text += f'{realtys[page]["title"]}\n'
-    message_text += f'{FIELDS["area"]}: {realtys[page]["area"]}\n'
-    message_text += f'{FIELDS["price"]}: {realtys[page]["price"]}\n'
-    pk = realtys[page]["id"]
+    realty = realtys[page]
+    text = (f'вот:\n{realty["title"]}\n{FIELDS["area"]}: '
+            f'{realty["area"]}\n{FIELDS["price"]}: {realty["price"]}\n')
+    pk = realty["id"]
     reply_markup = InlineKeyboardMarkup(
         send_page_keyboard(page, len(realtys), pk)
     )
