@@ -5,6 +5,7 @@ from .base_utils import get_or_create_telegram_user
 
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Handler for start button"""
     tg_id = update.message.from_user.id
     first_name = update.message.from_user.first_name
     last_name = update.message.from_user.last_name

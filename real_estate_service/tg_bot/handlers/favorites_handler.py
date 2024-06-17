@@ -15,6 +15,7 @@ from .search_handler.constants import LOGO_URL_RELATIVE
 
 @sync_to_async
 def get_buttons(all_favorites):
+    """Handler for getting all favorite button"""
     return [
         [
             InlineKeyboardButton(
@@ -49,6 +50,7 @@ async def get_favorites(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 async def add_to_favorites(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Handler for adding realty to favorites"""
     try:
         query = update.callback_query
         await query.answer()
@@ -69,6 +71,7 @@ async def add_to_favorites(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 async def delete_favorite(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Handler for deliting favorites"""
     try:
         query = update.callback_query
         await query.answer()

@@ -11,6 +11,7 @@ from tg_bot.handlers.base_utils import get_favorite_exists, get_user_by_id
 
 
 async def show_realty(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Handler to show realty details"""
     query = update.callback_query
     await query.answer()
     pk: int = int(query.data.split("_")[-1])

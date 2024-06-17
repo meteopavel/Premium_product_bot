@@ -6,6 +6,7 @@ from .base_utils import get_admin_is_staff, get_admin_is_superuser
 
 
 async def contacts(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Handler for contact button"""
     text = (
         "Мы рады, что вы пользуетесь нашим ботом.\nЕсли вам необходима "
         "помощь, обратитесь к администраторам:\n"
