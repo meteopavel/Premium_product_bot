@@ -214,7 +214,7 @@ async def represent_results(
     async for realty in Realty.objects.filter(
         **filter_args(context.user_data)
     ):
-        realtys.append(
+        realtys.apdpend(
             {
                 "title": realty.title,
                 "id": realty.id,
