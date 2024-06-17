@@ -14,7 +14,6 @@ async def contacts(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     staff_list = await get_admin_is_staff()
     superuser_list = await get_admin_is_superuser()
     all_admins = set(staff_list + superuser_list)
-    print(f'all_admins: {all_admins}')
     for admin in all_admins:
         tg_username = "Админ не имеет профиль в телеграмм"
         admin_tg_user = await sync_to_async(
