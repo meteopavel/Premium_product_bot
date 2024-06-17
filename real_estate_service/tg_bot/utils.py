@@ -2,10 +2,10 @@ import os
 
 from asgiref.sync import sync_to_async
 from dotenv import load_dotenv
-from object.models import Realty
 from telegram import Bot, InlineKeyboardButton, InlineKeyboardMarkup
-from user.models import TelegramUser
 
+from object.models import Realty
+from user.models import TelegramUser
 from tg_bot.handlers.search_handler.constants import FIELDS
 from tg_bot.handlers.search_handler.utils import string_to_dict
 

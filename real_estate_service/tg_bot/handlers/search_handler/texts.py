@@ -1,7 +1,9 @@
 from asgiref.sync import sync_to_async
 from django.db.models import Model
-from object.models import BuldingType, Category, City, Condition
 from telegram.ext import ContextTypes
+
+from object.models import BuldingType, Category, City, Condition
+
 
 forgein_fields: dict[str, Model] = {
     "location__city": City,

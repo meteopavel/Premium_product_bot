@@ -1,7 +1,7 @@
 from django.contrib import admin
+
 from favorites.models import Favorite
 from reviews.models import Review
-
 from .models import (AreaIntervals, BuldingType, Category, City, Condition,
                      Contact, Country, Location, PriceIntervals, Realty)
 

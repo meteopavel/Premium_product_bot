@@ -1,9 +1,10 @@
 from asgiref.sync import sync_to_async
 from django.db.models import Case, CharField, F, Value, When
-from object.models import Realty
-from reviews.models import Review
 from telegram import Update
 from telegram.ext import ContextTypes, ConversationHandler
+
+from object.models import Realty
+from reviews.models import Review
 from tg_bot.middleware.check_tg_user import is_user_blocked
 from user.models import TelegramUser
 

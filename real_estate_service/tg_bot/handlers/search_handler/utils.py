@@ -4,8 +4,8 @@ from datetime import datetime, timedelta
 from asgiref.sync import sync_to_async
 from telegram import InputMediaPhoto, Update
 from telegram.ext import ContextTypes
-from user.models import TelegramUser
 
+from user.models import TelegramUser
 from .constants import LOGO_URL_ABSOLUTE, LOGO_URL_RELATIVE
 
 

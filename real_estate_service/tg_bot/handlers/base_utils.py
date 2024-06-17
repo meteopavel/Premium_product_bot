@@ -1,4 +1,5 @@
 from asgiref.sync import sync_to_async
+
 from favorites.models import Favorite
 from object.models import Realty
 from tg_bot.handlers.search_handler.utils import dict_to_string

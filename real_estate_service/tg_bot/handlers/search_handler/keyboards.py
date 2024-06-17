@@ -1,9 +1,9 @@
 from django.db import models
-from object.models import BaseIntervals, City
 from telegram import InlineKeyboardButton, Update
 from telegram.ext import ContextTypes
-from tg_bot.middleware.check_tg_user import is_user_subscribed
 
+from object.models import BaseIntervals, City
+from tg_bot.middleware.check_tg_user import is_user_subscribed
 from .constants import MAIN_FIELDS, OTHER_FIELDS
 
 

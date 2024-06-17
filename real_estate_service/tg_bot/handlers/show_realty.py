@@ -1,4 +1,3 @@
-from object.models import Realty
 from telegram import (
     InlineKeyboardButton,
     InlineKeyboardMarkup,
@@ -6,6 +5,8 @@ from telegram import (
     Update,
 )
 from telegram.ext import ContextTypes, ConversationHandler
+
+from object.models import Realty
 from tg_bot.handlers.base_utils import get_favorite_exists, get_user_by_id
 
 

@@ -1,4 +1,12 @@
 from asgiref.sync import sync_to_async
+from telegram import (
+    InlineKeyboardButton,
+    InlineKeyboardMarkup,
+    InputMediaPhoto,
+    Update,
+)
+from telegram.ext import ContextTypes, ConversationHandler
+
 from object.models import (
     AreaIntervals,
     BuldingType,
@@ -8,16 +16,8 @@ from object.models import (
     PriceIntervals,
     Realty,
 )
-from telegram import (
-    InlineKeyboardButton,
-    InlineKeyboardMarkup,
-    InputMediaPhoto,
-    Update,
-)
-from telegram.ext import ContextTypes, ConversationHandler
 from tg_bot.handlers.show_realty import show_realty
 from tg_bot.middleware import is_user_blocked
-
 from .constants import (
     CHOOSE,
     CITY_TYPING,

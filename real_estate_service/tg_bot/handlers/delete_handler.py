@@ -1,6 +1,7 @@
 from asgiref.sync import sync_to_async
 from telegram import Update
 from telegram.ext import ContextTypes
+
 from user.models import TelegramUser
 
 
