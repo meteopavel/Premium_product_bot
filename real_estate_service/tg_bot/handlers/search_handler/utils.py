@@ -55,7 +55,7 @@ async def edit_or_send(
     else:
         await context.bot.send_photo(
             chat_id=update.effective_chat.id,
-            photo=LOGO_URL_ABSOLUTE,
+            photo=LOGO_URL_RELATIVE,
             caption=text,
             reply_markup=reply_markup,
         )
