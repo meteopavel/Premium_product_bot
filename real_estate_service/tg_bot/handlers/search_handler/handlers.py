@@ -39,7 +39,8 @@ search_handler = ConversationHandler(
         ],
         TYPING: [MessageHandler(filters.TEXT & ~filters.COMMAND, save_text)],
         CITY_TYPING: [
-            MessageHandler(filters.TEXT & ~filters.COMMAND, other_citys_list)
+            MessageHandler(filters.TEXT & ~filters.COMMAND, other_citys_list),
+            CallbackQueryHandler(main_menu, pattern="^main_menu$"),
         ],
         REPRESENT: [
             CallbackQueryHandler(rep_button, pattern="^(page)"),

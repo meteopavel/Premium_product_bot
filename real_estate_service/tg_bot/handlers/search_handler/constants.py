@@ -41,3 +41,4 @@ FIELDS = {
 
 LOGO_URL_ABSOLUTE = os.getenv("WEBHOOK_URL") + "/media/realty/images/logo.jpg"
 LOGO_URL_RELATIVE = "media/realty/images/logo.jpg"
+MAX_MENU_ITEMS = 3

@@ -87,6 +87,8 @@ def compare_text(user_params: dict[str, str], text_data: dict[str, str]):
 @sync_to_async
 def ralty_is_sutable(realty: Realty, user: TelegramUser):
     user_parameters = string_to_dict(user.search_parameters)
+    if not user_parameters:
+        return True
     forgein_data = get_filled_fields(realty, foregin_fields)
     integer_data = get_filled_fields(realty, integer_fields)
     text_data = get_filled_fields(realty, text_fields)
