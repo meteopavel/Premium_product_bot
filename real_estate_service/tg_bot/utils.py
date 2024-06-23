@@ -6,7 +6,7 @@ from telegram import Bot, InlineKeyboardButton, InlineKeyboardMarkup
 
 from object.models import Realty
 from user.models import TelegramUser
-from tg_bot.handlers.search_handler.constants import FIELDS
+from tg_bot.handlers.search_handler.constants import FIELDS, LOGO_URL_RELATIVE
 from tg_bot.handlers.search_handler.utils import string_to_dict
 
 load_dotenv()
@@ -121,13 +121,20 @@ async def send_telegram_message(pk: int):
             ]
             fields = get_filled_fields(realty, search_fields)
             text = realty.title
+            photo  = realty.image
+            print(photo)
+            if not photo:
+                photo = LOGO_URL_RELATIVE
             for field in fields:
                 text += f"\n{FIELDS[field]}: {fields[field]}"
 
             reply_markup = InlineKeyboardMarkup(keyboard)
-            await bot.send_message(
-                chat_id=user.tg_id, text=text, reply_markup=reply_markup
-            )
+            await bot.send_photo(
+                        chat_id=user.tg_id,
+                        photo=photo,
+                        caption=text,
+                        reply_markup=reply_markup,
+                    )            
 
 
 async def send_telegram_message_to_all_users(message):
