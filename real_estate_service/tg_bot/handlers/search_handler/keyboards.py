@@ -206,15 +206,12 @@ async def send_citys_keyboard(
                 )
             )
         if end_index < len(citys):
-            keyboard[-1].append(
-                InlineKeyboardButton(
-                    "Следующая", callback_data=f"page_{page+1}"
-                )
-            )
-            keyboard.append(
-                [InlineKeyboardButton("выйти", callback_data="main_menu")]
-            )
-        return keyboard
+            keyboard[-1].append(InlineKeyboardButton(
+                'Следующая', callback_data=f'page_{page+1}'))
+    keyboard.append(
+        [InlineKeyboardButton('выйти', callback_data='main_menu')]
+    )
+    return keyboard
 
 
 def send_page_keyboard(page, length, pk):
