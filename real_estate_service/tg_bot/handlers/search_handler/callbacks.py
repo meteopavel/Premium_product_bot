@@ -18,6 +18,7 @@ from object.models import (
 )
 from tg_bot.handlers.show_realty import show_realty
 from tg_bot.middleware import is_user_blocked
+from tg_bot.handlers.base_utils import get_country_from_city
 from .constants import (
     CHOOSE,
     CITY_TYPING,
@@ -97,15 +98,17 @@ async def location__city(
 
 
 async def city_typing(
-    update: Update, context: ContextTypes.DEFAULT_TYPE
+    update: Update,
+    context: ContextTypes.DEFAULT_TYPE,
+    text:str = None
 ) -> int:
     """Меню выбора города, если его нет в списке основных городов."""
-    text = "Напишите название города"
-    query = update.callback_query
-    await query.answer()
-    await query.edit_message_media(
-        media=InputMediaPhoto(media=LOGO_URL_ABSOLUTE, caption=text)
-    )
+    if not text:
+        text = "Напишите название города."
+        reply_markup = None
+    else:
+        reply_markup = InlineKeyboardMarkup(await send_citys_keyboard())
+    await edit_or_send(update, context, text, reply_markup)
     return CITY_TYPING
 
 
@@ -117,8 +120,12 @@ async def other_citys_list(update: Update, context: ContextTypes.DEFAULT_TYPE):
     page = 0
     citys = []
     async for city in City.objects.filter(name__icontains=text):
+        country = await get_country_from_city(city)
         citys.append(
-            {"name": city.name, "region": city.district, "pk": city.pk}
+            {"name": city.name,
+             "region": city.district,
+             "country": country,
+             "pk": city.pk}
         )
     if len(citys) > MAX_CITYS:
         citys = []
@@ -131,7 +138,8 @@ async def send_citys(update: Update, context: ContextTypes.DEFAULT_TYPE, page):
     if citys:
         message_text = "вот:"
     else:
-        message_text = "Нет ожидаемого результата. Попробуйте еще!"
+        text = "Нет ожидаемого результата. Попробуйте еще!"
+        return await city_typing(update, context, text)
     reply_markup = InlineKeyboardMarkup(await send_citys_keyboard(citys, page))
     await context.bot.send_photo(
         chat_id=update.effective_chat.id,
@@ -220,6 +228,7 @@ async def represent_results(
                 "id": realty.id,
                 "area": realty.area,
                 "price": realty.price,
+                "image": realty.image
             }
         )
     context.user_data["suitable_realtys"] = realtys
@@ -240,9 +249,8 @@ async def represent_results(
             f" кв.м\nЦена: {realtys[page]['price']} руб.")
     keyboard = send_page_keyboard(page, len(realtys), realty_id)
     reply_markup = InlineKeyboardMarkup(keyboard)
-
-    if realty.image:
-        await insert_object_card(query, realty.image, text, reply_markup)
+    if realtys[page]['image']:
+        await insert_object_card(query, realtys[page]['image'], text, reply_markup)
     else:
         await insert_object_card(query, LOGO_URL_ABSOLUTE, text, reply_markup)
     return CHOOSE
@@ -314,7 +322,11 @@ async def other_menu(
     if not context.user_data.get("text_input"):
         await edit_or_send(update, context, text, reply_markup)
     else:
-        await update.message.reply_text(text=text, reply_markup=reply_markup)
+        await update.message.reply_photo(
+            caption=text,
+            photo=LOGO_URL_ABSOLUTE,
+            reply_markup=reply_markup
+            )
         del context.user_data["text_input"]
     return CHOOSE
 
@@ -421,6 +433,8 @@ async def subscribe(
     is_subscribed = False
     if query.data.split("_")[-1] == "no":
         is_subscribed = True
+    if not is_subscribed:
+        await save_search_parameters(update, context)
     tg_id = update.effective_chat.id
     await save_is_subscribed(tg_id, is_subscribed)
     await main_menu(update, context)

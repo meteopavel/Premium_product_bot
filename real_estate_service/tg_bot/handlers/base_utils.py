@@ -1,7 +1,7 @@
 from asgiref.sync import sync_to_async
 
 from favorites.models import Favorite
-from object.models import Realty
+from object.models import Realty, City
 from tg_bot.handlers.search_handler.utils import dict_to_string
 from user.models import TelegramUser, User
 
@@ -62,3 +62,7 @@ def get_admin_is_staff():
 @sync_to_async
 def get_admin_is_superuser():
     return list(User.objects.filter(is_superuser=True, is_active=True))
+
+@sync_to_async
+def get_country_from_city(city: City):
+    return city.country.title
