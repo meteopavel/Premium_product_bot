@@ -6,4 +6,4 @@ class TgBotConfig(AppConfig):
     name = "tg_bot"
 
     def ready(self):
-        pass
+        import tg_bot.signals
