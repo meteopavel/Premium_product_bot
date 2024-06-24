@@ -148,7 +148,7 @@ async def interval_keyboard(
     async for interval in model.objects.all():
         string = f"{interval.minimum}-{interval.maximum}"
         keyboard.append([InlineKeyboardButton(string, callback_data=string)])
-    
+
     if not keyboard:
         return [
             [
@@ -220,21 +220,29 @@ async def send_citys_keyboard(
 
 def send_page_keyboard(page, length, pk):
     keyboard = []
+
+    navigation_buttons = []
     if page > 0:
-        keyboard.append(
-            InlineKeyboardButton("⬅️", callback_data=f"page_{page-1}")
+        navigation_buttons.append(
+            InlineKeyboardButton("⬅️", callback_data=f"page_{page - 1}")
         )
     if page + 1 < length:
-        keyboard.append(
-            InlineKeyboardButton("➡️", callback_data=f"page_{page+1}")
+        navigation_buttons.append(
+            InlineKeyboardButton("➡️", callback_data=f"page_{page + 1}")
         )
-    keyboard.append(InlineKeyboardButton("🏁 Выйти", callback_data="cancel"))
-    keyboard.append(
+
+    if navigation_buttons:
+        keyboard.append(navigation_buttons)
+
+    action_buttons = [
         InlineKeyboardButton("📘 Поиск", callback_data="return_to_main"),
-    )
+        InlineKeyboardButton("🏁 Выйти", callback_data="cancel")
+    ]
+    keyboard.append(action_buttons)
+
     realty_button = [
         InlineKeyboardButton("🔍 Посмотреть", callback_data="realty_" + str(pk))
     ]
-    keyboard = [keyboard]
     keyboard.append(realty_button)
+
     return keyboard
