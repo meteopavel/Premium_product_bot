@@ -1,6 +1,5 @@
 import os
 
-from dotenv import load_dotenv
 from telegram.ext import (
     Application,
     CallbackQueryHandler,
@@ -27,8 +26,6 @@ from tg_bot.handlers.search_handler.callbacks import (
     page_navigation_handler,
     realty_callback_handler,
 )
-
-load_dotenv()
 
 ASK_FOR_REVIEW = 1
 
