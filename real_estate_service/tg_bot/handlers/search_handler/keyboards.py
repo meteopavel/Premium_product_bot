@@ -153,13 +153,13 @@ async def interval_keyboard(
         return [
             [
                 InlineKeyboardButton(
-                    "Интервалы не настроены, вернутся в главное меню",
+                    "Интервалы не настроены, вернуться в главное меню",
                     callback_data="menu",
                 )
             ],
         ]
     keyboard.append(
-        [InlineKeyboardButton("📘 Вернутся в меню", callback_data="menu")]
+        [InlineKeyboardButton("📘 Вернуться в меню", callback_data="menu")]
     )
     return keyboard
 
@@ -213,7 +213,7 @@ async def send_citys_keyboard(
         keyboard[-1].append(InlineKeyboardButton(
             "➡️", callback_data=f"page_{page+1}"))
     keyboard.append(
-        [InlineKeyboardButton("📘 Вернутся", callback_data="main_menu")]
+        [InlineKeyboardButton("📘 Вернуться", callback_data="main_menu")]
     )
     return keyboard
 
