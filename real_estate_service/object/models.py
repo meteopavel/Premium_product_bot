@@ -145,6 +145,7 @@ class Realty(models.Model):
         upload_to="realty/images/",
         verbose_name="Изображение",
         null=True,
+        blank=True,
         default=None,
     )
     location = models.ForeignKey(

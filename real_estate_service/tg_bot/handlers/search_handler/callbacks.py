@@ -420,7 +420,7 @@ async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     if await save_search_parameters(update, context):
         text = "Поиск окончен."
     else:
-        text = "Вы не зарегистрированны. Скомандуйте начать."
+        text = "Вы не зарегистрированны. Пожалуйста, введите /start"
     await edit_or_send(update, context, text)
     return ConversationHandler.END
 

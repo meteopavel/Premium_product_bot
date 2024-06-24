@@ -1,5 +1,7 @@
 from django.db import models
-from telegram import InlineKeyboardButton, Update
+from telegram import (
+    KeyboardButton, InlineKeyboardButton, ReplyKeyboardMarkup, Update
+)
 from telegram.ext import ContextTypes
 
 from object.models import BaseIntervals, City
@@ -50,7 +52,7 @@ async def main_keyboard(
         keyboard.append(
             [
                 InlineKeyboardButton(
-                    "✅Отписаться", callback_data="subscribe_yes"
+                    "✅ Отписаться", callback_data="subscribe_yes"
                 )
             ]
         )
@@ -182,7 +184,7 @@ async def send_citys_keyboard(
 ) -> list[list[InlineKeyboardButton]]:
     if not citys:
         keyboard = [
-            [InlineKeyboardButton("📘 выйти", callback_data="main_menu")],
+            [InlineKeyboardButton("📘 Выйти", callback_data="main_menu")],
         ]
         return keyboard
     keyboard = []
