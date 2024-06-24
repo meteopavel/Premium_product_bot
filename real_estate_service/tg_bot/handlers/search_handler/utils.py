@@ -109,7 +109,7 @@ def filter_args(user_data) -> dict:
         args[query] = (start_date, end_date)
     if text_field in user_data:
         query = text_field + "__icontains"
-        data = user_data[field]
+        data = user_data[text_field]
         args[query] = data
     return args
 
