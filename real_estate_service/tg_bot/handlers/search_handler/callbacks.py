@@ -8,14 +8,13 @@ from telegram import (
 from telegram.ext import ContextTypes, ConversationHandler
 
 from object.models import (
-    AreaIntervals,
     BuldingType,
     Category,
     City,
     Condition,
-    PriceIntervals,
     Realty,
 )
+from tg_bot.models import PriceIntervals, AreaIntervals
 from tg_bot.handlers.show_realty import show_realty
 from tg_bot.middleware import is_user_blocked
 from tg_bot.handlers.base_utils import get_country_from_city
@@ -33,7 +32,7 @@ from .constants import (
     TYPING,
 )
 from .keyboards import (
-    PUBLISH_DATE_KEYBOARD,
+    publish_date_keyboard,
     all_obj_keyboard,
     interval_keyboard,
     location__city_keyboard,
@@ -42,6 +41,7 @@ from .keyboards import (
     send_citys_keyboard,
     send_page_keyboard,
 )
+from .keyboards import RETURN_TO_MAIN_BUTTON
 from .texts import user_data_as_text
 from .utils import (
     edit_or_send,
@@ -234,9 +234,9 @@ async def represent_results(
     context.user_data["suitable_realtys"] = realtys
 
     if not realtys:
-        text = "Ничего подходящего=("
+        text = "🤷‍♂️ Ничего подходящего."
         keyboard = [
-            [InlineKeyboardButton("в главное меню", callback_data="main_menu")]
+            [RETURN_TO_MAIN_BUTTON]
         ]
         reply_markup = InlineKeyboardMarkup(keyboard)
         await insert_object_card(query, LOGO_URL_ABSOLUTE, text, reply_markup)
@@ -333,7 +333,7 @@ async def other_menu(
 
 async def publish_date(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Меню выбора периода даты публикации"""
-    reply_markup = InlineKeyboardMarkup(PUBLISH_DATE_KEYBOARD)
+    reply_markup = InlineKeyboardMarkup(await publish_date_keyboard())
     context.user_data["choose"] = "publish_date"
     query = update.callback_query
     text = "Выбери период публикации"
