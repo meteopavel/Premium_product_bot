@@ -8,10 +8,10 @@ MAX_INTERVALS_COUNT = 7
 
 class BaseIntervals(models.Model):
     minimum = models.PositiveIntegerField(
-        blank=True, null=True, verbose_name="минимальное значение"
+        blank=True, null=True, verbose_name="Минимальное значение"
     )
     maximum = models.PositiveIntegerField(
-        blank=True, null=True, verbose_name="максимальное значение"
+        blank=True, null=True, verbose_name="Максимальное значение"
     )
 
     class Meta:
