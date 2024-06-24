@@ -121,7 +121,7 @@ async def send_telegram_message(pk: int):
             ]
             fields = get_filled_fields(realty, search_fields)
             text = realty.title
-            photo  = realty.image
+            photo = realty.image
             print(photo)
             if not photo:
                 photo = LOGO_URL_RELATIVE
