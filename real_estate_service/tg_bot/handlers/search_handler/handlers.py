@@ -34,7 +34,7 @@ search_handler = ConversationHandler(
         SAVE_CHOOSE: [
             CallbackQueryHandler(save_choose, pattern=filter_main_menu),
             CallbackQueryHandler(city_typing, pattern="^city_typing$"),
-            CallbackQueryHandler(main_menu, pattern="^menu$"),
+            CallbackQueryHandler(main_menu, pattern="main_menu$"),
             CallbackQueryHandler(other_menu, pattern="^other_menu$"),
         ],
         TYPING: [MessageHandler(filters.TEXT & ~filters.COMMAND, save_text)],

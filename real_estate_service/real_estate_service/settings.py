@@ -103,3 +103,7 @@ MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+SITE_HEADER = "Администрирование сервиса поиска коммерческой недвижимости."
+SITE_TITLE = "Сервис поиска коммерческой недвижимости."
+INDEX_TITLE = "Главная страница."

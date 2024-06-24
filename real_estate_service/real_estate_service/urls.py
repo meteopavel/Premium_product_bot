@@ -16,9 +16,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-
+from django.utils.translation import gettext_lazy as _
+from django.conf import settings
 from main import webhook
 
+admin.site.site_header = _(settings.SITE_HEADER)
+admin.site.site_title = _(settings.SITE_TITLE)
+admin.site.index_title = _(settings.INDEX_TITLE)
 
 urlpatterns = [
     path('telegram/', webhook, name='Telegran updates'),

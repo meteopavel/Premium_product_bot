@@ -2,8 +2,8 @@ from django.contrib import admin
 
 from favorites.models import Favorite
 from reviews.models import Review
-from .models import (AreaIntervals, BuldingType, Category, City, Condition,
-                     Contact, Country, Location, PriceIntervals, Realty)
+from .models import (BuldingType, Category, City, Condition,
+                     Contact, Country, Location, Realty)
 
 
 @admin.register(BuldingType)
@@ -58,7 +58,7 @@ class RealtyAdmin(admin.ModelAdmin):
     inlines = [ReviewInline, FavoritesInline]
 
 
-class RealtyInline(admin.TabularInline):
+class RealtyInline(admin.StackedInline):
     model = Realty
     extra = 0
 
@@ -75,12 +75,3 @@ class LocationAdmin(admin.ModelAdmin):
     )
     inlines = [RealtyInline]
 
-
-@admin.register(AreaIntervals)
-class AreaIntervalsAdmin(admin.ModelAdmin):
-    pass
-
-
-@admin.register(PriceIntervals)
-class PriceIntervalsAdmin(admin.ModelAdmin):
-    pass

@@ -73,3 +73,11 @@ class TelegramUser(models.Model):
         ordering = ("first_name",)
         verbose_name = "Пользователь Telegram"
         verbose_name_plural = "Пользователи Telegram"
+
+    def __str__(self):
+        if self.first_name and self.last_name:
+            return f"{self.first_name} {self.last_name}"
+        if self.username:
+            return self.username
+        else:
+            return self.tg_id
