@@ -1,16 +1,16 @@
 
 
-![Python](https://img.shields.io/badge/Python-v3.10--alpine-blue?style=flat&logo=python&labelColor=lightblue)
-![Django](https://img.shields.io/badge/Django-v5.0-green?style=flat&logo=django&labelColor=lightblue)
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-v13.15--alpine-green?style=flat&logo=PostgreSQL&labelColor=lightblue)
+![Python](https://img.shields.io/badge/Python-v3.10--alpine-blue?style=flat&logo=python&labelColor=D7BDE2)
+![Django](https://img.shields.io/badge/Django-v5.0-green?style=flat&logo=django&labelColor=D7BDE2)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-v13.15--alpine-green?style=flat&logo=PostgreSQL&labelColor=D7BDE2)
 
-![Python Telegram Bot](https://img.shields.io/badge/Python--telegram--bot-v21.2-blue?style=flat&logo=telegram&labelColor=lightblue)
-![Pillow](https://img.shields.io/badge/Pillow-v10.3-blue?style=flat&logo=pillow&labelColor=lightblue)
+![Python Telegram Bot](https://img.shields.io/badge/Python--telegram--bot-v21.2-blue?style=flat&logo=telegram&labelColor=D7BDE2)
+![Pillow](https://img.shields.io/badge/Pillow-v10.3-blue?style=flat&logo=pillow&labelColor=D7BDE2)
 
-![Docker](https://img.shields.io/badge/Docker-v26.1-green?style=flat&logo=docker&labelColor=lightblue)
-![Nginx](https://img.shields.io/badge/nginx-1.26--alpine-blue?style=flat&logo=nginx&labelColor=lightblue)
-![Uvicorn](https://img.shields.io/badge/Uvicorn-v0.23-green?style=flat&logo=gunicorn&labelColor=lightblue)
-![GitHub](https://img.shields.io/badge/GitHub-gray?style=flat&logo=github&labelColor=lightblue)
+![Docker](https://img.shields.io/badge/Docker-v26.1-green?style=flat&logo=docker&labelColor=D7BDE2)
+![Nginx](https://img.shields.io/badge/nginx-1.26--alpine-blue?style=flat&logo=nginx&labelColor=D7BDE2)
+![Uvicorn](https://img.shields.io/badge/Uvicorn-v0.23-green?style=flat&logo=gunicorn&labelColor=D7BDE2)
+![GitHub](https://img.shields.io/badge/GitHub-gray?style=flat&logo=github&labelColor=D7BDE2)
 
 
 
