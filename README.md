@@ -5,11 +5,11 @@
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-v13.15--alpine-green?style=flat&logo=PostgreSQL)
 
 ![Python Telegram Bot](https://img.shields.io/badge/Python--telegram--bot-v21.2-blue?style=flat&logo=telegram)
-![Pillow](https://img.shields.io/badge/Pillow-v10.3-blue?style=flat&logo=uvicorn)
+![Pillow](https://img.shields.io/badge/Pillow-v10.3-blue?style=flat&logo=pillow)
 
 ![Docker](https://img.shields.io/badge/Docker-v26.1-green?style=flat&logo=docker)
 ![Nginx](https://img.shields.io/badge/nginx-1.26--alpine-blue?style=flat&logo=nginx)
-![Uvicorn](https://img.shields.io/badge/Uvicorn-v0.23-green?style=flat&logo=uvicorn)
+![Uvicorn](https://img.shields.io/badge/Uvicorn-v0.23-green?style=flat&logo=gunicorn)
 ![GitHub](https://img.shields.io/badge/GitHub-gray?style=flat&logo=github)
 
 
