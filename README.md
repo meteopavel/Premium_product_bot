@@ -26,7 +26,7 @@
     <a href="https://github.com/Studio-Yandex-Practicum/Premium_product_bot_team_3"><strong>Просмотреть документацию »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/Studio-Yandex-Practicum/Premium_product_bot_team_3">Демо-версия</a>
+    <a href="https://t.me/Comm_Real_Estate_Bot">Демо-версия</a>
     ·
     <a href="https://github.com/Studio-Yandex-Practicum/Premium_product_bot_team_3/issues/new?labels=bug&template=bug-report---.md">Сообщить об ошибке</a>
     ·
