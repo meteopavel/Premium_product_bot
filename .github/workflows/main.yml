@@ -3,7 +3,7 @@ name: Main Premium-product-bot Workflow
 on:
   push:
     branches:
-      - 36
+      - master
 
 jobs:
   build_real_estate_and_push_to_docker_hub:
