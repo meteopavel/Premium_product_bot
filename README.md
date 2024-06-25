@@ -1,11 +1,7 @@
-# Проект: Telegram-бот для поиска коммерческой недвижимости
+![Python](https://img.shields.io/badge/python-3.10-blue?style=for-the-badge&logo=python)
 
-[![Contributors][contributors-shield]][contributors-url]
-[![Forks][forks-shield]][forks-url]
-[![Stargazers][stars-shield]][stars-url]
-[![Issues][issues-shield]][issues-url]
-[![MIT License][license-shield]][license-url]
-[![LinkedIn][linkedin-shield]][linkedin-url]
+
+# Проект: Telegram-бот для поиска коммерческой недвижимости
 
 ## Описание проекта
 Telegram-бот предназначен для упрощения поиска коммерческой недвижимости для аренды или покупки. Бот предоставляет пользователям возможность быстро находить подходящие объекты недвижимости по заданным критериям, а также получать подробную информацию о каждом объекте, контактную информацию владельцев или агентов, и подписываться на уведомления о новых предложениях.
