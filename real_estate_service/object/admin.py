@@ -3,7 +3,7 @@ from django.contrib import admin
 from favorites.models import Favorite
 from reviews.models import Review
 from .models import (BuldingType, Category, City, Condition,
-                     Contact, Country, Location, Realty)
+                     Contact, Country, Location, Realty, WorkSchedule)
 
 
 @admin.register(BuldingType)
@@ -46,6 +46,17 @@ class FavoritesInline(admin.TabularInline):
     extra = 0
 
 
+class WorkScheduleInline(admin.TabularInline):
+    model = WorkSchedule
+    extra = 0
+
+@admin.register(WorkSchedule)
+class WorkScheduleAdmin(admin.ModelAdmin):
+    list_display = ('realty', 'day_of_week', 'start_time', 'end_time')
+    list_filter = ('day_of_week',)
+    search_fields = ('realty__title',)
+    raw_id_fields = ('realty',)
+
 @admin.register(Realty)
 class RealtyAdmin(admin.ModelAdmin):
     list_filter = (
@@ -55,7 +66,7 @@ class RealtyAdmin(admin.ModelAdmin):
         "condition__name",
         "category__name",
     )
-    inlines = [ReviewInline, FavoritesInline]
+    inlines = [ReviewInline, FavoritesInline, WorkScheduleInline]
 
 
 class RealtyInline(admin.StackedInline):
