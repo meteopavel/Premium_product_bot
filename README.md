@@ -2,7 +2,7 @@
 
 ![Python](https://img.shields.io/badge/Python-v3.10--alpine-blue?style=flat&logo=python&labelColor=D7BDE2)
 ![Django](https://img.shields.io/badge/Django-v5.0-green?style=flat&logo=django&labelColor=D7BDE2)
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-v13.15--alpine-green?style=flat&logo=PostgreSQL&labelColor=D7BDE2)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-v13.15--alpine-blue?style=flat&logo=PostgreSQL&labelColor=D7BDE2)
 
 ![Python Telegram Bot](https://img.shields.io/badge/Python--telegram--bot-v21.2-blue?style=flat&logo=telegram&labelColor=D7BDE2)
 ![Pillow](https://img.shields.io/badge/Pillow-v10.3-blue?style=flat&logo=pillow&labelColor=D7BDE2)
