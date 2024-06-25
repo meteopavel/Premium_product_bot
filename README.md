@@ -2,7 +2,7 @@
 ![Django](https://img.shields.io/badge/Django-v5.0-green?style=flat&logo=django)
 ![Python Telegram Bot](https://img.shields.io/badge/python--telegram--bot-v21.2-blue?style=flat&logo=telegram)
 ![Uvicorn](https://img.shields.io/badge/uvicorn-v0.23-green?style=flat&logo=uvicorn)
-![Pillow](https://img.shields.io/badge/pillow-v10.3-blue?style=flat&logo=uvicorn)
+![Pillow](https://img.shields.io/badge/Pillow-v10.3-blue?style=flat&logo=uvicorn)
 
 
 # Проект: Telegram-бот для поиска коммерческой недвижимости
