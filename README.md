@@ -1,4 +1,8 @@
-![Python](https://img.shields.io/badge/python-3.10-blue?style=for-the-badge&logo=python)
+![Python](https://img.shields.io/badge/python-v3.10-blue?style=flat&logo=python)
+![Django](https://img.shields.io/badge/Django-v5.0-green?style=flat-square&logo=django)
+![Python Telegram Bot](https://img.shields.io/badge/python--telegram--bot-v21.2-blue?style=plastic&logo=telegram)
+![Uvicorn](https://img.shields.io/badge/uvicorn-v0.23-green?style=for-the-badge&logo=uvicorn)
+![Pillow](https://img.shields.io/badge/pillow-v10.3-blue?style=social&logo=uvicorn)
 
 
 # Проект: Telegram-бот для поиска коммерческой недвижимости
