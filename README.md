@@ -3,7 +3,7 @@
 ![Python Telegram Bot](https://img.shields.io/badge/Python--telegram--bot-v21.2-blue?style=flat&logo=telegram)
 ![Uvicorn](https://img.shields.io/badge/Uvicorn-v0.23-green?style=flat&logo=uvicorn)
 ![Pillow](https://img.shields.io/badge/Pillow-v10.3-blue?style=flat&logo=uvicorn)
-___
+
 ![Docker](https://img.shields.io/badge/Docker-v26.1-green?style=flat&logo=docker)
 ![GitHub](https://img.shields.io/badge/GitHub-gray?style=flat&logo=github)
 
