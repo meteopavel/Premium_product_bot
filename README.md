@@ -14,19 +14,19 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/othneildrew/Best-README-Template">
+  <a href="https://github.com/Studio-Yandex-Practicum/Premium_product_bot_team_3">
     <img src="images/logo-big.jpg" alt="Logo" width="320" height="180">
   </a>
 
   <h3 align="center">Премиум Продукт</h3>
 
   <p align="center">
-    Telegram-бот для поиска коммерческой недвижимости!
+    Удобный Telegram-бот для поиска коммерческой недвижимости!
     <br />
-    <a href="https://github.com/othneildrew/Best-README-Template"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/Studio-Yandex-Practicum/Premium_product_bot_team_3"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/othneildrew/Best-README-Template">View Demo</a>
+    <a href="https://github.com/Studio-Yandex-Practicum/Premium_product_bot_team_3">View Demo</a>
     ·
     <a href="https://github.com/othneildrew/Best-README-Template/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
     ·
