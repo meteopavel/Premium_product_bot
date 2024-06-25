@@ -1,4 +1,4 @@
-
+[![Contributors](https://img.shields.io/github/contributors/Studio-Yandex-Practicum/Premium_product_bot_team_3.svg)](https://gitHub.com/Studio-Yandex-Practicum/Premium_product_bot_team_3/graphs/contributors/)
 
 ![Python](https://img.shields.io/badge/Python-v3.10--alpine-blue?style=flat&logo=python&labelColor=D2B4DE)
 ![Django](https://img.shields.io/badge/Django-v5.0-green?style=flat&logo=django&labelColor=D2B4DE)
@@ -11,7 +11,6 @@
 ![Nginx](https://img.shields.io/badge/nginx-1.26--alpine-blue?style=flat&logo=nginx&labelColor=D2B4DE)
 ![Uvicorn](https://img.shields.io/badge/Uvicorn-v0.23-green?style=flat&logo=gunicorn&labelColor=D2B4DE)
 ![GitHub](https://img.shields.io/badge/GitHub-gray?style=flat&logo=github&labelColor=D2B4DE)
-
 
 
 # Проект: Telegram-бот для поиска коммерческой недвижимости
