@@ -11,6 +11,29 @@
 ![GitHub](https://img.shields.io/badge/GitHub-gray?style=flat&logo=github&labelColor=D2B4DE)
 
 
+<!-- PROJECT LOGO -->
+<br />
+<div align="center">
+  <a href="https://github.com/othneildrew/Best-README-Template">
+    <img src="images/logo-big.jpg" alt="Logo" width="640" height="360">
+  </a>
+
+  <h3 align="center">Премиум Продукт</h3>
+
+  <p align="center">
+    Telegram-бот для поиска коммерческой недвижимости!
+    <br />
+    <a href="https://github.com/othneildrew/Best-README-Template"><strong>Explore the docs »</strong></a>
+    <br />
+    <br />
+    <a href="https://github.com/othneildrew/Best-README-Template">View Demo</a>
+    ·
+    <a href="https://github.com/othneildrew/Best-README-Template/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
+    ·
+    <a href="https://github.com/othneildrew/Best-README-Template/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
+  </p>
+</div>
+
 # Проект: Telegram-бот для поиска коммерческой недвижимости
 
 ## Описание проекта
