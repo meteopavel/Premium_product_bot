@@ -1,4 +1,6 @@
-[![Contributors](https://img.shields.io/github/contributors/Studio-Yandex-Practicum/Premium_product_bot_team_3.svg)](https://gitHub.com/Studio-Yandex-Practicum/Premium_product_bot_team_3/graphs/contributors/)
+[![Contributors](https://img.shields.io/github/contributors/Studio-Yandex-Practicum/Premium_product_bot_team_3.svg)](https://github.com/Studio-Yandex-Practicum/Premium_product_bot_team_3/graphs/contributors/)
+
+
 
 ![Python](https://img.shields.io/badge/Python-v3.10--alpine-blue?style=flat&logo=python&labelColor=D2B4DE)
 ![Django](https://img.shields.io/badge/Django-v5.0-green?style=flat&logo=django&labelColor=D2B4DE)
