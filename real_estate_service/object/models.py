@@ -283,8 +283,16 @@ class WorkSchedule(models.Model):
         choices=DAYS_OF_WEEK,
         verbose_name="День недели",
     )
-    start_time = models.TimeField(verbose_name="Начало работы")
-    end_time = models.TimeField(verbose_name="Окончание работы")
+    start_time = models.TimeField(
+        verbose_name="Начало работы",
+        null=True,
+        blank=True,
+    )
+    end_time = models.TimeField(
+        verbose_name="Окончание работы",
+        null=True,
+        blank=True,
+    )
 
     class Meta:
         verbose_name = "График работы"
