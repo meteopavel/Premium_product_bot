@@ -7,6 +7,7 @@ from django.core.validators import (
 )
 from django.db import models
 from django.db.models import Q
+from django.db import transaction
 
 PHONE_REGEX = r"^\+?1?\d{9,15}$"
 PHONE_NUMBER_FIELD_MAX_LENTH = 17
@@ -291,3 +292,13 @@ class WorkSchedule(models.Model):
 
     def __str__(self):
         return f"{self.get_day_of_week_display()} {self.start_time}-{self.end_time}"
+
+    def delete_realty(realty_id):
+        try:
+            with transaction.atomic():
+                realty = Realty.objects.get(id=realty_id)
+                WorkSchedule.objects.filter(realty=realty).delete()
+                realty.delete()
+                return True
+        except Realty.DoesNotExist:
+            return False
