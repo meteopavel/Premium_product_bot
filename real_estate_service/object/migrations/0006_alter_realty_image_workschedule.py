@@ -21,8 +21,8 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('day_of_week', models.CharField(choices=[('mon', 'Понедельник'), ('tue', 'Вторник'), ('wed', 'Среда'), ('thu', 'Четверг'), ('fri', 'Пятница'), ('sat', 'Суббота'), ('sun', 'Воскресенье')], max_length=3, verbose_name='День недели')),
-                ('start_time', models.TimeField(blank=True, null=True, verbose_name='Начало работы')),
-                ('end_time', models.TimeField(blank=True, null=True, verbose_name='Окончание работы')),
+                ('start_time', models.TimeField(verbose_name='Начало работы')),
+                ('end_time', models.TimeField(verbose_name='Окончание работы')),
                 ('realty', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='work_schedule', to='object.realty', verbose_name='Объявление')),
             ],
             options={
