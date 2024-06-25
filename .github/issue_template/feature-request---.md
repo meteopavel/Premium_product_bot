@@ -1,15 +1,15 @@
 ---
-name: "Feature request \U0001F680"
-about: Suggest an idea
-labels: enhancement
+Название: "Предложение новой функции \U0001F680"
+Описание: Предложение идеи
+Метки: Улучшение
 
 ---
 
-## Summary
-Brief explanation of the feature.
+## Краткое описание
+Краткое объяснение предлагаемой функции.
 
-### Basic example
-Include a basic example or links here.
+### Базовый пример
+Включите базовый пример или ссылки здесь.
 
-### Motivation
-Why are we doing this? What use cases does it support? What is the expected outcome?
+### Мотивация
+Зачем мы это делаем? Какие сценарии использования поддерживает? Какой ожидаемый результат?
