@@ -28,7 +28,7 @@
     <br />
     <a href="https://t.me/Comm_Real_Estate_Bot">Демо-версия</a>
     ·
-    <a href="https://github.com/Studio-Yandex-Practicum/Premium_product_bot_team_3/issues/new?labels=Ошибка&template=bug-report---.md">Собщить об ошибке</a>
+    <a href="https://github.com/Studio-Yandex-Practicum/Premium_product_bot_team_3/issues/new?labels=Ошибка&template=bug-report---.md">Сообщить об ошибке</a>
     ·
     <a href="https://github.com/Studio-Yandex-Practicum/Premium_product_bot_team_3/issues/new?labels=Улучшение&template=feature-request---.md">Предложить улучшение</a>
   </p>
