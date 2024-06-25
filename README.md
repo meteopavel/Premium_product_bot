@@ -23,14 +23,14 @@
   <p align="center">
     Удобный Telegram-бот для поиска коммерческой недвижимости!
     <br />
-    <a href="https://github.com/Studio-Yandex-Practicum/Premium_product_bot_team_3"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/Studio-Yandex-Practicum/Premium_product_bot_team_3"><strong>Просмотреть документацию »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/Studio-Yandex-Practicum/Premium_product_bot_team_3">View Demo</a>
+    <a href="https://github.com/Studio-Yandex-Practicum/Premium_product_bot_team_3">Демо-версия</a>
     ·
-    <a href="https://github.com/othneildrew/Best-README-Template/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
+    <a href="https://github.com/Studio-Yandex-Practicum/Premium_product_bot_team_3/issues/new?labels=bug&template=bug-report---.md">Сообщить об ошибке</a>
     ·
-    <a href="https://github.com/othneildrew/Best-README-Template/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
+    <a href="https://github.com/Studio-Yandex-Practicum/Premium_product_bot_team_3/issues/new?labels=enhancement&template=feature-request---.md">Предложить улучшение</a>
   </p>
 </div>
 
