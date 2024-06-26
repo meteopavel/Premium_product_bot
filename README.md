@@ -70,6 +70,8 @@ Telegram-бот предназначен для упрощения поиска 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+
+
 ## Применяемые технологии
 * ![Python](https://img.shields.io/badge/Python-v3.10--alpine-blue?style=flat&logo=python&labelColor=FDEBD0&logoColor=blue)
 * ![Django](https://img.shields.io/badge/Django-v5.0-green?style=flat&logo=django&labelColor=FDEBD0&logoColor=blue)
@@ -81,6 +83,7 @@ Telegram-бот предназначен для упрощения поиска 
 * ![Uvicorn](https://img.shields.io/badge/Uvicorn-v0.23-green?style=flat&logo=gunicorn&labelColor=FDEBD0&logoColor=blue)
 * ![GitHub](https://img.shields.io/badge/GitHub-Actions-blue?style=flat&logo=github&labelColor=FDEBD0&logoColor=blue)
 
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 ## Функционал бота
@@ -140,15 +143,6 @@ git clone git@github.com:Studio-Yandex-Practicum/Premium_product_bot_team_3.git
 
 5. Получите и настройте SLL-сертификат
 
-## Технологии, используемые в проекте:
-- Django
-- PostgreSQL
-- Docker
-- Nginx
-- ASGI
-- Uvicorn
-- Telegram API
-- python-telegram-bot
 
 ## Команда разработчиков:
 - [Алексей Данилов](https://github.com/AlexeyDanilov/ )
