@@ -2,7 +2,7 @@
 <a name="readme-top"></a>
 
 <!-- PROJECT SHIELDS -->
-![Python](https://img.shields.io/badge/Python-v3.10--alpine-blue?style=flat&logo=python&labelColor=FDEBD0&logoColor=blue)
+[![Python][Python-shield]][Python-url]
 ![Django](https://img.shields.io/badge/Django-v5.0-green?style=flat&logo=django&labelColor=FDEBD0&logoColor=blue)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-v13.15--alpine-blue?style=flat&logo=PostgreSQL&labelColor=FDEBD0&logoColor=blue)
 ![Pillow](https://img.shields.io/badge/Pillow-v10.3-green?style=flat&logo=pillow&labelColor=FDEBD0&logoColor=blue)
@@ -87,6 +87,7 @@ Telegram-бот предназначен для упрощения поиска 
 
 
 ___
+<!-- GETTING STARTED -->
 ## Запуск проекта
 
 ### Локально
@@ -110,6 +111,7 @@ git clone git@github.com:Studio-Yandex-Practicum/Premium_product_bot_team_3.git
 
 
 ___
+<!-- USAGE -->
 ## Использование бота
 
 ### Функционал для пользователей
@@ -144,6 +146,7 @@ ___
 
 
 ___
+<!-- TEAM -->
 ## Команда разработчиков
 [Алексей Данилов](https://github.com/AlexeyDanilov)
 
@@ -188,3 +191,9 @@ ___
 * помощь сокомандникам в проблемных задачах.
 
 <p align="right">(<a href="#readme-top">вернуться наверх</a>)</p>
+
+
+<!-- MARKDOWN LINKS & IMAGES -->
+<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+[Python-shield]: https://img.shields.io/badge/Python-v3.10--alpine-blue?style=flat&logo=python&labelColor=FDEBD0&logoColor=blue
+[Python-url]: https://www.python.org/downloads/release/python-31010/
