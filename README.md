@@ -1,3 +1,7 @@
+<!-- Back to top link -->
+<a name="readme-top"></a>
+
+<!-- PROJECT SHIELDS -->
 ![Python](https://img.shields.io/badge/Python-v3.10--alpine-blue?style=flat&logo=python&labelColor=FDEBD0&logoColor=blue)
 ![Django](https://img.shields.io/badge/Django-v5.0-green?style=flat&logo=django&labelColor=FDEBD0&logoColor=blue)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-v13.15--alpine-blue?style=flat&logo=PostgreSQL&labelColor=FDEBD0&logoColor=blue)
@@ -31,6 +35,33 @@
     <a href="https://github.com/Studio-Yandex-Practicum/Premium_product_bot_team_3/issues/new?labels=enhancement">Предложить улучшение</a>
   </p>
 </div>
+
+<!-- TABLE OF CONTENTS -->
+<details>
+  <summary>Содержание</summary>
+  <ol>
+    <li>
+      <a href="#Описание проекта">Описание проекта</a>
+      <ul>
+        <li><a href="#built-with">Built With</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#getting-started">Getting Started</a>
+      <ul>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#installation">Installation</a></li>
+      </ul>
+    </li>
+    <li><a href="#usage">Usage</a></li>
+    <li><a href="#roadmap">Roadmap</a></li>
+    <li><a href="#contributing">Contributing</a></li>
+    <li><a href="#license">License</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#acknowledgments">Acknowledgments</a></li>
+  </ol>
+</details>
+
 
 
 ## Описание проекта
