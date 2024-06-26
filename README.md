@@ -8,7 +8,7 @@
 [![PostgreSQL][PostgreSQL-shield]][PostgreSQL-url]
 [![Pillow][Pillow-shield]][Pillow-url]
 
-[!Python-Telegram-Bot][Python-Telegram-Bot-shield]][Python-Telegram-Bot-url]
+[![Python-Telegram-Bot][Python-Telegram-Bot-shield]][Python-Telegram-Bot-url]
 
 [![Docker][Docker-shield]][Docker-url]
 [![Nginx][Nginx-shield]][Nginx-url]
@@ -77,7 +77,7 @@ Telegram-бот предназначен для упрощения поиска 
 * [![Django][Django-shield]][Django-url]
 * [![PostgreSQL][PostgreSQL-shield]][PostgreSQL-url]
 * [![Pillow][Pillow-shield]][Pillow-url]
-* [!Python-Telegram-Bot][Python-Telegram-Bot-shield]][Python-Telegram-Bot-url]
+* [![Python-Telegram-Bot][Python-Telegram-Bot-shield]][Python-Telegram-Bot-url]
 * [![Docker][Docker-shield]][Docker-url]
 * [![Nginx][Nginx-shield]][Nginx-url]
 * [![Uvicorn][Uvicorn-shield]][Uvicorn-url]
