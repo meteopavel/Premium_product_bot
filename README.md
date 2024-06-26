@@ -12,7 +12,7 @@
 ![Docker](https://img.shields.io/badge/Docker-v26.1-green?style=flat&logo=docker&labelColor=FDEBD0&logoColor=blue)
 ![Nginx](https://img.shields.io/badge/nginx-1.26--alpine-blue?style=flat&logo=nginx&labelColor=FDEBD0&logoColor=blue)
 ![Uvicorn](https://img.shields.io/badge/Uvicorn-v0.23-green?style=flat&logo=gunicorn&labelColor=FDEBD0&logoColor=blue)
-![GitHub](https://img.shields.io/badge/GitHub-blue?style=flat&logo=github&labelColor=FDEBD0&logoColor=blue)
+![GitHub](https://img.shields.io/badge/GitHub-Actions-blue?style=flat&logo=github&labelColor=FDEBD0&logoColor=blue)
 
 
 <!-- PROJECT LOGO -->
@@ -79,7 +79,7 @@ Telegram-бот предназначен для упрощения поиска 
 * ![Docker](https://img.shields.io/badge/Docker-v26.1-green?style=flat&logo=docker&labelColor=FDEBD0&logoColor=blue)
 * ![Nginx](https://img.shields.io/badge/nginx-1.26--alpine-blue?style=flat&logo=nginx&labelColor=FDEBD0&logoColor=blue)
 * ![Uvicorn](https://img.shields.io/badge/Uvicorn-v0.23-green?style=flat&logo=gunicorn&labelColor=FDEBD0&logoColor=blue)
-* ![GitHub](https://img.shields.io/badge/GitHub-blue?style=flat&logo=github&labelColor=FDEBD0&logoColor=blue)
+* ![GitHub](https://img.shields.io/badge/GitHub-Actions-blue?style=flat&logo=github&labelColor=FDEBD0&logoColor=blue)
 
 
 
