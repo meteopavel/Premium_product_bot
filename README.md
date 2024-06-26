@@ -43,7 +43,7 @@
     <li>
       <a href="#описание-проекта">Описание проекта</a>
       <ul>
-        <li><a href="#built-with">Built With</a></li>
+        <li><a href="#применяемые-технологии">Применяемые технологии</a></li>
       </ul>
     </li>
     <li>
@@ -69,6 +69,18 @@
 Telegram-бот предназначен для упрощения поиска коммерческой недвижимости для аренды или покупки. Бот предоставляет пользователям возможность быстро находить подходящие объекты недвижимости по заданным критериям, а также получать подробную информацию о каждом объекте, контактную информацию владельцев или агентов, и подписываться на уведомления о новых предложениях.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## Применяемые технологии
+* ![Python](https://img.shields.io/badge/Python-v3.10--alpine-blue?style=flat&logo=python&labelColor=FDEBD0&logoColor=blue)
+* ![Django](https://img.shields.io/badge/Django-v5.0-green?style=flat&logo=django&labelColor=FDEBD0&logoColor=blue)
+* ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-v13.15--alpine-blue?style=flat&logo=PostgreSQL&labelColor=FDEBD0&logoColor=blue)
+* ![Python Telegram Bot](https://img.shields.io/badge/Python--telegram--bot-v21.2-blue?style=flat&logo=telegram&labelColor=FDEBD0&logoColor=blue)
+* ![Pillow](https://img.shields.io/badge/Pillow-v10.3-blue?style=flat&logo=pillow&labelColor=FDEBD0&logoColor=blue)
+* ![Docker](https://img.shields.io/badge/Docker-v26.1-green?style=flat&logo=docker&labelColor=FDEBD0&logoColor=blue)
+* ![Nginx](https://img.shields.io/badge/nginx-1.26--alpine-blue?style=flat&logo=nginx&labelColor=FDEBD0&logoColor=blue)
+* ![Uvicorn](https://img.shields.io/badge/Uvicorn-v0.23-green?style=flat&logo=gunicorn&labelColor=FDEBD0&logoColor=blue)
+* ![GitHub](https://img.shields.io/badge/GitHub-blue?style=flat&logo=github&labelColor=FDEBD0&logoColor=blue)
+
 
 
 ## Функционал бота
