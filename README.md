@@ -144,6 +144,7 @@ git clone git@github.com:Studio-Yandex-Practicum/Premium_product_bot_team_3.git
 5. Получите и настройте SLL-сертификат
 
 
+___
 ## Команда разработчиков:
 [Алексей Данилов](https://github.com/AlexeyDanilov)
 
