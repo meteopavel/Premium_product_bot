@@ -94,7 +94,7 @@ ___
 git clone git@github.com:Studio-Yandex-Practicum/Premium_product_bot_team_3.git
 ```
 
-### На удаленном сервере
+### На удалённом сервере
 1. Клонируйте репозиторий.
 ```
 git clone git@github.com:Studio-Yandex-Practicum/Premium_product_bot_team_3.git
