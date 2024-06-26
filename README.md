@@ -41,7 +41,7 @@
   <summary>Содержание</summary>
   <ol>
     <li>
-      <a href="#Описание проекта">Описание проекта</a>
+      <a href="#about-the-project">Описание проекта</a>
       <ul>
         <li><a href="#built-with">Built With</a></li>
       </ul>
