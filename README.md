@@ -112,23 +112,36 @@ docker compose exec real_estate python manage.py migrate
 ```
 docker compose exec -it real_estate python manage.py createsuperuser
 ```
-6. Загрузить тестовые данные в базу (при необходимости)
+6. Скопировать статические файлы:
+```
+docker compose exec real_estate python manage.py collectstatic --no-input
+```
+7. Загрузить тестовые данные в базу (при необходимости)
 ```
 docker compose exec real_estate python manage.py upload_objects --file example_data.csv
 ```
-7. Зайти в админ-панель по адресу http://localhost:8000/admin/ и загрузить изображение для логотипа. Изображение будет использоваться для тех случаев, когда объявление не содержит фото объекта недвижимости. Загружать можно в любое объявление, но имя файла должно быть logo_v3.jpg
-8. После этих действий можно зайти в бота через Telegram и протестировать его работу
+8. Зайти в админ-панель по адресу http://localhost:8000/admin/ и загрузить изображение для логотипа. Изображение будет использоваться для тех случаев, когда объявление не содержит фото объекта недвижимости. Загружать можно в любое объявление, но имя файла должно быть logo_v3.jpg
+9. После этих действий можно зайти в бота через Telegram и протестировать его работу
 
 
 ### На удалённом сервере
-##### Требование в серверу: На сервере под управлением ОС Linux должна быть проведена первичная настройка. Необходимо установить и настроить nginx так, чтобы запросы на Ваш домен перенаправлялись в папку с проектом. Кроме того, на сервере должен быть установлен Docker.
+##### Требование в серверу: На сервере под управлением ОС Linux должна быть проведена первичная настройка. Необходимо установить и настроить nginx так, чтобы запросы на Ваш домен перенаправлялись в папку с проектом. Кроме того, на сервере должен быть установлен Docker. Для домена нужно получить SSL-сертификат. Это позволит его в качестве сервера для webhook.
 
 1. Клонировать репозиторий:
 ```
 git clone git@github.com:Studio-Yandex-PracticumPremium_product_bot_team_3.git
 ```
 2. Заполнить переменные окружения в файл .env по образцу .env.example
-
+3. Выполнить в контейнере те же операции, что и локально:
+```
+docker compose -f docker-compose.production.yml pull
+docker compose -f docker-compose.production.yml up -d
+docker compose -f docker-compose.production.yml exec real_estate python manage.py migrate
+docker compose -f docker-compose.production.yml exec -it real_estate python manage.py createsuperuser
+docker compose -f docker-compose.production.yml exec real_estate python manage.py collectstatic --no-input
+docker compose -f docker-compose.production.yml exec real_estate python manage.py upload_objects --file example_data.csv
+```
+4. После этих действий можно зайти в бота через Telegram и протестировать его работу
 
 
 <p align="right">(<a href="#readme-top">вернуться наверх</a>)</p>
