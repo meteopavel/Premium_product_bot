@@ -31,6 +31,8 @@
     <a href="https://t.me/Comm_Real_Estate_Bot"><strong>Перейти в Telegram »</strong></a>
     <br />
     <br />
+    <a href="https://realty-service.hopto.org/admin/">Демо-версия админ-панели</a>
+    ·
     <a href="https://github.com/Studio-Yandex-Practicum/Premium_product_bot_team_3/issues/new?labels=bug">Сообщить об ошибке</a>
     ·
     <a href="https://github.com/Studio-Yandex-Practicum/Premium_product_bot_team_3/issues/new?labels=enhancement">Предложить улучшение</a>
