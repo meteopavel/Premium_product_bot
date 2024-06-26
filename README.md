@@ -209,7 +209,7 @@ ___
 [Python-Telegram-Bot-url]: https://docs.python-telegram-bot.org/en/v21.2/
 [Docker-shield]: https://img.shields.io/badge/Docker-v26.1-green?style=flat&logo=docker&labelColor=FDEBD0&logoColor=blue
 [Docker-url]: https://docs.docker.com/engine/release-notes/26.1/
-[Nginx-shield]: https://img.shields.io/badge/Nginx-1.26--alpine-blue?style=flat&logo=nginx&labelColor=FDEBD0&logoColor=blue
+[Nginx-shield]: https://img.shields.io/badge/Nginx-v1.26--alpine-blue?style=flat&logo=nginx&labelColor=FDEBD0&logoColor=blue
 [Nginx-url]: https://nginx.org/en/docs/
 [Uvicorn-shield]: https://img.shields.io/badge/Uvicorn-v0.23-green?style=flat&logo=gunicorn&labelColor=FDEBD0&logoColor=blue
 [Uvicorn-url]: https://www.uvicorn.org/release-notes/
