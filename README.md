@@ -8,7 +8,7 @@
 [![PostgreSQL][PostgreSQL-shield]][PostgreSQL-url]
 [![Pillow][Pillow-shield]][Pillow-url]
 
-[!Python-Telegram-Boto][Python-Telegram-Bot-shield]][Python-Telegram-Bot-url]
+[!Python-Telegram-Bot][Python-Telegram-Bot-shield]][Python-Telegram-Bot-url]
 
 [![Docker][Docker-shield]][Docker-url]
 [![Nginx][Nginx-shield]][Nginx-url]
@@ -77,7 +77,7 @@ Telegram-бот предназначен для упрощения поиска 
 * [![Django][Django-shield]][Django-url]
 * [![PostgreSQL][PostgreSQL-shield]][PostgreSQL-url]
 * [![Pillow][Pillow-shield]][Pillow-url]
-* [!Python-Telegram-Boto][Python-Telegram-Bot-shield]][Python-Telegram-Bot-url]
+* [!Python-Telegram-Bot][Python-Telegram-Bot-shield]][Python-Telegram-Bot-url]
 * [![Docker][Docker-shield]][Docker-url]
 * [![Nginx][Nginx-shield]][Nginx-url]
 * [![Uvicorn][Uvicorn-shield]][Uvicorn-url]
@@ -203,8 +203,8 @@ ___
 [PostgreSQL-url]: https://www.postgresql.org/docs/13/release-13-15.html 
 [Pillow-shield]: https://img.shields.io/badge/Pillow-v10.3-green?style=flat&logo=pillow&labelColor=FDEBD0&logoColor=blue
 [Pillow-url]: https://pillow.readthedocs.io/en/stable/releasenotes/10.3.0.html
-[Python-Telegram_Bot-shield]: https://img.shields.io/badge/Python--telegram--bot-v21.2-blue?style=flat&logo=telegram&labelColor=FDEBD0&logoColor=blue
-[Python-Telegram_Bot-url]: https://docs.python-telegram-bot.org/en/v21.2/
+[Python-Telegram-Bot-shield]: https://img.shields.io/badge/Python--telegram--bot-v21.2-blue?style=flat&logo=telegram&labelColor=FDEBD0&logoColor=blue
+[Python-Telegram-Bot-url]: https://docs.python-telegram-bot.org/en/v21.2/
 [Docker-shield]: https://img.shields.io/badge/Docker-v26.1-green?style=flat&logo=docker&labelColor=FDEBD0&logoColor=blue
 [Docker-url]: https://docs.docker.com/engine/release-notes/26.1/
 [Nginx-shield]: https://img.shields.io/badge/nginx-1.26--alpine-blue?style=flat&logo=nginx&labelColor=FDEBD0&logoColor=blue
