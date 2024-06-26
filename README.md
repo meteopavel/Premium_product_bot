@@ -47,18 +47,19 @@
       </ul>
     </li>
     <li>
-      <a href="#getting-started">Getting Started</a>
+      <a href="#запуск-проекта">Запуск проекта</a>
       <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
+        <li><a href="#локально">Локально</a></li>
+        <li><a href="#на удалённом сервере">На удалённом сервере</a></li>
       </ul>
     </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
+    <li><a href="#использование бота">Использование бота</a>
+      <ul>
+        <li><a href="#функционал для пользователей">Функционал для пользователей</a></li>
+        <li><a href="#функционал для пользователей">Функционал для администраторов</a></li>
+      </ul>
+    </li>
+    <li><a href="#командна-разработки">Команда разработки</a></li>
   </ol>
 </details>
 
@@ -70,8 +71,6 @@ Telegram-бот предназначен для упрощения поиска 
 
 <p align="right">(<a href="#readme-top">вернуться наверх</a>)</p>
 
-
-___
 ### Применяемые технологии
 * ![Python](https://img.shields.io/badge/Python-v3.10--alpine-blue?style=flat&logo=python&labelColor=FDEBD0&logoColor=blue)
 * ![Django](https://img.shields.io/badge/Django-v5.0-green?style=flat&logo=django&labelColor=FDEBD0&logoColor=blue)
@@ -85,10 +84,34 @@ ___
 
 <p align="right">(<a href="#readme-top">вернуться наверх</a>)</p>
 
+
+___
+## Запуск проекта
+
+### Локально
+1. Клонируйте репозиторий.
+```
+git clone git@github.com:Studio-Yandex-Practicum/Premium_product_bot_team_3.git
+```
+
+### На удаленном сервере
+1. Клонируйте репозиторий.
+```
+git clone git@github.com:Studio-Yandex-Practicum/Premium_product_bot_team_3.git
+```
+2. Установите и настройте Docker.
+- Зайдите на [официальный сайт проекта](https://www.docker.com/products/docker-desktop) и скачайте установочный файл Docker Desktop.
+3. Переименуйте файл '.env.example' на 'env' и подставте свои данные.
+4. Установите и настройте Nginx.
+5. Получите и настройте SLL-сертификат
+
+<p align="right">(<a href="#readme-top">вернуться наверх</a>)</p>
+
+
 ___
 ## Функционал бота
 
-### Основные функции для пользователей:
+### Основные функции для пользователей
 1. Поиск объектов недвижимости:
    - Поиск по городам (например, Москва, Санкт-Петербург, Казань и т.д.).
    - Поиск по категориям (офисы, склады, магазины и т.д.).
@@ -103,7 +126,7 @@ ___
 3. Общение и поддержка:
    - Получение инструкций по работе с ботом.
 
-### Функции для администраторов:
+### Функции для администраторов
 1. Управление объявлениями:
    - Добавление и изменение объявлений.
    - Модерация и удаление объявлений (удаленные объявления помечаются как "Удалено администратором").
@@ -118,23 +141,9 @@ ___
 
 <p align="right">(<a href="#readme-top">вернуться наверх</a>)</p>
 
-___
-## Запуск проекта:
-### На удаленном сервере:
-1. Клонируйте репозиторий.
-```
-git clone git@github.com:Studio-Yandex-Practicum/Premium_product_bot_team_3.git
-```
-2. Установите и настройте Docker.
-- Зайдите на [официальный сайт проекта](https://www.docker.com/products/docker-desktop) и скачайте установочный файл Docker Desktop.
-3. Переименуйте файл '.env.example' на 'env' и подставте свои данные.
-4. Установите и настройте Nginx.
-5. Получите и настройте SLL-сертификат
-
-<p align="right">(<a href="#readme-top">вернуться наверх</a>)</p>
 
 ___
-## Команда разработчиков:
+## Команда разработчиков
 [Алексей Данилов](https://github.com/AlexeyDanilov)
 
 Занимался управлением командой (TeamLead):
