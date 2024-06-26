@@ -1,22 +1,22 @@
 ---
-Название: "Сообщение об ошибке \U0001F41E"
-Описание: Создать сообщение об ошибке
-Метки: bug
+name: "Bug report \U0001F41E"
+about: Create a bug report
+labels: bug
 
 ---
 
-## Описание ошибки
-Чёткое и краткое описание ошибки.
+## Describe the bug
+A clear and concise description of what the bug is.
 
-### Шаги для воспроизведения
-Шаги для воспроизведения проблемы.
+### Steps to reproduce
+Steps to reproduce the behavior.
 
-### Ожидаемое поведение
-Четкое и краткое описание ожидаемого поведения.
+### Expected behavior
+A clear and concise description of what you expected to happen.
 
-### Окружение
- - ОС: [например, Arch Linux]
- - Другие детали, которые могут повлиять.
+### Environment
+ - OS: [e.g. Arch Linux]
+ - Other details that you think may affect.
 
-### Дополнительный контекст
-Добавьте любой другой контекст о проблеме здесь.
+### Additional context
+Add any other context about the problem here.
