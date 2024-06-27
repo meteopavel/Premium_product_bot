@@ -7,7 +7,7 @@ from .callbacks import (area, building_type, cancel, category, city_typing,
                         other_menu, price, publish_date, refresh_all,
                         refresh_other, rep_button, rep_button2,
                         represent_results, save_choose, save_text, subscribe,
-                        text)
+                        text, rent_or_sell, status)
 from .constants import (CHOOSE, CITY_TYPING, MAIN_FIELDS, OTHER_FIELDS,
                         REPRESENT, REPRESENT_CITYS, SAVE_CHOOSE, TYPING)
 from .filters import filter_main_menu, filter_rep_city

@@ -18,6 +18,17 @@ FAREST_EAST_TIMEZONE = 14
 MAX_INTERVALS_COUNT = 7
 
 
+REALTY_TYPE = {
+    "rent": "Аренда",
+    "sell": "Продажа",
+}
+
+
+REALTY_STATUS = {
+    "relevant": "Актуально",
+    "not_relevant":"Неактуально",
+}
+
 class Country(models.Model):
     title = models.CharField(max_length=100, verbose_name="Название")
 
@@ -193,6 +204,16 @@ class Realty(models.Model):
     )
     text = models.TextField(
         verbose_name="Текст обьявления", blank=True, null=True
+    )
+    type = models.CharField(
+        choices=REALTY_TYPE,
+        default="rent",
+        verbose_name="Тип обьявления"
+    )
+    status = models.CharField(
+        choices=REALTY_STATUS,
+        default="relevant",
+        verbose_name="Статус обьявления"
     )
 
     class Meta:

@@ -164,6 +164,23 @@ async def rep_button2(
         await main_menu(update, context)
 
 
+async def rent_or_sell(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Меню выбора типа объявления."""
+    query = update.callback_query
+    await query.answer()
+    reply_markup = InlineKeyboardMarkup(
+        [
+            [InlineKeyboardButton("Аренда", callback_data="main_menu")],
+            [InlineKeyboardButton("Продажа", callback_data= "main_menu")],
+            [RETURN_TO_MAIN_BUTTON],
+        ]
+    )
+    context.user_data["choose"] = "rent_or_sell"
+    text = "Аренда/Продажа"
+    await insert_object_card(query, LOGO_URL_ABSOLUTE, text, reply_markup)
+    return SAVE_CHOOSE
+
+
 async def area(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Выбор диапазона площади"""
     query = update.callback_query
@@ -369,6 +386,23 @@ async def building_type(update: Update, context: ContextTypes.DEFAULT_TYPE):
         )
     else:
         text = "Ваберите тип здания, в которм нужны помещения."
+    await insert_object_card(query, LOGO_URL_ABSOLUTE, text, reply_markup)
+    return SAVE_CHOOSE
+
+
+async def status(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Меню выбора статуса объявления."""
+    query = update.callback_query
+    await query.answer()
+    reply_markup = InlineKeyboardMarkup(
+        [
+            [InlineKeyboardButton("Актуально", callback_data="main_menu")],
+            [InlineKeyboardButton("Неактуально", callback_data= "main_menu")],
+            [RETURN_TO_MAIN_BUTTON],
+        ]
+    )
+    context.user_data["choose"] = "status"
+    text = "Актуально/Неактуально"
     await insert_object_card(query, LOGO_URL_ABSOLUTE, text, reply_markup)
     return SAVE_CHOOSE
 
