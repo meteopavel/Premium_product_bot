@@ -28,7 +28,7 @@
   <p align="center">
     Удобный Telegram-бот для поиска коммерческой недвижимости!
     <br />
-    <a href="https://t.me/Comm_Real_Estate_Bot"><strong>Перейти в Telegram »</strong></a>
+    <a href="https://t.me/Comm_Real_Estate_Bot"><strong>Перейти в Telegram »</strong></a><br />
     <a href="https://disk.yandex.ru/i/5M5dQBaRiwXR-Q"><strong>Посмотреть видеоинструкцию »</strong></a>
     <br />
     <br />
