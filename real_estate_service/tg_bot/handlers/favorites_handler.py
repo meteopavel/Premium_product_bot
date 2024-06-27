@@ -16,15 +16,20 @@ from .search_handler.constants import LOGO_URL_RELATIVE
 @sync_to_async
 def get_buttons(all_favorites):
     """Handler for getting all favorite button"""
-    return [
-        [
-            InlineKeyboardButton(
-                favorite_realty.realty.title,
-                callback_data=f"realty_{favorite_realty.realty.id}",
-            )
-        ]
-        for favorite_realty in all_favorites
-    ]
+    buttons = []
+    for favorite_realty in all_favorites:
+        title = favorite_realty.realty.title
+        if not favorite_realty.realty.is_active:
+            title += " - удалено админом"
+        buttons.append(
+            [
+                InlineKeyboardButton(
+                    title,
+                    callback_data=f"realty_{favorite_realty.realty.id}",
+                )
+            ]
+        )
+    return buttons
 
 
 async def get_favorites(update: Update, context: ContextTypes.DEFAULT_TYPE):
