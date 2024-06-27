@@ -20,14 +20,15 @@ def get_buttons(all_favorites):
     for favorite_realty in all_favorites:
         title = favorite_realty.realty.title
         if not favorite_realty.realty.is_active:
-            title += " - удалено админом<br>"
-        buttons.append([
-            InlineKeyboardButton(
-                title,
-                callback_data=f"realty_{favorite_realty.realty.id}",
-                parse_mode='HTML',  # Указываем HTML разметку
-            )
-        ])
+            title += " - удалено админом"
+        buttons.append(
+            [
+                InlineKeyboardButton(
+                    title,
+                    callback_data=f"realty_{favorite_realty.realty.id}",
+                )
+            ]
+        )
     return buttons
 
 
