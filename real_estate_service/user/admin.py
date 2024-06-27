@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
-from user.models import TelegramUser, User
+from user.models import TelegramUser, User, ArhivedTelegramUser
 
 
 @admin.register(User)
@@ -41,3 +41,8 @@ class TelegramUserAdmin(admin.ModelAdmin):
     list_editable = ("is_blocked",)
 
     search_fields = ("first_name", "last_name", "username")
+
+
+@admin.register(ArhivedTelegramUser)
+class ArhivedTelegramUserAdmin(admin.ModelAdmin):
+    pass

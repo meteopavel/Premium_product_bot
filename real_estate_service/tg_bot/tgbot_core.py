@@ -15,7 +15,7 @@ from tg_bot.handlers import (
     echo_handler,
     favorites_handler,
     show_realty,
-    start_handler,
+    start_handler
 )
 from tg_bot.handlers.review_handler import button, receive_review
 from tg_bot.handlers.search_handler import handlers

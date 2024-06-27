@@ -1,5 +1,7 @@
 import os
 from pathlib import Path
+from celery.schedules import crontab
+
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -107,3 +109,11 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 SITE_HEADER = "Администрирование сервиса поиска коммерческой недвижимости."
 SITE_TITLE = "Сервис поиска коммерческой недвижимости."
 INDEX_TITLE = "Главная страница."
+CELERY_BROKER_URL = "redis://redis:6379"
+CELERY_RESULT_BACKEND = "redis://redis:6379"
+CELERY_BEAT_SCHEDULE = {
+    "delete_arhived_users": {
+        "task": "user.tasks.delete_arhived_users",
+        "schedule": crontab(hour=0, minute=0),
+    },
+}

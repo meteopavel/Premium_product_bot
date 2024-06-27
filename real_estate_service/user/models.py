@@ -81,3 +81,42 @@ class TelegramUser(models.Model):
             return self.username
         else:
             return self.tg_id
+
+
+class ArhivedTelegramUser(models.Model):
+
+    tg_id = models.BigIntegerField(
+        verbose_name="Telegram id",
+        unique=True,
+    )
+    is_blocked = models.BooleanField(
+        verbose_name="Заблокирован", default=False
+    )
+    created_at = models.DateTimeField(
+        verbose_name="Registration date"
+    )
+
+    search_parameters = models.TextField(
+        verbose_name="Строка, хранящая поисковые парамерты",
+        null=True,
+        blank=True,
+    )
+    is_subscribed = models.BooleanField(
+        verbose_name="Подписан на обновления", default=False
+    )
+    reviews = models.TextField(
+        verbose_name="строка, хранящая отзывы пользователя"
+    )
+    favorites = models.TextField(
+        verbose_name="строка, хранящая избранные обьявления"
+    )
+    arhived_at = models.DateTimeField(
+        auto_now=True, verbose_name="Arhive date"
+    )
+
+    class Meta:
+        verbose_name = "Архивный пользователь Telegram"
+        verbose_name_plural = "Архивный пользователи Telegram"
+
+    def __str__(self):
+        return str(self.arhived_at)

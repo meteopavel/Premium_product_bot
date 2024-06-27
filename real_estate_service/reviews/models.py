@@ -16,21 +16,21 @@ class Review(models.Model):
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
-        verbose_name = "Автор"
+        verbose_name="Автор"
     )
     real_estate = models.ForeignKey(
         Realty,
         related_name="reviews",
         on_delete=models.CASCADE,
-        verbose_name = "Объявление"
-        
+        verbose_name="Объявление"
+
     )
-    text = models.TextField(verbose_name = "Текст")
+    text = models.TextField(verbose_name="Текст")
     status = models.CharField(
         max_length=1,
         choices=ReviewStatus.choices,
         default=ReviewStatus.PENDING,
-        verbose_name = "Статус"
+        verbose_name="Статус"
     )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
