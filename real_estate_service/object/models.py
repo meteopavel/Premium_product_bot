@@ -194,6 +194,9 @@ class Realty(models.Model):
     text = models.TextField(
         verbose_name="Текст обьявления", blank=True, null=True
     )
+    is_active = models.BooleanField(
+        default=True, verbose_name="Активно"
+    )
 
     class Meta:
         verbose_name = "Объявление"
@@ -202,6 +205,9 @@ class Realty(models.Model):
     def __str__(self):
         return self.title
 
+    def delete(self, using=None, keep_parents=False):
+        self.is_active = False
+        self.save()
 
 class BaseIntervals(models.Model):
     minimum = models.PositiveIntegerField(
@@ -297,7 +303,6 @@ class WorkSchedule(models.Model):
         try:
             with transaction.atomic():
                 realty = Realty.objects.get(id=realty_id)
-                WorkSchedule.objects.filter(realty=realty).delete()
                 realty.delete()
                 return True
         except Realty.DoesNotExist:

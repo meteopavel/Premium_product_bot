@@ -21,6 +21,11 @@ async def show_realty(update: Update, context: ContextTypes.DEFAULT_TYPE):
     realty = await Realty.objects.select_related(
         "category", "location__city", "contact", "condition", "building_type"
     ).aget(pk=pk)
+
+    if not realty.is_active:
+        text = "Этот объект был удален администратором."
+        await query.edit_message_text(text=text)
+        return ConversationHandler.END
     user = await get_user_by_id(update.effective_user.id)
     category = realty.category
     location = realty.location.city if realty.location else None
