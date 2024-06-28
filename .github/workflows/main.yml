@@ -47,7 +47,7 @@ jobs:
           tags: ${{ secrets.DOCKER_USERNAME }}/premium_product_bot_celery:latest
 
   build_celery_beat_and_push_to_docker_hub:
-    name: Push celery to DockerHub
+    name: Push celery_beat to DockerHub
     runs-on: ubuntu-latest
     steps:
       - name: Check out the repo
@@ -92,6 +92,8 @@ jobs:
     needs:
       - build_real_estate_and_push_to_docker_hub
       - build_gateway_and_push_to_docker_hub
+      - build_celery_and_push_to_docker_hub
+      - build_celery_beat_and_push_to_docker_hub
     steps:
     - name: Checkout repo
       uses: actions/checkout@v3
