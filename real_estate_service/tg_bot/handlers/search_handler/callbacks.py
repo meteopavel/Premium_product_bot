@@ -96,7 +96,7 @@ async def location__city(
         )()
         city_text = f"Выбранный ранее город: {city}"
     else:
-        city_text = "Выбери город!"
+        city_text = "Выберите город"
     await edit_or_send(update, context, city_text, reply_markup)
     return SAVE_CHOOSE
 
@@ -108,7 +108,7 @@ async def city_typing(
 ) -> int:
     """Меню выбора города, если его нет в списке основных городов."""
     if not text:
-        text = "Напишите название города."
+        text = "Напишите название города"
         reply_markup = None
     else:
         reply_markup = InlineKeyboardMarkup(await send_citys_keyboard())
@@ -140,7 +140,7 @@ async def other_citys_list(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def send_citys(update: Update, context: ContextTypes.DEFAULT_TYPE, page):
     citys = context.user_data["all_citys"]
     if citys:
-        message_text = "вот:"
+        message_text = "Найденные города:"
     else:
         text = "Нет ожидаемого результата. Попробуйте еще!"
         return await city_typing(update, context, text)
@@ -174,7 +174,7 @@ async def area(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     await query.answer()
     reply_markup = InlineKeyboardMarkup(await interval_keyboard(AreaIntervals))
     context.user_data["choose"] = "area"
-    text = "Выбери площадь"
+    text = "Выберите площадь"
     await insert_object_card(query, LOGO_URL_ABSOLUTE, text, reply_markup)
     return SAVE_CHOOSE
 
@@ -187,7 +187,7 @@ async def price(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await interval_keyboard(PriceIntervals)
     )
     context.user_data["choose"] = "price"
-    text = "Выбери цену"
+    text = "Выберите цену"
     await insert_object_card(query, LOGO_URL_ABSOLUTE, text, reply_markup)
     return SAVE_CHOOSE
 
@@ -201,7 +201,7 @@ async def category(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if "category" in context.user_data:
         text = f'Выбранная ранее категория:{context.user_data["category"]}'
     else:
-        text = "Выбери категорию!"
+        text = "Выберите категорию"
     await insert_object_card(query, LOGO_URL_ABSOLUTE, text, reply_markup)
     return SAVE_CHOOSE
 
@@ -292,7 +292,7 @@ async def cancel_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await query.answer()
     await query.edit_message_media(
         media=InputMediaPhoto(
-            media=LOGO_URL_ABSOLUTE, caption="Поиск отменён."
+            media=LOGO_URL_ABSOLUTE, caption="Поиск отменён"
         ),
     )
 
@@ -346,7 +346,7 @@ async def publish_date(update: Update, context: ContextTypes.DEFAULT_TYPE):
     reply_markup = InlineKeyboardMarkup(await publish_date_keyboard())
     context.user_data["choose"] = "publish_date"
     query = update.callback_query
-    text = "Выбери период публикации"
+    text = "Выберите период публикации"
     await query.answer()
     await insert_object_card(query, LOGO_URL_ABSOLUTE, text, reply_markup)
     return SAVE_CHOOSE
@@ -378,7 +378,7 @@ async def building_type(update: Update, context: ContextTypes.DEFAULT_TYPE):
             f'Выбранный ранее тип здания:{context.user_data["building_type"]}'
         )
     else:
-        text = "Ваберите тип здания, в которм нужны помещения."
+        text = "Выберите тип здания, в которм нужны помещения."
     await insert_object_card(query, LOGO_URL_ABSOLUTE, text, reply_markup)
     return SAVE_CHOOSE
 
@@ -428,17 +428,9 @@ async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     if "search" in context.user_data:
         del context.user_data["search"]
     if await save_search_parameters(update, context):
-        text = "Поиск окончен."
+        text = "Поиск окончен"
     else:
         text = "Вы не зарегистрированны. Пожалуйста, введите /start"
-    user_text = update.message.text[1:]
-    if user_text in ["start", "my_favorites"]:
-        arguments = (update, context)
-        return await globals()[user_text](*arguments)
-    if user_text == "stop":
-        return await delete(update, context)
-    if user_text:
-        return await echo(update, context)
     await edit_or_send(update, context, text)
     return ConversationHandler.END
 

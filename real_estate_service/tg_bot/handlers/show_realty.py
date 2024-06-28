@@ -25,9 +25,11 @@ async def show_realty(update: Update, context: ContextTypes.DEFAULT_TYPE):
     # Проверка на активность объявления
     if not realty.is_active:
         if query.message.text:  # Проверяем наличие текста в сообщении
-            await query.edit_message_text(text="Этот объект был удален администратором.")
+            await query.edit_message_text(
+                text="Этот объект был удален администратором.")
         else:
-            await query.message.reply_text("Этот объект был удален администратором.")
+            await query.message.reply_text(
+                "Этот объект был удален администратором.")
         return ConversationHandler.END
 
     user = await get_user_by_id(update.effective_user.id)
@@ -37,7 +39,9 @@ async def show_realty(update: Update, context: ContextTypes.DEFAULT_TYPE):
     condition = realty.condition
     building_type = realty.building_type
 
-    work_schedule = await sync_to_async(list)(WorkSchedule.objects.filter(realty=realty))
+    work_schedule = await sync_to_async(list)(WorkSchedule.objects.filter(
+        realty=realty
+        ))
 
     favorite_exists = await get_favorite_exists(user, realty)
 

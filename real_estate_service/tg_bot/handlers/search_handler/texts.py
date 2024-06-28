@@ -32,7 +32,8 @@ fields_name = {
 
 @sync_to_async
 def user_data_as_text(context: ContextTypes.DEFAULT_TYPE) -> str:
-    text = "Вот:"
+    text = ("Пожалуйста, укажите фильтры и нажмите\n"
+            "🕵🏻 Показать результат \n\nСейчас Вы ищете в:")
     for field in forgein_fields:
         if field in context.user_data:
             model = forgein_fields[field]
