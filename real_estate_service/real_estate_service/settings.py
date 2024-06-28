@@ -114,6 +114,6 @@ CELERY_RESULT_BACKEND = "redis://redis:6379"
 CELERY_BEAT_SCHEDULE = {
     "delete_arhived_users": {
         "task": "user.tasks.delete_arhived_users",
-        "schedule": crontab(minute="*"),
+        "schedule": crontab(hour=0, minute=1),
     },
 }
