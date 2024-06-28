@@ -18,6 +18,16 @@ FAREST_EAST_TIMEZONE = 14
 MAX_INTERVALS_COUNT = 7
 
 
+class RealtyType(models.TextChoices):
+    RENT = "rent", "Аренда",
+    SELL = "sell", "Продажа",
+
+
+class RealtyStatus(models.TextChoices):
+    RELEVANT = "relevant", "Актуально",
+    NOT_REVEVANT = "not_relevant", "Неактуально"
+
+
 class Country(models.Model):
     title = models.CharField(max_length=100, verbose_name="Название")
 
@@ -194,6 +204,16 @@ class Realty(models.Model):
     text = models.TextField(
         verbose_name="Текст обьявления", blank=True, null=True
     )
+    type = models.CharField(
+        choices=RealtyType.choices,
+        default=RealtyType.RENT,
+        verbose_name="Тип обьявления"
+    )
+    status = models.CharField(
+        choices=RealtyStatus.choices,
+        default=RealtyStatus.RELEVANT,
+        verbose_name="Статус обьявления"
+    )
     is_active = models.BooleanField(
         default=True, verbose_name="Активно"
     )
@@ -231,9 +251,9 @@ class BaseIntervals(models.Model):
 
     def clean(self):
         if (
-            self.maximum is not None
-            and self.minimum is not None
-            and self.maximum <= self.minimum
+                self.maximum is not None
+                and self.minimum is not None
+                and self.maximum <= self.minimum
         ):
             raise ValidationError("Max price must be greater than min price.")
 

@@ -104,6 +104,9 @@ class TGBot:
         self.ptb_app.add_handler(
             CallbackQueryHandler(main_menu, pattern="main_menu")
         )
+        self.ptb_app.add_handler(
+            CallbackQueryHandler(show_realty.clean, pattern="^clean$")
+        )
 
 
 tgbot = TGBot()

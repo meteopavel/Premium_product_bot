@@ -27,6 +27,18 @@ fields_name = {
     "price": "Цена ",
     "publish_date": "Период публикации",
     "text": "Поиск по тексту",
+    "status": "Статус",
+    "rent_or_sell": "Тип обьявления",
+}
+translate_fields = {
+    "rent_or_sell": {
+        "rent": "аренда",
+        "sell": "продажа"
+    },
+    "status": {
+        "relevant": "актуальное",
+        "not_relevant": "не актуальное"
+    }
 }
 
 
@@ -54,5 +66,10 @@ def user_data_as_text(context: ContextTypes.DEFAULT_TYPE) -> str:
                 + common_fields[field]
                 + "."
             )
+            text += f"\n{field_name}: " + data
+    for field in translate_fields:
+        if field in context.user_data:
+            field_name = fields_name[field]
+            data = translate_fields[field][context.user_data[field]]
             text += f"\n{field_name}: " + data
     return text

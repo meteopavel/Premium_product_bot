@@ -109,6 +109,7 @@ async def send_telegram_message(pk: int):
     bot_token = os.getenv("TELEGRAM_TOKEN")
     bot = Bot(token=bot_token)
     realty = await Realty.objects.filter(pk=pk).afirst()
+    
     async for user in TelegramUser.objects.filter(is_subscribed=True):
         if await ralty_is_sutable(realty, user):
             keyboard = [
@@ -116,25 +117,32 @@ async def send_telegram_message(pk: int):
                     InlineKeyboardButton(
                         "Перейти к обьявлению",
                         callback_data="realty_" + str(pk),
-                    )
+                    ),
+                    InlineKeyboardButton(
+                        "🚿 скрыть", callback_data="clean")
                 ]
             ]
+            
             fields = get_filled_fields(realty, search_fields)
-            text = f"❗️Получено сообщение по рассылке❗️ \n{realty.title}"
-            photo = realty.image
-            print(photo)
-            if not photo:
-                photo = LOGO_URL_RELATIVE
+            
+            text = "📨 Рассылка!\n"
+            text += "____________\n"
+            text += f"\nОбъект недвижимости: {realty.title}\n"
+            location = realty.location.city if realty.location else None
+            text += f"Локация: {location.name if location else 'Не указана'}\n"
+
             for field in fields:
                 text += f"\n{FIELDS[field]}: {fields[field]}"
-
+            
             reply_markup = InlineKeyboardMarkup(keyboard)
+            photo = realty.image if realty.image else LOGO_URL_RELATIVE
+            
             await bot.send_photo(
-                        chat_id=user.tg_id,
-                        photo=photo,
-                        caption=text,
-                        reply_markup=reply_markup,
-                    )            
+                chat_id=user.tg_id,
+                photo=photo,
+                caption=text,
+                reply_markup=reply_markup,
+            )
 
 
 async def send_telegram_message_to_all_users(message):

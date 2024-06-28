@@ -18,10 +18,6 @@ from tg_bot.models import PriceIntervals, AreaIntervals
 from tg_bot.handlers.show_realty import show_realty
 from tg_bot.middleware import is_user_blocked
 from tg_bot.handlers.base_utils import get_country_from_city
-from tg_bot.handlers.favorites_handler import get_favorites  # noqa
-from tg_bot.handlers.start_handler import start  # noqa
-from tg_bot.handlers.delete_handler import delete
-from tg_bot.handlers.echo_handler import echo  # noqa
 from .constants import (
     CHOOSE,
     CITY_TYPING,
@@ -96,7 +92,7 @@ async def location__city(
         )()
         city_text = f"Выбранный ранее город: {city}"
     else:
-        city_text = "Выберите город"
+        city_text = "Выбери город!"
     await edit_or_send(update, context, city_text, reply_markup)
     return SAVE_CHOOSE
 
@@ -108,7 +104,7 @@ async def city_typing(
 ) -> int:
     """Меню выбора города, если его нет в списке основных городов."""
     if not text:
-        text = "Напишите название города"
+        text = "Напишите название города."
         reply_markup = None
     else:
         reply_markup = InlineKeyboardMarkup(await send_citys_keyboard())
@@ -140,7 +136,7 @@ async def other_citys_list(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def send_citys(update: Update, context: ContextTypes.DEFAULT_TYPE, page):
     citys = context.user_data["all_citys"]
     if citys:
-        message_text = "Найденные города:"
+        message_text = "вот:"
     else:
         text = "Нет ожидаемого результата. Попробуйте еще!"
         return await city_typing(update, context, text)
@@ -168,13 +164,30 @@ async def rep_button2(
         await main_menu(update, context)
 
 
+async def rent_or_sell(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Меню выбора типа объявления."""
+    query = update.callback_query
+    await query.answer()
+    reply_markup = InlineKeyboardMarkup(
+        [
+            [InlineKeyboardButton("Аренда", callback_data="rent")],
+            [InlineKeyboardButton("Продажа", callback_data="sell")],
+            [RETURN_TO_MAIN_BUTTON],
+        ]
+    )
+    context.user_data["choose"] = "rent_or_sell"
+    text = "Аренда/Продажа"
+    await insert_object_card(query, LOGO_URL_ABSOLUTE, text, reply_markup)
+    return SAVE_CHOOSE
+
+
 async def area(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Выбор диапазона площади"""
     query = update.callback_query
     await query.answer()
     reply_markup = InlineKeyboardMarkup(await interval_keyboard(AreaIntervals))
     context.user_data["choose"] = "area"
-    text = "Выберите площадь"
+    text = "Выбери площадь"
     await insert_object_card(query, LOGO_URL_ABSOLUTE, text, reply_markup)
     return SAVE_CHOOSE
 
@@ -187,7 +200,7 @@ async def price(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await interval_keyboard(PriceIntervals)
     )
     context.user_data["choose"] = "price"
-    text = "Выберите цену"
+    text = "Выбери цену"
     await insert_object_card(query, LOGO_URL_ABSOLUTE, text, reply_markup)
     return SAVE_CHOOSE
 
@@ -201,7 +214,7 @@ async def category(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if "category" in context.user_data:
         text = f'Выбранная ранее категория:{context.user_data["category"]}'
     else:
-        text = "Выберите категорию"
+        text = "Выбери категорию!"
     await insert_object_card(query, LOGO_URL_ABSOLUTE, text, reply_markup)
     return SAVE_CHOOSE
 
@@ -228,42 +241,44 @@ async def represent_results(update: Update, context: ContextTypes.DEFAULT_TYPE) 
                 "id": realty.id,
                 "area": realty.area,
                 "price": realty.price,
-                "image": realty.image,
-                "is_active": realty.is_active,
+                "image": realty.image
             }
         )
     context.user_data["suitable_realtys"] = realtys
 
     if not realtys:
         text = "🤷‍♂️ Ничего подходящего."
-        keyboard = [[RETURN_TO_MAIN_BUTTON]]
+        keyboard = [
+            [RETURN_TO_MAIN_BUTTON]
+        ]
         reply_markup = InlineKeyboardMarkup(keyboard)
         await insert_object_card(query, LOGO_URL_ABSOLUTE, text, reply_markup)
         return
 
     page = context.user_data.get("page", 0)
-    realty = realtys[page]
-    realty_id = realty["id"]
 
-    if not realty["is_active"]:
+    if 0 <= page < len(realtys):
+        realty_id = realtys[page]["id"]
         text = (
-            f"Объект недвижимости: {realty['title']}\n"
-            "Этот объект был удален администратором."
+            "Объект недвижимости: "
+            f"{realtys[page]['title']}\nПлощадь: {realtys[page]['area']}"
+            f" кв.м\nЦена: {realtys[page]['price']} руб."
         )
+        keyboard = send_page_keyboard(page, len(realtys), realty_id)
+        reply_markup = InlineKeyboardMarkup(keyboard)
+        if realtys[page]['image']:
+            await insert_object_card(query, realtys[page]['image'], text, reply_markup)
+        else:
+            await insert_object_card(query, LOGO_URL_ABSOLUTE, text, reply_markup)
     else:
-        text = (
-            f"Объект недвижимости: {realty['title']}\n"
-            f"Площадь: {realty['area']} кв.м\n"
-            f"Цена: {realty['price']} руб."
-        )
-
-    keyboard = send_page_keyboard(page, len(realtys), realty_id)
-    reply_markup = InlineKeyboardMarkup(keyboard)
-    if realty["image"]:
-        await insert_object_card(query, realty["image"], text, reply_markup)
-    else:
+        text = "🤷‍♂️ Индекс страницы вне диапазона."
+        keyboard = [
+            [RETURN_TO_MAIN_BUTTON]
+        ]
+        reply_markup = InlineKeyboardMarkup(keyboard)
         await insert_object_card(query, LOGO_URL_ABSOLUTE, text, reply_markup)
     return CHOOSE
+
 
 
 async def realty_callback_handler(
@@ -292,7 +307,7 @@ async def cancel_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await query.answer()
     await query.edit_message_media(
         media=InputMediaPhoto(
-            media=LOGO_URL_ABSOLUTE, caption="Поиск отменён"
+            media=LOGO_URL_ABSOLUTE, caption="Поиск отменён."
         ),
     )
 
@@ -346,7 +361,7 @@ async def publish_date(update: Update, context: ContextTypes.DEFAULT_TYPE):
     reply_markup = InlineKeyboardMarkup(await publish_date_keyboard())
     context.user_data["choose"] = "publish_date"
     query = update.callback_query
-    text = "Выберите период публикации"
+    text = "Выбери период публикации"
     await query.answer()
     await insert_object_card(query, LOGO_URL_ABSOLUTE, text, reply_markup)
     return SAVE_CHOOSE
@@ -378,7 +393,25 @@ async def building_type(update: Update, context: ContextTypes.DEFAULT_TYPE):
             f'Выбранный ранее тип здания:{context.user_data["building_type"]}'
         )
     else:
-        text = "Выберите тип здания, в которм нужны помещения."
+        text = "Ваберите тип здания, в которм нужны помещения."
+    await insert_object_card(query, LOGO_URL_ABSOLUTE, text, reply_markup)
+    return SAVE_CHOOSE
+
+
+async def status(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Меню выбора статуса объявления."""
+    query = update.callback_query
+    await query.answer()
+    reply_markup = InlineKeyboardMarkup(
+        [
+            [InlineKeyboardButton("Актуально", callback_data="relevant")],
+            [InlineKeyboardButton(
+                "Неактуально", callback_data="not_relevant")],
+            [RETURN_TO_MAIN_BUTTON],
+        ]
+    )
+    context.user_data["choose"] = "status"
+    text = "Актуально/Неактуально"
     await insert_object_card(query, LOGO_URL_ABSOLUTE, text, reply_markup)
     return SAVE_CHOOSE
 
@@ -428,7 +461,7 @@ async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     if "search" in context.user_data:
         del context.user_data["search"]
     if await save_search_parameters(update, context):
-        text = "Поиск окончен"
+        text = "Поиск окончен."
     else:
         text = "Вы не зарегистрированны. Пожалуйста, введите /start"
     await edit_or_send(update, context, text)
