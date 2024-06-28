@@ -119,7 +119,7 @@ def set_user_review_author(user: TelegramUser, review_pk: int):
 
 async def restore_user(tg_user: TelegramUser) -> None:
     """Restore user from ArhivedTelegramUser"""
-    tg_id = tg_user.pk
+    tg_id = tg_user.tg_id
     arhived_user = await ArhivedTelegramUser.objects.filter(
         tg_id=tg_id).afirst()
     if not arhived_user:

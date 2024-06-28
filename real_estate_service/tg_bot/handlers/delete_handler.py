@@ -16,5 +16,6 @@ async def delete(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await sync_to_async(user.delete)()
     await context.bot.send_message(
         chat_id=update.effective_chat.id,
-        text="Ваш аккаунт был успешно удален. "
+        text=("Ваш аккаунт был успешно удален."
+              "Параметры поиска и избранного будут храниться 30 дней")
     )

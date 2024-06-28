@@ -7,9 +7,9 @@ from user.models import TelegramUser
 
 class Review(models.Model):
     class ReviewStatus(models.TextChoices):
-        PENDING = "P", _("Pending")
-        APPROVED = "A", _("Approved")
-        REJECTED = "R", _("Rejected")
+        PENDING = "P", _("Ожидает модерации")
+        APPROVED = "A", _("Утверждён")
+        REJECTED = "R", _("Отклонён")
 
     author = models.ForeignKey(
         TelegramUser,

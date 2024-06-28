@@ -105,10 +105,10 @@ class ArhivedTelegramUser(models.Model):
         verbose_name="Подписан на обновления", default=False
     )
     reviews = models.TextField(
-        verbose_name="строка, хранящая отзывы пользователя"
+        verbose_name="Строка, хранящая отзывы пользователя"
     )
     favorites = models.TextField(
-        verbose_name="строка, хранящая избранные обьявления"
+        verbose_name="Строка, хранящая избранные обьявления"
     )
     arhived_at = models.DateTimeField(
         auto_now=True, verbose_name="Arhive date"
