@@ -2,7 +2,7 @@ from asgiref.sync import sync_to_async
 from django.db.utils import IntegrityError
 from favorites.models import Favorite
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
-from telegram.ext import ContextTypes
+from telegram.ext import ContextTypes, ConversationHandler
 
 from .base_utils import (
     create_favorites,
@@ -52,6 +52,7 @@ async def get_favorites(update: Update, context: ContextTypes.DEFAULT_TYPE):
             "⚠️ <b>Вы были заблокированы. Обратитесь к администратору!</b>",
             parse_mode="HTML",
         )
+    return ConversationHandler.END
 
 
 async def add_to_favorites(update: Update, context: ContextTypes.DEFAULT_TYPE):

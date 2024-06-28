@@ -18,6 +18,10 @@ from tg_bot.models import PriceIntervals, AreaIntervals
 from tg_bot.handlers.show_realty import show_realty
 from tg_bot.middleware import is_user_blocked
 from tg_bot.handlers.base_utils import get_country_from_city
+from tg_bot.handlers.favorites_handler import get_favorites  # noqa
+from tg_bot.handlers.start_handler import start  # noqa
+from tg_bot.handlers.delete_handler import delete
+from tg_bot.handlers.echo_handler import echo  # noqa
 from .constants import (
     CHOOSE,
     CITY_TYPING,
@@ -100,7 +104,7 @@ async def location__city(
 async def city_typing(
     update: Update,
     context: ContextTypes.DEFAULT_TYPE,
-    text:str = None
+    text: str = None
 ) -> int:
     """Меню выбора города, если его нет в списке основных городов."""
     if not text:
@@ -332,7 +336,7 @@ async def other_menu(
             caption=text,
             photo=LOGO_URL_ABSOLUTE,
             reply_markup=reply_markup
-            )
+        )
         del context.user_data["text_input"]
     return CHOOSE
 
@@ -427,6 +431,14 @@ async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
         text = "Поиск окончен."
     else:
         text = "Вы не зарегистрированны. Пожалуйста, введите /start"
+    user_text = update.message.text[1:]
+    if user_text in ["start", "my_favorites"]:
+        arguments = (update, context)
+        return await globals()[user_text](*arguments)
+    if user_text == "stop":
+        return await delete(update, context)
+    if user_text:
+        return await echo(update, context)
     await edit_or_send(update, context, text)
     return ConversationHandler.END
 
