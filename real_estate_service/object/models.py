@@ -135,7 +135,7 @@ class Location(models.Model):
         verbose_name_plural = "Локации"
 
     def __str__(self):
-        return f"Локация в {self.city}"
+        return f"Локация в {self.city}, {self.street}, {self.building}"
 
 
 class Realty(models.Model):
