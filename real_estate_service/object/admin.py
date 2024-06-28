@@ -112,6 +112,8 @@ class LocationAdmin(admin.ModelAdmin):
     list_display = (
         "id",
         "city",
+        "street",
+        "building",
     )
     list_filter = (
         "city",
