@@ -12,7 +12,7 @@ from django.urls import path
 from favorites.models import Favorite
 from reviews.models import Review
 from .models import (BuldingType, Category, City, Condition,
-                     Contact, Country, Location, Realty, WorkSchedule)
+                     Contact, Country, Location, Realty, WorkSchedule, RealtyType, RealtyStatus)
 
 
 @admin.register(BuldingType)
@@ -84,7 +84,6 @@ class RealtyAdmin(admin.ModelAdmin):
             object_file = request.FILES['object_file']
             fs = FileSystemStorage()
             filename = fs.save(object_file.name, object_file)
-            uploaded_file_url = fs.url(filename)
             try:
                 with open(fs.path(filename), mode="r", encoding="utf-8") as file:
                     reader = csv.DictReader(file, delimiter=';')
@@ -119,6 +118,8 @@ class RealtyAdmin(admin.ModelAdmin):
                             price = row.get("price")
                             area = int(area) if area and area.isdigit() else None
                             price = int(price) if price and price.isdigit() else None
+                            realty_type = row.get('realty_type') or RealtyType.RENT
+                            realty_status = row.get('realty_status') or RealtyStatus.RELEVANT
                             Realty.objects.get_or_create(
                                 title=row.get("title"),
                                 site=row.get("site"),
@@ -127,6 +128,8 @@ class RealtyAdmin(admin.ModelAdmin):
                                 category=category,
                                 contact=contact,
                                 location=location,
+                                type=realty_type,
+                                status=realty_status
                             )
                 messages.success(request, f'Файл {filename} был успешно обработан.')
                 return redirect('admin:object_realty_changelist')

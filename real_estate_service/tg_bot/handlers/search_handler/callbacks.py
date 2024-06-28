@@ -92,7 +92,7 @@ async def location__city(
         )()
         city_text = f"Выбранный ранее город: {city}"
     else:
-        city_text = "Выбери город!"
+        city_text = "Выберите город!"
     await edit_or_send(update, context, city_text, reply_markup)
     return SAVE_CHOOSE
 
@@ -136,7 +136,7 @@ async def other_citys_list(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def send_citys(update: Update, context: ContextTypes.DEFAULT_TYPE, page):
     citys = context.user_data["all_citys"]
     if citys:
-        message_text = "вот:"
+        message_text = "Найденные города:"
     else:
         text = "Нет ожидаемого результата. Попробуйте еще!"
         return await city_typing(update, context, text)
@@ -187,7 +187,7 @@ async def area(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     await query.answer()
     reply_markup = InlineKeyboardMarkup(await interval_keyboard(AreaIntervals))
     context.user_data["choose"] = "area"
-    text = "Выбери площадь"
+    text = "Выберите площадь"
     await insert_object_card(query, LOGO_URL_ABSOLUTE, text, reply_markup)
     return SAVE_CHOOSE
 
@@ -200,7 +200,7 @@ async def price(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await interval_keyboard(PriceIntervals)
     )
     context.user_data["choose"] = "price"
-    text = "Выбери цену"
+    text = "Выберите цену"
     await insert_object_card(query, LOGO_URL_ABSOLUTE, text, reply_markup)
     return SAVE_CHOOSE
 
@@ -214,7 +214,7 @@ async def category(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if "category" in context.user_data:
         text = f'Выбранная ранее категория:{context.user_data["category"]}'
     else:
-        text = "Выбери категорию!"
+        text = "Выберите категорию!"
     await insert_object_card(query, LOGO_URL_ABSOLUTE, text, reply_markup)
     return SAVE_CHOOSE
 
@@ -361,7 +361,7 @@ async def publish_date(update: Update, context: ContextTypes.DEFAULT_TYPE):
     reply_markup = InlineKeyboardMarkup(await publish_date_keyboard())
     context.user_data["choose"] = "publish_date"
     query = update.callback_query
-    text = "Выбери период публикации"
+    text = "Выберите период публикации"
     await query.answer()
     await insert_object_card(query, LOGO_URL_ABSOLUTE, text, reply_markup)
     return SAVE_CHOOSE
