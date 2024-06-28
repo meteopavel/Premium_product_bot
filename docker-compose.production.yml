@@ -20,7 +20,16 @@ services:
     depends_on:
       - db
       - redis
-  
+  celery:
+    image: meteopavel/premium_product_bot_celery
+    env_file: .env
+    depends_on:
+      - redis
+  celery_beat:
+    image: meteopavel/premium_product_bot_celery_beat
+    env_file: .env
+    depends_on:
+      - redis
   gateway:
     image: meteopavel/premium_product_bot_gateway
     env_file: .env 

@@ -28,11 +28,11 @@ services:
     depends_on:
       - redis
   celery_beat:
-      build: ./real_estate_service/
-      command: celery -A real_estate_service beat -l info
-      env_file: .env
-      depends_on:
-        - redis
+    build: ./real_estate_service/
+    command: celery -A real_estate_service beat -l info
+    env_file: .env
+    depends_on:
+      - redis
   gateway:
     build: ./gateway/
     env_file: .env 
