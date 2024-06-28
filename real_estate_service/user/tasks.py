@@ -12,7 +12,7 @@ logger = get_task_logger(__name__)
 @shared_task
 def delete_arhived_users():
     logger.info("The delete_arhived_users task just ran.")
-    threshold_date = timezone.now() - timedelta(days=ARHIVE_DURATION)
+    threshold_date = timezone.now() - timedelta(seconds=ARHIVE_DURATION)
     users_to_delete = ArhivedTelegramUser.objects.filter(
         arhived_at__lte=threshold_date)
     for user in users_to_delete:

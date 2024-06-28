@@ -116,7 +116,7 @@ class ArhivedTelegramUser(models.Model):
 
     class Meta:
         verbose_name = "Архивный пользователь Telegram"
-        verbose_name_plural = "Архивный пользователи Telegram"
+        verbose_name_plural = "Архивные пользователи Telegram"
 
     def __str__(self):
         return str(self.arhived_at)
