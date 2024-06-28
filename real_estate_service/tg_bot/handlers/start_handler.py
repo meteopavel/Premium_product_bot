@@ -1,7 +1,7 @@
 from telegram import Update
 from telegram.ext import ContextTypes, ConversationHandler
 
-from .base_utils import get_or_create_telegram_user
+from .base_utils import get_or_create_telegram_user, restore_user
 
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -14,6 +14,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     tg_user, created = await get_or_create_telegram_user(
         tg_id, first_name, last_name, username
     )
+    await restore_user(tg_user)
     text = ""
     if created:
         text = f"Привет {username}\n"

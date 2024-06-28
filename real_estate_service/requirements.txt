@@ -5,3 +5,5 @@ python-telegram-bot==21.2
 uvicorn==0.23.2
 django-debug-toolbar==4.4.2
 Pillow==10.3.0
+django-celery-beat==2.6.0
+redis==5.0.7
