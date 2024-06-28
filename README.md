@@ -15,6 +15,9 @@
 [![Uvicorn][Uvicorn-shield]][Uvicorn-url]
 [![GitHub][GitHub-shield]][GitHub-url]
 
+[![Celery][Celery-shield]][Celery-url]
+[![Redis][Redis-shield]][Redis-url]
+
 
 <!-- PROJECT LOGO -->
 <br />
@@ -86,6 +89,8 @@ Telegram-бот предназначен для упрощения поиска 
 * [![Nginx][Nginx-shield]][Nginx-url]
 * [![Uvicorn][Uvicorn-shield]][Uvicorn-url]
 * [![GitHub][GitHub-shield]][GitHub-url]
+* [![Celery][Celery-shield]][Celery-url]
+* [![Redis][Redis-shield]][Redis-url]
 
 <p align="right">(<a href="#readme-top">вернуться наверх</a>)</p>
 
@@ -165,7 +170,9 @@ ___
    - Возможность отправить запрос на просмотр объекта.
    - Возможность оставить текстовый отзыв об объекте (отзывы модерируются администратором).
    - Возможность добавлять объект в избранное.
-3. Общение и поддержка:
+3. Сохранение истории пользователя в случае его удаления из бота:
+   - В течение 30 дней удалённый пользователь может восстановиться в боте с сохранением параметров поиска, избранного и отзывов.
+4. Общение и поддержка:
    - Получение инструкций по работе с ботом.
 
 ### Функционал для администраторов
@@ -258,3 +265,10 @@ ___
 [Uvicorn-url]: https://www.uvicorn.org/release-notes/
 [GitHub-shield]: https://img.shields.io/badge/GitHub-Actions-blue?style=flat&logo=github&labelColor=FDEBD0&logoColor=blue
 [GitHub-url]: https://docs.github.com/en/actions
+[Celery-shield]: https://img.shields.io/badge/Celery-v5.4-blue?style=flat&logo=celery&labelColor=FDEBD0&logoColor=blue
+[Celery-url]: https://docs.celeryq.dev/en/stable/
+[Redis-shield]: https://img.shields.io/badge/Redis-v5.0-green?style=flat&logo=redis&labelColor=FDEBD0&logoColor=blue
+[Redis-url]: https://master--redis-doc.netlify.app/docs/about/
+
+
+
