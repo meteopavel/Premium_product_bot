@@ -13,6 +13,7 @@ services:
     image: redis:latest
   real_estate:
     image: meteopavel/premium_product_bot_real_estate
+    command: python main.py
     env_file: .env
     volumes: 
       - static:/static
@@ -22,11 +23,13 @@ services:
       - redis
   celery:
     image: meteopavel/premium_product_bot_celery
+    command: celery -A real_estate_service worker -l info
     env_file: .env
     depends_on:
       - redis
   celery_beat:
     image: meteopavel/premium_product_bot_celery_beat
+    command: celery -A real_estate_service beat -l info
     env_file: .env
     depends_on:
       - redis
