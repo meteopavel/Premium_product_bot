@@ -59,6 +59,6 @@ search_handler = ConversationHandler(
         CommandHandler("stop", cancel),
         CommandHandler("my_favorites", cancel),
         CallbackQueryHandler(cancel, pattern="^cancel$"),
-        MessageHandler(filters.TEXT & ~filters.COMMAND, cancel),
+        MessageHandler(filters.TEXT & ~filters.COMMAND, cancel)
     ],
 )

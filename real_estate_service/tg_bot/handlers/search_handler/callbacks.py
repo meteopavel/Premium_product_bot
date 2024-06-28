@@ -241,15 +241,16 @@ async def represent_results(update: Update, context: ContextTypes.DEFAULT_TYPE) 
                 "id": realty.id,
                 "area": realty.area,
                 "price": realty.price,
-                "image": realty.image,
-                "is_active": realty.is_active,
+                "image": realty.image
             }
         )
     context.user_data["suitable_realtys"] = realtys
 
     if not realtys:
         text = "🤷‍♂️ Ничего подходящего."
-        keyboard = [[RETURN_TO_MAIN_BUTTON]]
+        keyboard = [
+            [RETURN_TO_MAIN_BUTTON]
+        ]
         reply_markup = InlineKeyboardMarkup(keyboard)
         await insert_object_card(query, LOGO_URL_ABSOLUTE, text, reply_markup)
         return
@@ -257,25 +258,16 @@ async def represent_results(update: Update, context: ContextTypes.DEFAULT_TYPE) 
     page = context.user_data.get("page", 0)
 
     if 0 <= page < len(realtys):
-        realty = realtys[page]
-        realty_id = realty["id"]
-
-        if not realty["is_active"]:
-            text = (
-                f"Объект недвижимости: {realty['title']}\n"
-                "Этот объект был удален администратором."
-            )
-        else:
-            text = (
-                f"Объект недвижимости: {realty['title']}\n"
-                f"Площадь: {realty['area']} кв.м\n"
-                f"Цена: {realty['price']} руб."
-            )
-
+        realty_id = realtys[page]["id"]
+        text = (
+            "Объект недвижимости: "
+            f"{realtys[page]['title']}\nПлощадь: {realtys[page]['area']}"
+            f" кв.м\nЦена: {realtys[page]['price']} руб."
+        )
         keyboard = send_page_keyboard(page, len(realtys), realty_id)
         reply_markup = InlineKeyboardMarkup(keyboard)
-        if realty["image"]:
-            await insert_object_card(query, realty["image"], text, reply_markup)
+        if realtys[page]['image']:
+            await insert_object_card(query, realtys[page]['image'], text, reply_markup)
         else:
             await insert_object_card(query, LOGO_URL_ABSOLUTE, text, reply_markup)
     else:

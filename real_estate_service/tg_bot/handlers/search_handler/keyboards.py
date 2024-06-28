@@ -41,7 +41,7 @@ async def main_keyboard(
                 InlineKeyboardButton(
                     "🧽 Очистить фильтры", callback_data="refresh_all"
                 ),
-                InlineKeyboardButton("➕ Прочее", callback_data="other"),
+                InlineKeyboardButton("➕ Прочие фильтры", callback_data="other"),
             ]
         )
         keyboard.append(
@@ -54,7 +54,7 @@ async def main_keyboard(
     else:
         keyboard.append(
             [
-                InlineKeyboardButton("➕ Прочее", callback_data="other"),
+                InlineKeyboardButton("➕ Прочие фильтры", callback_data="other"),
                 InlineKeyboardButton(
                     "🕵🏻 Показать результат", callback_data="represent_results"
                 ),
@@ -65,7 +65,7 @@ async def main_keyboard(
         keyboard.append(
             [
                 InlineKeyboardButton(
-                    "✅ Отписаться", callback_data="subscribe_yes"
+                    "❌ Отписаться от рассылки", callback_data="subscribe_yes"
                 )
             ]
         )
@@ -73,10 +73,13 @@ async def main_keyboard(
         keyboard.append(
             [
                 InlineKeyboardButton(
-                    "☐ Подписаться", callback_data="subscribe_no"
+                    "✅ Подписаться на рассылку", callback_data="subscribe_no"
                 )
             ]
         )
+    keyboard.append([
+        InlineKeyboardButton("🏁 Закончить поиск", callback_data="cancel")
+    ])
     return keyboard
 
 
@@ -209,12 +212,12 @@ async def send_citys_keyboard(
     if page > 0:
         keyboard[-1].append(
             InlineKeyboardButton(
-                "⬅️", callback_data=f"page_{page-1}"
+                "⬅️ Предыдущее", callback_data=f"page_{page-1}"
             )
         )
     if end_index < len(citys):
         keyboard[-1].append(InlineKeyboardButton(
-            "➡️", callback_data=f"page_{page+1}"))
+            "Следующее ➡️", callback_data=f"page_{page+1}"))
     keyboard.append(
         [InlineKeyboardButton("📘 Вернуться", callback_data="main_menu")]
     )
@@ -227,24 +230,27 @@ def send_page_keyboard(page, length, pk):
     navigation_buttons = []
     if page > 0:
         navigation_buttons.append(
-            InlineKeyboardButton("⬅️", callback_data=f"page_{page - 1}")
+            InlineKeyboardButton("⬅️ Предыдущее",
+                                 callback_data=f"page_{page - 1}")
         )
     if page + 1 < length:
         navigation_buttons.append(
-            InlineKeyboardButton("➡️", callback_data=f"page_{page + 1}")
+            InlineKeyboardButton("Следующее ➡️",
+                                 callback_data=f"page_{page + 1}")
         )
 
     if navigation_buttons:
         keyboard.append(navigation_buttons)
 
     action_buttons = [
-        InlineKeyboardButton("📘 Поиск", callback_data="main_menu"),
-        InlineKeyboardButton("🏁 Выйти", callback_data="cancel")
+        InlineKeyboardButton("📘 Новый поиск", callback_data="main_menu"),
+        InlineKeyboardButton("🏁 Закончить поиск", callback_data="cancel")
     ]
     keyboard.append(action_buttons)
 
     realty_button = [
-        InlineKeyboardButton("🔍 Посмотреть", callback_data="realty_" + str(pk))
+        InlineKeyboardButton("🔍 Посмотреть подробности",
+                             callback_data="realty_" + str(pk))
     ]
     keyboard.append(realty_button)
 

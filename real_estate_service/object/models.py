@@ -145,7 +145,7 @@ class Location(models.Model):
         verbose_name_plural = "Локации"
 
     def __str__(self):
-        return f"Локация в {self.city}"
+        return f"Локация в {self.city}, {self.street}, {self.building}"
 
 
 class Realty(models.Model):
@@ -225,6 +225,9 @@ class Realty(models.Model):
     def __str__(self):
         return self.title
 
+    def delete(self, using=None, keep_parents=False):
+        self.is_active = False
+        self.save()
 
 class BaseIntervals(models.Model):
     minimum = models.PositiveIntegerField(
@@ -320,7 +323,6 @@ class WorkSchedule(models.Model):
         try:
             with transaction.atomic():
                 realty = Realty.objects.get(id=realty_id)
-                WorkSchedule.objects.filter(realty=realty).delete()
                 realty.delete()
                 return True
         except Realty.DoesNotExist:
