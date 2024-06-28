@@ -14,11 +14,9 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     tg_user, created = await get_or_create_telegram_user(
         tg_id, first_name, last_name, username
     )
-    restored = await restore_user(tg_user)
+    await restore_user(tg_user)
     text = ""
-    if restored:
-        text = f"С возвращением, {username}\n"
-    elif created:
+    if created:
         text = f"Привет {username}\n"
     else:
         text = f"С возвращением, {username}\n"
