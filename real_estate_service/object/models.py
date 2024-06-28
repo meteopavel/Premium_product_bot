@@ -214,6 +214,9 @@ class Realty(models.Model):
         default=RealtyStatus.RELEVANT,
         verbose_name="Статус обьявления"
     )
+    is_active = models.BooleanField(
+        default=True, verbose_name="Активно"
+    )
 
     class Meta:
         verbose_name = "Объявление"
