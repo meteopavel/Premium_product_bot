@@ -1,5 +1,5 @@
 from telegram import Update
-from telegram.ext import ContextTypes
+from telegram.ext import ContextTypes, ConversationHandler
 
 from tg_bot.middleware import is_user_blocked
 
@@ -14,3 +14,4 @@ async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         )
         return
     await update.message.reply_text(update.message.text)
+    return ConversationHandler.END

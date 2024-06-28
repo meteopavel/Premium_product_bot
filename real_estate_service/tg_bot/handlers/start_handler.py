@@ -1,5 +1,5 @@
 from telegram import Update
-from telegram.ext import ContextTypes
+from telegram.ext import ContextTypes, ConversationHandler
 
 from .base_utils import get_or_create_telegram_user
 
@@ -28,3 +28,4 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     )
     full_text = text + info_text
     await update.message.reply_html(text=full_text)
+    return ConversationHandler.END
