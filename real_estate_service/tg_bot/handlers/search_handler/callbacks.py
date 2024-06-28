@@ -100,7 +100,7 @@ async def location__city(
 async def city_typing(
     update: Update,
     context: ContextTypes.DEFAULT_TYPE,
-    text:str = None
+    text: str = None
 ) -> int:
     """Меню выбора города, если его нет в списке основных городов."""
     if not text:
@@ -170,8 +170,8 @@ async def rent_or_sell(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await query.answer()
     reply_markup = InlineKeyboardMarkup(
         [
-            [InlineKeyboardButton("Аренда", callback_data="main_menu")],
-            [InlineKeyboardButton("Продажа", callback_data= "main_menu")],
+            [InlineKeyboardButton("Аренда", callback_data="rent")],
+            [InlineKeyboardButton("Продажа", callback_data="sell")],
             [RETURN_TO_MAIN_BUTTON],
         ]
     )
@@ -343,7 +343,7 @@ async def other_menu(
             caption=text,
             photo=LOGO_URL_ABSOLUTE,
             reply_markup=reply_markup
-            )
+        )
         del context.user_data["text_input"]
     return CHOOSE
 
@@ -396,8 +396,9 @@ async def status(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await query.answer()
     reply_markup = InlineKeyboardMarkup(
         [
-            [InlineKeyboardButton("Актуально", callback_data="main_menu")],
-            [InlineKeyboardButton("Неактуально", callback_data= "main_menu")],
+            [InlineKeyboardButton("Актуально", callback_data="relevant")],
+            [InlineKeyboardButton(
+                "Неактуально", callback_data="not_relevant")],
             [RETURN_TO_MAIN_BUTTON],
         ]
     )

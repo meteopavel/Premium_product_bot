@@ -10,16 +10,16 @@ from tg_bot.models import BaseIntervals, DateInterval
 from .constants import MAIN_FIELDS, OTHER_FIELDS, MAX_MENU_ITEMS
 
 NO_INTERVALS_KEYBOARD = [
-            [
-                InlineKeyboardButton(
-                    "Интервалы не настроены, вернутся в главное меню",
-                    callback_data="main_menu",
-                )
-            ],
-        ]
+    [
+        InlineKeyboardButton(
+            "Интервалы не настроены, вернутся в главное меню",
+            callback_data="main_menu",
+        )
+    ],
+]
 RETURN_TO_MAIN_BUTTON = InlineKeyboardButton(
-                    "📘 Вернуться в меню", callback_data="main_menu"
-                )
+    "📘 Вернуться в меню", callback_data="main_menu"
+)
 
 
 async def main_keyboard(
@@ -90,8 +90,8 @@ def other_keyboard(
         )
     keyboard.append(
         [InlineKeyboardButton(
-                    "🕵🏻 Показать результат", callback_data="represent_results"
-                )]
+            "🕵🏻 Показать результат", callback_data="represent_results"
+        )]
     )
     is_search_data = False
     for field in OTHER_FIELDS:
@@ -161,7 +161,7 @@ async def interval_keyboard(
 
     if not keyboard:
         return NO_INTERVALS_KEYBOARD
-    
+
     keyboard.append([RETURN_TO_MAIN_BUTTON])
     return keyboard
 
@@ -172,14 +172,15 @@ async def publish_date_keyboard():
         string = f"{interval.name}"
         keyboard.append(
             [InlineKeyboardButton(
-                    string,
-                    callback_data=str(interval.date_interval)
-                )])
+                string,
+                callback_data=str(interval.date_interval)
+            )])
     if not keyboard:
         return NO_INTERVALS_KEYBOARD
     keyboard.append([RETURN_TO_MAIN_BUTTON])
     return keyboard
-    
+
+
 async def send_citys_keyboard(
     citys: list[dict] = None,
     page: int = None

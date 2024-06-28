@@ -81,6 +81,8 @@ foregin_fields = [
 integer_fields = ["area", "price"]
 datetime_field = "publish_date"
 text_field = "text"
+status_field = "status"
+type_field = "rent_or_sell"
 
 
 def filter_args(user_data) -> dict:
@@ -110,6 +112,14 @@ def filter_args(user_data) -> dict:
     if text_field in user_data:
         query = text_field + "__icontains"
         data = user_data[text_field]
+        args[query] = data
+    if status_field in user_data:
+        query = "status__exact"
+        data = user_data[status_field]
+        args[query] = data
+    if type_field in user_data:
+        query = "type__exact"
+        data = user_data[type_field]
         args[query] = data
     return args
 

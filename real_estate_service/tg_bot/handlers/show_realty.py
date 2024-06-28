@@ -28,7 +28,9 @@ async def show_realty(update: Update, context: ContextTypes.DEFAULT_TYPE):
     condition = realty.condition
     building_type = realty.building_type
 
-    work_schedule = await sync_to_async(list)(WorkSchedule.objects.filter(realty=realty))
+    work_schedule = await sync_to_async(list)(
+        WorkSchedule.objects.filter(realty=realty)
+    )
 
     favorite_exists = await get_favorite_exists(user, realty)
 
@@ -48,9 +50,13 @@ async def show_realty(update: Update, context: ContextTypes.DEFAULT_TYPE):
             )
         ],
         [favorite_button],
-        [InlineKeyboardButton("Назад", callback_data="back_to_list")],
     ]
-
+    if context.user_data.get("search"):
+        buttons.append([InlineKeyboardButton(
+            "Назад", callback_data="back_to_list")])
+    else:
+        buttons.append([InlineKeyboardButton(
+            "🚿 скрыть", callback_data="clean")])
     condition_text = "Состояние помещения:"
     reply_markup = InlineKeyboardMarkup(buttons)
 
@@ -69,7 +75,7 @@ async def show_realty(update: Update, context: ContextTypes.DEFAULT_TYPE):
         f"{condition_text} {condition.name if condition else 'Не указано'}\n"
         f"Тип здания: {building_type.name if building_type else 'Не указан'}\n"
         f"Описание: {realty.text if realty.text else 'Не указано'}\n"
-        f"График работы:\n{work_schedule_text if work_schedule_text else 'Не указан'}"
+        f"График работы:\n{work_schedule_text if work_schedule_text else 'Не указан'}"  # noqa
     )
 
     if realty.image:
@@ -77,3 +83,9 @@ async def show_realty(update: Update, context: ContextTypes.DEFAULT_TYPE):
     else:
         await insert_object_card(query, LOGO_URL_ABSOLUTE, text, reply_markup)
     return ConversationHandler.END
+
+
+async def clean(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Handler to clean screen"""
+    query = update.callback_query
+    await query.delete_message()
