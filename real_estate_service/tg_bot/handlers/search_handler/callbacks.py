@@ -229,16 +229,12 @@ async def refresh_all(update: Update, context: ContextTypes.DEFAULT_TYPE):
     return await main_menu(update, context)
 
 
-async def represent_results(
-    update: Update, context: ContextTypes.DEFAULT_TYPE
-) -> None:
+async def represent_results(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     query = update.callback_query
     await query.answer()
 
     realtys = []
-    async for realty in Realty.objects.filter(
-        **filter_args(context.user_data)
-    ):
+    async for realty in Realty.objects.filter(**filter_args(context.user_data)):
         realtys.append(
             {
                 "title": realty.title,
@@ -260,17 +256,29 @@ async def represent_results(
         return
 
     page = context.user_data.get("page", 0)
-    realty_id = realtys[page]["id"]
-    text = ("Объект недвижимости: "
+
+    if 0 <= page < len(realtys):
+        realty_id = realtys[page]["id"]
+        text = (
+            "Объект недвижимости: "
             f"{realtys[page]['title']}\nПлощадь: {realtys[page]['area']}"
-            f" кв.м\nЦена: {realtys[page]['price']} руб.")
-    keyboard = send_page_keyboard(page, len(realtys), realty_id)
-    reply_markup = InlineKeyboardMarkup(keyboard)
-    if realtys[page]['image']:
-        await insert_object_card(query, realtys[page]['image'], text, reply_markup)
+            f" кв.м\nЦена: {realtys[page]['price']} руб."
+        )
+        keyboard = send_page_keyboard(page, len(realtys), realty_id)
+        reply_markup = InlineKeyboardMarkup(keyboard)
+        if realtys[page]['image']:
+            await insert_object_card(query, realtys[page]['image'], text, reply_markup)
+        else:
+            await insert_object_card(query, LOGO_URL_ABSOLUTE, text, reply_markup)
     else:
+        text = "🤷‍♂️ Индекс страницы вне диапазона."
+        keyboard = [
+            [RETURN_TO_MAIN_BUTTON]
+        ]
+        reply_markup = InlineKeyboardMarkup(keyboard)
         await insert_object_card(query, LOGO_URL_ABSOLUTE, text, reply_markup)
     return CHOOSE
+
 
 
 async def realty_callback_handler(

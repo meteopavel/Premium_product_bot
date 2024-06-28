@@ -74,6 +74,8 @@ async def show_realty(update: Update, context: ContextTypes.DEFAULT_TYPE):
         f"Контакт: {contact.name if contact else 'Не указан'}\n"
         f"{condition_text} {condition.name if condition else 'Не указано'}\n"
         f"Тип здания: {building_type.name if building_type else 'Не указан'}\n"
+        f"Тип объявления: {realty.get_type_display()}\n"
+        f"Статус объявления: {realty.get_status_display()}\n"
         f"Описание: {realty.text if realty.text else 'Не указано'}\n"
         f"График работы:\n{work_schedule_text if work_schedule_text else 'Не указан'}"  # noqa
     )
@@ -83,7 +85,6 @@ async def show_realty(update: Update, context: ContextTypes.DEFAULT_TYPE):
     else:
         await insert_object_card(query, LOGO_URL_ABSOLUTE, text, reply_markup)
     return ConversationHandler.END
-
 
 async def clean(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Handler to clean screen"""
