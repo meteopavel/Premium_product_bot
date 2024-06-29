@@ -71,7 +71,7 @@ class WorkScheduleAdmin(admin.ModelAdmin):
 
 @admin.register(Realty)
 class RealtyAdmin(admin.ModelAdmin):
-    change_list_template = 'admin/object/object/change_list.html'
+    #change_list_template = 'admin/object/object/change_list.html'
 
     def get_urls(self):
         urls = super().get_urls()
