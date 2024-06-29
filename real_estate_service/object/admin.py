@@ -73,79 +73,79 @@ class WorkScheduleAdmin(admin.ModelAdmin):
 class RealtyAdmin(admin.ModelAdmin):
     #change_list_template = 'admin/object/object/change_list.html'
 
-    def get_urls(self):
-        urls = super().get_urls()
-        custom_urls = [
-            path('upload_file/', self.admin_site.admin_view(self.upload_file), name='object_object_upload_file'),
-        ]
-        return custom_urls + urls
+    # def get_urls(self):
+    #     urls = super().get_urls()
+    #     custom_urls = [
+    #         path('upload_file/', self.admin_site.admin_view(self.upload_file), name='object_object_upload_file'),
+    #     ]
+    #     return custom_urls + urls
 
-    @csrf_exempt
-    def upload_file(self, request):
-        if request.method == 'POST' and request.FILES.get('object_file'):
-            object_file = request.FILES['object_file']
-            fs = FileSystemStorage()
-            filename = fs.save(object_file.name, object_file)
-            try:
-                with open(fs.path(filename), mode="r", encoding="utf-8") as file:
-                    reader = csv.DictReader(file, delimiter=';')
-
-                    with transaction.atomic():
-                        for row in reader:
-                            country, created = Country.objects.get_or_create(
-                                title=row.get('location_country')
-                            )
-                            city, created = City.objects.get_or_create(
-                                name=row.get("location_city"),
-                                country=country,
-                                district=row.get("district"),
-                            )
-                            location, created = Location.objects.get_or_create(
-                                city=city,
-                                post_index=row.get("location_post_index"),
-                                street=row.get("location_street"),
-                                building=row.get("location_building"),
-                                floor=row.get("location_floor"),
-                            )
-
-                            category, created = Category.objects.get_or_create(
-                                name=row.get("category")
-                            )
-                            contact, created = Contact.objects.get_or_create(
-                                name=row.get("contact_name"),
-                                email=row.get("contact_email"),
-                                phone_number=row.get("contact_phone_number").split(",")
-                            )
-                            area = row.get("area")
-                            price = row.get("price")
-                            area = int(area) if area and area.isdigit() else None
-                            price = int(price) if price and price.isdigit() else None
-                            realty_type = row.get('realty_type') or RealtyType.RENT
-                            realty_status = row.get('realty_status') or RealtyStatus.RELEVANT
-                            Realty.objects.get_or_create(
-                                title=row.get("title"),
-                                site=row.get("site"),
-                                area=area,
-                                price=price,
-                                category=category,
-                                contact=contact,
-                                location=location,
-                                type=realty_type,
-                                status=realty_status
-                            )
-                messages.success(request, f'Файл {filename} был успешно обработан.')
-                return redirect('admin:object_realty_changelist')
-            except Exception as e:
-                messages.error(request, f'Ошибка при обработке файла {filename}: {str(e)}')
-                return redirect('admin:object_realty_changelist')
-
-        # Подготовка контекста для рендеринга шаблона
-        context = {
-            'cl': self.get_changelist_instance(request),
-            'opts': self.model._meta,
-            'app_label': self.model._meta.app_label,
-        }
-        return render(request, 'admin/object/object/change_list.html', context)
+    # @csrf_exempt
+    # def upload_file(self, request):
+    #     if request.method == 'POST' and request.FILES.get('object_file'):
+    #         object_file = request.FILES['object_file']
+    #         fs = FileSystemStorage()
+    #         filename = fs.save(object_file.name, object_file)
+    #         try:
+    #             with open(fs.path(filename), mode="r", encoding="utf-8") as file:
+    #                 reader = csv.DictReader(file, delimiter=';')
+    #
+    #                 with transaction.atomic():
+    #                     for row in reader:
+    #                         country, created = Country.objects.get_or_create(
+    #                             title=row.get('location_country')
+    #                         )
+    #                         city, created = City.objects.get_or_create(
+    #                             name=row.get("location_city"),
+    #                             country=country,
+    #                             district=row.get("district"),
+    #                         )
+    #                         location, created = Location.objects.get_or_create(
+    #                             city=city,
+    #                             post_index=row.get("location_post_index"),
+    #                             street=row.get("location_street"),
+    #                             building=row.get("location_building"),
+    #                             floor=row.get("location_floor"),
+    #                         )
+    #
+    #                         category, created = Category.objects.get_or_create(
+    #                             name=row.get("category")
+    #                         )
+    #                         contact, created = Contact.objects.get_or_create(
+    #                             name=row.get("contact_name"),
+    #                             email=row.get("contact_email"),
+    #                             phone_number=row.get("contact_phone_number").split(",")
+    #                         )
+    #                         area = row.get("area")
+    #                         price = row.get("price")
+    #                         area = int(area) if area and area.isdigit() else None
+    #                         price = int(price) if price and price.isdigit() else None
+    #                         realty_type = row.get('realty_type') or RealtyType.RENT
+    #                         realty_status = row.get('realty_status') or RealtyStatus.RELEVANT
+    #                         Realty.objects.get_or_create(
+    #                             title=row.get("title"),
+    #                             site=row.get("site"),
+    #                             area=area,
+    #                             price=price,
+    #                             category=category,
+    #                             contact=contact,
+    #                             location=location,
+    #                             type=realty_type,
+    #                             status=realty_status
+    #                         )
+    #             messages.success(request, f'Файл {filename} был успешно обработан.')
+    #             return redirect('admin:object_realty_changelist')
+    #         except Exception as e:
+    #             messages.error(request, f'Ошибка при обработке файла {filename}: {str(e)}')
+    #             return redirect('admin:object_realty_changelist')
+    #
+    #     # Подготовка контекста для рендеринга шаблона
+    #     context = {
+    #         'cl': self.get_changelist_instance(request),
+    #         'opts': self.model._meta,
+    #         'app_label': self.model._meta.app_label,
+    #     }
+    #     return render(request, 'admin/object/object/change_list.html', context)
 
     def delete_selected_objects(modeladmin, request, queryset):
         """
