@@ -8,6 +8,7 @@ from django.core.files.storage import FileSystemStorage
 from django.db import transaction
 from django.shortcuts import redirect, render
 from django.urls import path
+from django.views.decorators.csrf import csrf_exempt
 
 from favorites.models import Favorite
 from reviews.models import Review
@@ -79,6 +80,7 @@ class RealtyAdmin(admin.ModelAdmin):
         ]
         return custom_urls + urls
 
+    @csrf_exempt
     def upload_file(self, request):
         if request.method == 'POST' and request.FILES.get('object_file'):
             object_file = request.FILES['object_file']
