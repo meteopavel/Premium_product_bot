@@ -134,7 +134,8 @@ async def restore_user(tg_user: TelegramUser) -> None:
             await create_favorites(user=tg_user, realty=realty)
     reviews: list[str] = arhived_user.reviews.split(',')
     for review_pk in reviews:
-        await set_user_review_author(tg_user, int(review_pk))
+        if review_pk:
+            await set_user_review_author(tg_user, int(review_pk))
     tg_user.is_blocked = arhived_user.is_blocked
     tg_user.is_subscribed = arhived_user.is_subscribed
     tg_user.created_at = arhived_user.created_at
