@@ -57,18 +57,19 @@
       <div class="changelist-form-container">
         {% block search %}{% search_form cl %}{% endblock %}
         {% block date_hierarchy %}{% if cl.date_hierarchy %}{% date_hierarchy cl %}{% endif %}{% endblock %}
-<!--        <div>-->
-<!--          <h3>Загрузить объекты с помощью CSV файла</h3>-->
-<!--          <form action="{% url 'admin:object_object_upload_file' %}" method="post" enctype="multipart/form-data" novalidate>-->
-<!--            {% csrf_token %}-->
-<!--            <input type="file" name="object_file">-->
-<!--            <input type="submit" value="Отправить">-->
-<!--          </form>-->
-<!--        </div>-->
+        <div>
+          <h3>Загрузить объекты с помощью CSV файла</h3>
+          <form action="{% url 'admin:object_object_upload_file' %}" method="post" enctype="multipart/form-data" novalidate>
+            {% csrf_token %}
+            <input type="file" name="object_file">
+            <input type="submit" value="Отправить">
+          </form>
+        </div>
         <form id="changelist-form" method="post"{% if cl.formset and cl.formset.is_multipart %} enctype="multipart/form-data"{% endif %} novalidate>{% csrf_token %}
         {% if cl.formset %}
           <div>{{ cl.formset.management_form }}</div>
         {% endif %}
+
         {% block result_list %}
           {% if action_form and actions_on_top and cl.show_admin_actions %}{% admin_actions %}{% endif %}
           {% result_list cl %}
