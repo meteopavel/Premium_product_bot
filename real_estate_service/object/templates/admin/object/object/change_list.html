@@ -59,7 +59,7 @@
         {% block date_hierarchy %}{% if cl.date_hierarchy %}{% date_hierarchy cl %}{% endif %}{% endblock %}
         <div>
           <h3>Загрузить объекты с помощью CSV файла</h3>
-          <form action="{% url 'admin:object_object_upload_file' %}" method="post" {% if cl.formset and cl.formset.is_multipart %} enctype="multipart/form-data"{% endif %} novalidate>
+          <form action="{% url 'admin:object_object_upload_file' %}" method="post" enctype="multipart/form-data" novalidate>
             {% csrf_token %}
             <input type="file" name="object_file">
             <input type="submit" value="Отправить">
