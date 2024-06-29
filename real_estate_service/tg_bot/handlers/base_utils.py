@@ -129,9 +129,10 @@ async def restore_user(tg_user: TelegramUser) -> None:
         search_parameters=arhived_user.search_parameters)
     favorites: list[str] = arhived_user.favorites.split(',')
     for realty_pk in favorites:
-        realty = await Realty.objects.filter(pk=int(realty_pk)).afirst()
-        if realty:
-            await create_favorites(user=tg_user, realty=realty)
+        if realty_pk:
+            realty = await Realty.objects.filter(pk=int(realty_pk)).afirst()
+            if realty:
+                await create_favorites(user=tg_user, realty=realty)
     reviews: list[str] = arhived_user.reviews.split(',')
     for review_pk in reviews:
         if review_pk:
